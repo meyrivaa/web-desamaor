@@ -1,0 +1,3 @@
+<?php
+namespace App\Http\Controllers; use Illuminate\Http\Request; use Illuminate\View\View;
+class AuthController extends Controller { public function show(): View { return view('login',['desa'=>config('desa'),'error'=>null]); } public function login(Request $r){$r->validate(['password'=>'required|string']); if(hash_equals((string)config('desa.admin_password','adminmaor123'),(string)$r->password)){ $r->session()->regenerate(); $r->session()->put('admin_logged_in',true); return redirect()->route('admin_dashboard'); } return back()->withInput()->with('error','Password Salah!');} public function logout(Request $r){$r->session()->invalidate();$r->session()->regenerateToken();return redirect()->route('listing');} }

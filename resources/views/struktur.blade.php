@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Struktur Organisasi &mdash; {{ $desa['nama'] }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=12">
+
+  <script defer src="{{ asset('js/navigation.js') }}?v=3"></script>
+</head>
+
+<body>
+
+  <div class="chart-grain" aria-hidden="true"></div>
+
+  <header class="site-nav">
+    <div class="nav-inner">
+
+      <a class="brand" href="{{ route('listing') }}">
+        <span class="brand-mark" aria-hidden="true">
+          <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="Logo Desa Maor"
+            class="brand-logo">
+        </span>
+
+        <span class="brand-text">
+          <strong>{{ $desa['nama'] }}</strong>
+          <small>
+            {{ $desa['kecamatan'] }} &middot; {{ $desa['kabupaten'] }}
+          </small>
+        </span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Buka menu navigasi" aria-expanded="false"
+        aria-controls="primary-navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-links" id="primary-navigation" aria-label="Navigasi utama">
+        <a href="{{ route('listing') }}">Beranda</a>
+        <a href="{{ route('peta') }}">Peta Desa</a>
+        <a href="{{ route('profil') }}">Visi &amp; Misi</a>
+        <a href="{{ route('struktur') }}" aria-current="page">Struktur Organisasi</a>
+        <a href="{{ route('infografis') }}">Infografis</a>
+        <a href="{{ route('umkm') }}">UMKM</a>
+        <a href="{{ route('berita') }}">Berita</a>
+
+        <a href="{{ route('admin_login') }}" class="nav-admin-link nav-admin-icon-only"
+          aria-label="Masuk ke halaman admin" title="Masuk ke halaman admin">
+          <svg class="nav-admin-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21a8 8 0 0 1 16 0"></path>
+          </svg>
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="profil-main struktur-main">
+
+    <header class="profile-page-heading">
+      <span class="profile-page-eyebrow">Pemerintahan Desa</span>
+
+      <h1>Struktur Organisasi</h1>
+
+      <p>
+        Jajaran perangkat Pemerintah {{ $desa['nama'] }} yang menjalankan
+        pelayanan dan administrasi pemerintahan desa.
+      </p>
+    </header>
+
+    <section class="vm-section structure-section">
+
+      <div class="org-grid">
+
+        @forelse($daftar_struktur as $orang)
+
+        <article class="org-card @if($orang['jabatan'] == 'Kepala Desa')org-kades@endif">
+
+          <div class="org-photo-wrapper">
+            @if($orang["foto"] && $orang["foto"] != "default.jpg")
+
+            <img src="{{ asset('uploads/' . $orang['foto']) }}" alt="Foto {{ $orang['nama'] }}"
+              class="org-photo">
+
+            @else
+
+            <div class="org-photo-placeholder">
+
+              <svg class="org-placeholder-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M4 21a8 8 0 0 1 16 0"></path>
+              </svg>
+
+            </div>
+
+            @endif
+          </div>
+
+          <div class="org-card-content">
+            <div class="org-role">
+              {{ $orang["jabatan"] }}
+            </div>
+
+            <div class="org-name">
+              {{ $orang["nama"] }}
+            </div>
+          </div>
+
+        </article>
+
+        @empty
+
+        <div class="org-empty">
+          <p>Data struktur organisasi belum tersedia.</p>
+        </div>
+
+        @endforelse
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="mega-footer" id="kontak">
+    <div class="footer-top">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <span class="footer-brand-mark" aria-hidden="true">
+            <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="" class="footer-brand-logo">
+          </span>
+          <span class="brand-text"><strong>Pemerintah {{ $desa['nama'] }}</strong></span>
+        </div>
+        <p>{{ $desa['alamat'] }}<br>{{ $desa['kecamatan'] }}, {{ $desa['kabupaten'] }}<br>{{ $desa['provinsi'] }}, {{ $desa['kode_pos'] }}
+        </p>
+        <p style="margin-top: 1rem;"><strong style="color: var(--paper-sand);">Kode Wilayah:</strong> {{ $desa['kode_wilayah'] }}</p>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading">Hubungi Kami</h3>
+        <ul class="footer-contact">
+
+          <li>
+            <svg class="ui-icon footer-contact-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2
+           19.79 19.79 0 0 1-8.63-3.07
+           19.5 19.5 0 0 1-6-6
+           19.79 19.79 0 0 1-3.07-8.67
+           A2 2 0 0 1 4.11 2h3
+           a2 2 0 0 1 2 1.72
+           12.84 12.84 0 0 0 .7 2.81
+           2 2 0 0 1-.45 2.11L8.09 9.91
+           a16 16 0 0 0 6 6l1.27-1.27
+           a2 2 0 0 1 2.11-.45
+           12.84 12.84 0 0 0 2.81.7
+           A2 2 0 0 1 22 16.92Z">
+              </path>
+            </svg>
+
+            <a href="tel:{{ $desa['telepon'] }}">
+              {{ $desa['telepon'] }}
+            </a>
+          </li>
+
+          <li>
+            <svg class="ui-icon footer-contact-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <path d="m3 7 9 6 9-6"></path>
+            </svg>
+
+            <a href="mailto:{{ $desa['email'] }}">
+              {{ $desa['email'] }}
+            </a>
+          </li>
+
+        </ul>
+        <div class="footer-social">
+          <a href="{{ $desa['sosial']['instagram'] }}" target="_blank" rel="noopener">IG</a>
+          <a href="{{ $desa['sosial']['facebook'] }}" target="_blank" rel="noopener">FB</a>
+          <a href="{{ $desa['sosial']['twitter'] }}" target="_blank" rel="noopener">X</a>
+          <a href="{{ $desa['sosial']['youtube'] }}" target="_blank" rel="noopener">YT</a>
+          <a href="{{ $desa['sosial']['tiktok'] }}" target="_blank" rel="noopener">TK</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading">Nomor Telepon Penting</h3>
+        <ul class="footer-links">
+          <li>Kades Maor / {{ $desa["kepala_desa"] }}</li>
+          <li><a href="#">Ambulan Kembangbahu</a></li>
+          <li><a href="#">Polsek Kembangbahu</a></li>
+          <li><a href="#">Puskesmas Terdekat</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading">Jelajahi</h3>
+        <ul class="footer-links">
+          <li><a href="https://kemendesa.go.id" target="_blank" rel="noopener">Website Kemendesa</a></li>
+          <li><a href="https://kemendagri.go.id" target="_blank" rel="noopener">Website Kemendagri</a></li>
+          <li><a href="https://lamongankab.go.id" target="_blank" rel="noopener">Website Kab. Lamongan</a></li>
+          <li><a href="https://cekdptonline.kpu.go.id" target="_blank" rel="noopener">Cek DPT Online</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Pemerintah {{ $desa['nama'] }}</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

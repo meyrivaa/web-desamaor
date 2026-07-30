@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Struktur Organisasi — {{ $desa['nama'] }}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="chart-grain" aria-hidden="true"></div>
+
+    <main class="admin-edit-page">
+
+        <section class="admin-edit-card">
+
+            <a href="{{ route('admin_dashboard') }}" class="admin-edit-back">
+                ← Kembali ke Dashboard Admin
+            </a>
+
+            <span class="admin-edit-label">
+                Struktur Organisasi
+            </span>
+
+            <h1>Edit Perangkat Desa</h1>
+
+            <p class="admin-edit-description">
+                Ubah nama, jabatan, foto, atau urutan tampil perangkat desa.
+            </p>
+
+            @if($error)
+            <div class="admin-edit-error">
+                {{ $error }}
+            </div>
+            @endif
+
+            <form class="admin-edit-form" method="POST" enctype="multipart/form-data" action="{{ route('admin_update_struktur', $item['id']) }}">
+      @csrf
+
+                <div class="admin-edit-field">
+                    <label for="nama">Nama Lengkap</label>
+
+                    <input id="nama" type="text" name="nama" value="{{ $item['nama'] }}" required>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="jabatan">Jabatan</label>
+
+                    <input id="jabatan" type="text" name="jabatan" value="{{ $item['jabatan'] }}" required>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="urutan">Urutan Tampilan</label>
+
+                    <input id="urutan" type="number" name="urutan" min="1" value="{{ $item['urutan'] }}" required>
+
+                    <small>
+                        Angka yang lebih kecil akan tampil lebih dahulu.
+                    </small>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label>Preview Foto</label>
+
+                    <div class="admin-photo-editor">
+
+                        <div class="admin-current-image admin-structure-current-image" id="photoPreviewContainer">
+
+                            <img id="photoPreview" @if($item["foto"] && $item["foto"] !="default.jpg") src="{{ asset('uploads/' . $item['foto']) }}" alt="Foto {{ $item['nama'] }}" @else hidden alt="Preview foto perangkat desa" @endif>
+
+                            <div class="admin-photo-placeholder" id="photoPlaceholder" @if($item["foto"] &&
+                                $item["foto"] !="default.jpg") hidden @endif>
+                                <span>👤</span>
+                                <p>Belum ada foto</p>
+                            </div>
+
+                        </div>
+
+                        <button type="button" class="admin-remove-photo-button" id="removePhotoButton" @if(!
+                            $item["foto"] || $item["foto"]=="default.jpg") hidden @endif>
+                            Hapus Foto
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="foto">Ganti Foto</label>
+
+                    <input id="foto" type="file" name="foto" accept=".jpg,.jpeg,.png,.webp,image/*">
+
+                    <!-- Nilai ini diubah oleh JavaScript ketika Hapus Foto diklik -->
+                    <input type="hidden" name="hapus_foto" id="hapusFoto" value="0">
+
+                    <small>
+                        Setelah memilih file, preview foto akan tampil di atas.
+                        Kosongkan apabila tetap menggunakan foto lama.
+                    </small>
+                </div>
+
+                <div class="admin-edit-actions">
+
+                    <a href="{{ route('admin_dashboard') }}" class="admin-cancel-button">
+                        Batal
+                    </a>
+
+                    <button type="submit" class="admin-save-button">
+                        Simpan Perubahan
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fotoInput = document.getElementById("foto");
+            const photoPreview = document.getElementById("photoPreview");
+            const photoPlaceholder = document.getElementById("photoPlaceholder");
+            const removePhotoButton = document.getElementById(
+                "removePhotoButton"
+            );
+            const hapusFotoInput = document.getElementById("hapusFoto");
+
+            let previewObjectUrl = null;
+
+            // Menampilkan preview ketika pengguna memilih gambar
+            fotoInput.addEventListener("change", function () {
+                const file = fotoInput.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+                // Memastikan file yang dipilih benar-benar gambar
+                if (!file.type.startsWith("image/")) {
+                    alert("File yang dipilih harus berupa gambar.");
+
+                    fotoInput.value = "";
+                    return;
+                }
+
+                // Membersihkan URL preview sebelumnya
+                if (previewObjectUrl) {
+                    URL.revokeObjectURL(previewObjectUrl);
+                }
+
+                previewObjectUrl = URL.createObjectURL(file);
+
+                photoPreview.src = previewObjectUrl;
+                photoPreview.hidden = false;
+
+                photoPlaceholder.hidden = true;
+                removePhotoButton.hidden = false;
+
+                // Membatalkan perintah hapus karena ada foto baru
+                hapusFotoInput.value = "0";
+            });
+
+            // Menandai foto untuk dihapus saat formulir disimpan
+            removePhotoButton.addEventListener("click", function () {
+                const setuju = confirm(
+                    "Foto akan dihapus setelah Anda menekan Simpan Perubahan. Lanjutkan?"
+                );
+
+                if (!setuju) {
+                    return;
+                }
+
+                // Menghapus file baru yang mungkin sudah dipilih
+                fotoInput.value = "";
+
+                if (previewObjectUrl) {
+                    URL.revokeObjectURL(previewObjectUrl);
+                    previewObjectUrl = null;
+                }
+
+                photoPreview.removeAttribute("src");
+                photoPreview.hidden = true;
+
+                photoPlaceholder.hidden = false;
+                removePhotoButton.hidden = true;
+
+                // Dikirim ke Flask sebagai perintah hapus foto
+                hapusFotoInput.value = "1";
+            });
+
+            // Membersihkan object URL ketika halaman ditutup
+            window.addEventListener("beforeunload", function () {
+                if (previewObjectUrl) {
+                    URL.revokeObjectURL(previewObjectUrl);
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

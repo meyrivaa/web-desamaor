@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Listing &mdash; Peta {{ $desa['nama'] }}</title>
+  <meta name="description"
+    content="Peta geospasial dan titik lokasi (point of interest) {{ $desa['nama'] }}, {{ $desa['kecamatan'] }}, {{ $desa['kabupaten'] }}." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+
+  <script defer src="{{ asset('js/navigation.js') }}?v=2"></script>
+</head>
+
+<body>
+
+  <div class="chart-grain" aria-hidden="true"></div>
+
+  <header class="site-nav">
+    <div class="nav-inner">
+
+      <a class="brand" href="{{ route('listing') }}">
+        <span class="brand-mark" aria-hidden="true">
+          <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="" class="brand-logo">
+        </span>
+
+        <span class="brand-text">
+          <strong>{{ $desa['nama'] }}</strong>
+          <small>
+            {{ $desa['kecamatan'] }} &middot; {{ $desa['kabupaten'] }}
+          </small>
+        </span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Buka menu navigasi" aria-expanded="false"
+        aria-controls="primary-navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-links" id="primary-navigation" aria-label="Navigasi utama">
+        <a href="{{ route('listing') }}" aria-current="page">Beranda</a>
+        <a href="{{ route('peta') }}">Peta Desa</a>
+        <a href="{{ route('profil') }}">Visi &amp; Misi</a>
+        <a href="{{ route('struktur') }}">Struktur Organisasi</a>
+        <a href="{{ route('infografis') }}">Infografis</a>
+        <a href="{{ route('umkm') }}">UMKM</a>
+        <a href="{{ route('berita') }}">Berita</a>
+
+        <a href="{{ route('admin_login') }}" class="nav-admin-link nav-admin-icon-only"
+          aria-label="Masuk ke halaman admin" title="Masuk ke halaman admin">
+          <svg class="nav-admin-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21a8 8 0 0 1 16 0"></path>
+          </svg>
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Peta &amp; Titik Lokasi</span>
+        <h1>Peta {{ $desa['nama'] }}</h1>
+        <p>Register geospasial titik&#8209;titik penting {{ $desa['nama'] }} &mdash; dari area persawahan, fasilitas
+          pendidikan, hingga pusat layanan warga, dipetakan untuk mempermudah akses informasi desa.</p>
+
+        <dl class="coord-readout">
+          <div>
+            <dt>Provinsi</dt>
+            <dd>{{ str_replace('Provinsi ', '', $desa['provinsi']) }}</dd>
+          </div>
+          <div>
+            <dt>Kabupaten</dt>
+            <dd>{{ str_replace('Kabupaten ', '', $desa['kabupaten']) }}</dd>
+          </div>
+          <div>
+            <dt>Kode Wilayah</dt>
+            <dd class="mono">{{ $desa['kode_wilayah'] }}</dd>
+          </div>
+        </dl>
+      </div>
+      <div class="hero-media">
+        <video class="drone-video" autoplay muted loop playsinline>
+          <source src="{{ asset('video/15498625_1920_1080_25fps.mp4') }}" type="video/mp4">
+          Browser Anda tidak mendukung tag video.
+        </video>
+      </div>
+    </section>
+
+    <section class="village-profile-section">
+
+      <!-- =====================================================
+       SAMBUTAN KEPALA DESA
+       ===================================================== -->
+      <article class="welcome-panel">
+
+        <!-- Bagian foto kepala desa -->
+        <div class="welcome-portrait">
+
+          <div class="welcome-photo-frame">
+
+            @if($kepala_desa && $kepala_desa["foto"] && $kepala_desa["foto"] != "default.jpg")
+
+            <img src="{{ asset('uploads/' . $kepala_desa['foto']) }}"
+              alt="Foto {{ $kepala_desa['nama'] }}" class="welcome-photo">
+
+            @else
+
+            <div class="welcome-photo-placeholder">
+
+              <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M4 21a8 8 0 0 1 16 0"></path>
+              </svg>
+
+            </div>
+
+            @endif
+
+          </div>
+
+          <div class="welcome-identity">
+            <span class="welcome-position">
+              @if($kepala_desa)
+              {{ $kepala_desa["jabatan"] }}
+              @else
+              Kepala Desa
+              @endif
+            </span>
+
+            <h3>
+              @if($kepala_desa)
+              {{ $kepala_desa["nama"] }}
+              @else
+              Nama Kepala Desa
+              @endif
+            </h3>
+
+            <p>Pemerintah {{ $desa['nama'] }}</p>
+          </div>
+
+        </div>
+
+        <!-- Bagian isi sambutan -->
+        <div class="welcome-content">
+
+          <span class="profile-section-number">
+            01 / SAMBUTAN
+          </span>
+
+          <h2>Sambutan Kepala Desa</h2>
+
+          <div class="profile-title-line">
+            <span></span>
+          </div>
+
+          <div class="welcome-copy" tabindex="0" aria-label="Isi sambutan Kepala Desa">
+
+            <p>
+              "Assalamu'alaikum Warahmatullahi Wabarakatuh.<br>
+              Salam sejahtera untuk kita semua.
+            </p>
+
+            <p>
+              Puji syukur ke hadirat Allah SWT atas limpahan rahmat dan
+              karunia-Nya, sehingga Website Resmi Desa Maor, Kecamatan
+              Kebangbahu, Kabupaten Lamongan dapat hadir sebagai media
+              informasi bagi seluruh masyarakat.
+            </p>
+
+            <p>
+              Website ini merupakan wujud komitmen Pemerintah Desa Maor
+              dalam mendukung keterbukaan informasi publik. Melalui website
+              ini, kami menyajikan berbagai informasi mengenai profil desa,
+              struktur pemerintahan, infografis desa, berita dan kegiatan,
+              serta berbagai potensi yang dimiliki Desa Maor agar dapat
+              diakses dengan mudah oleh masyarakat maupun masyarakat luas.
+            </p>
+
+            <p>
+              Kami berharap website ini dapat menjadi sarana komunikasi dan
+              informasi yang mempererat hubungan antara pemerintah desa
+              dengan masyarakat, sekaligus menjadi media untuk memperkenalkan
+              potensi dan perkembangan Desa Maor kepada khalayak yang lebih luas.
+            </p>
+
+            <p>
+              Kami mengajak seluruh masyarakat untuk terus menjaga semangat
+              kebersamaan, gotong royong, dan partisipasi dalam mendukung
+              pembangunan desa demi terwujudnya Desa Maor yang maju,
+              mandiri, dan sejahtera.
+            </p>
+
+            <p>
+              Terima kasih kepada seluruh pihak yang telah mendukung
+              terwujudnya website ini. Semoga website Desa Maor dapat
+              memberikan manfaat sebagai sumber informasi yang akurat,
+              transparan, dan terpercaya.
+            </p>
+
+            <p>
+              Wassalamu'alaikum Warahmatullahi Wabarakatuh.
+              {{ $desa['sambutan_kades'] }}"
+            </p>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- =====================================================
+       SEJARAH DESA
+       ===================================================== -->
+      <article class="history-panel">
+
+        <!-- Bagian judul sejarah -->
+        <div class="history-heading">
+
+          <span class="profile-section-number">
+            02 / SEJARAH
+          </span>
+
+          <h2>Sejarah Singkat</h2>
+
+          <div class="history-decoration">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+        </div>
+
+        <!-- Bagian isi sejarah -->
+        <div class="history-copy">
+
+          <p>
+            Sejarah Lahirnya Desa Maor ini tidak bisa dilepaskan dari
+            jasa-jasa para tokoh Kharismatik dalam mengembangkan peradaban
+            islam yang ada di pulau jawa, khususnya pengembangan islam yang
+            ada di lamongan.
+          </p>
+
+          <p>
+            Pada masa itu Masyarakat Desa Maor bermukim di sebelah selatan
+            dusun kalibogo desa kaliwates dengan nama Desa Klampok, karena
+            letaknya yang berdekatan itulah sesepuh desa khawatir untuk
+            kebutuhan hidup warganya. Kemudian sesepuh desa yang bernama
+            <strong>SARPIN/Mbah TIBAN</strong> tersebut pergi keselatan
+            menyeberangi sungai menuju hutan dan membuka hutan tersebut
+            untuk di jadikan Desa dan tempat tinggal bagi warganya. Pada
+            saat membuka hutan (babat alas) tersebut terdengar suara
+            <strong>“NGAOR-NGAOR”</strong> yang tak lain adalah seekor
+            <strong>KUCING</strong>, akhirnya sesepuh desa tersebut tempat
+            itu diberi nama desa <strong>“MAOR”</strong>.
+          </p>
+
+          <p>
+            Kucingnya menghadap kedepan lurus dan dilingkari garis segilima
+            yang artinya beriman Kepada Tuhan Yang Maha Esa dan Berpedoma
+            Pada Pengamalan Pancasila.
+          </p>
+
+          <p>
+            Dari Gambar Padi dan Kapas engambarkan murah sandang pangan
+            masyarakat serba kecukupan/makmur dan bertaqwa kepada Tuhan
+            Yang Maha Esa.
+          </p>
+
+          <p>
+            Bintang yang artinya menerangi dan memberi cahaya bagi bangsa
+            dan negara. Terus memberi cahaya seperti tuhan yang maknanya
+            adalah jalan terang agar negara dapat menempuh jalan yang benar.
+          </p>
+
+          <p>
+            {{ $desa['sejarah'] }}
+          </p>
+
+        </div>
+
+      </article>
+
+    </section>
+
+    <section class="agenda-section">
+
+      <!-- Judul bagian agenda -->
+      <header class="agenda-section-header">
+
+        <div class="agenda-heading-group">
+
+          <svg class="ui-icon agenda-heading-icon" viewBox="0 0 24 24" aria-hidden="true">
+
+            <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+            <path d="M16 3v4"></path>
+            <path d="M8 3v4"></path>
+            <path d="M3 10h18"></path>
+            <path d="M8 14h2"></path>
+            <path d="M14 14h2"></path>
+            <path d="M8 17h2"></path>
+            <path d="M14 17h2"></path>
+
+          </svg>
+
+          <div class="agenda-heading-content">
+
+            <span class="agenda-eyebrow">
+              Agenda Desa
+            </span>
+
+            <h2>
+              Agenda &amp; Kalender Kegiatan Desa
+            </h2>
+
+            <p class="agenda-description">
+              Informasi jadwal kegiatan yang akan dilaksanakan di Desa Maor.
+            </p>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+      <!-- Daftar agenda -->
+      <div class="agenda-list-card">
+
+        <ul class="agenda-list">
+
+          @forelse($agenda as $item)
+
+          <li class="agenda-item">
+
+            <!-- Tanggal kegiatan -->
+            <div class="agenda-date">
+
+              <span class="agenda-date-day">
+                {{ $item['tgl_angka'] }}
+              </span>
+
+              <span class="agenda-date-month">
+                {{ $item['bln_teks'] }}
+              </span>
+
+            </div>
+
+
+            <!-- Informasi kegiatan -->
+            <div class="agenda-item-content">
+
+              <h3>{{ $item['judul'] }}</h3>
+
+              <div class="agenda-meta">
+
+                <span class="agenda-meta-item">
+
+                  <svg class="ui-icon ui-icon--small" viewBox="0 0 24 24" aria-hidden="true">
+
+                    <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"></path>
+                    <circle cx="12" cy="10" r="2.5"></circle>
+
+                  </svg>
+
+                  <span>{{ $item['lokasi'] }}</span>
+
+                </span>
+
+
+                <span class="agenda-meta-separator" aria-hidden="true">
+                  •
+                </span>
+
+
+                <span class="agenda-meta-item">
+
+                  <svg class="ui-icon ui-icon--small" viewBox="0 0 24 24" aria-hidden="true">
+
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M12 7v5l3 2"></path>
+
+                  </svg>
+
+                  <span>{{ $item['waktu'] }}</span>
+
+                </span>
+
+              </div>
+
+            </div>
+
+          </li>
+
+          @empty
+
+          <li class="agenda-empty">
+            <p>Belum ada agenda kegiatan desa terdekat.</p>
+          </li>
+
+          @endforelse
+
+        </ul>
+
+      </div>
+
+    </section>
+
+    <footer class="mega-footer" id="kontak">
+      <div class="footer-top">
+        <div class="footer-col">
+          <div class="footer-brand">
+            <span class="footer-brand-mark" aria-hidden="true">
+              <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt=""
+                class="footer-brand-logo">
+            </span>
+
+            <span class="brand-text">
+              <strong>Pemerintah {{ $desa['nama'] }}</strong>
+            </span>
+          </div>
+          <p>{{ $desa['alamat'] }}<br>{{ $desa['kecamatan'] }}, {{ $desa['kabupaten'] }}<br>{{ $desa['provinsi'] }}, {{ $desa['kode_pos'] }}
+          </p>
+          <p style="margin-top: 1rem;">
+            <strong style="color: var(--green-title);">Kode Wilayah:</strong>
+            {{ $desa['kode_wilayah'] }}
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h3 class="footer-heading">Hubungi Kami</h3>
+          <ul class="footer-contact">
+
+            <li>
+              <svg class="ui-icon footer-contact-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2
+           19.79 19.79 0 0 1-8.63-3.07
+           19.5 19.5 0 0 1-6-6
+           19.79 19.79 0 0 1-3.07-8.67
+           A2 2 0 0 1 4.11 2h3
+           a2 2 0 0 1 2 1.72
+           12.84 12.84 0 0 0 .7 2.81
+           2 2 0 0 1-.45 2.11L8.09 9.91
+           a16 16 0 0 0 6 6l1.27-1.27
+           a2 2 0 0 1 2.11-.45
+           12.84 12.84 0 0 0 2.81.7
+           A2 2 0 0 1 22 16.92Z">
+                </path>
+              </svg>
+
+              <a href="tel:{{ $desa['telepon'] }}">
+                {{ $desa['telepon'] }}
+              </a>
+            </li>
+
+            <li>
+              <svg class="ui-icon footer-contact-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <path d="m3 7 9 6 9-6"></path>
+              </svg>
+
+              <a href="mailto:{{ $desa['email'] }}">
+                {{ $desa['email'] }}
+              </a>
+            </li>
+
+          </ul>
+          <div class="footer-social">
+            <a href="{{ $desa['sosial']['instagram'] }}" target="_blank" rel="noopener">IG</a>
+            <a href="{{ $desa['sosial']['facebook'] }}" target="_blank" rel="noopener">FB</a>
+            <a href="{{ $desa['sosial']['twitter'] }}" target="_blank" rel="noopener">X</a>
+            <a href="{{ $desa['sosial']['youtube'] }}" target="_blank" rel="noopener">YT</a>
+            <a href="{{ $desa['sosial']['tiktok'] }}" target="_blank" rel="noopener">TK</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h3 class="footer-heading">Nomor Telepon Penting</h3>
+          <ul class="footer-links">
+            <li>Kades Maor / {{ $desa["kepala_desa"] }}</li>
+            <li><a href="#">Ambulan Kembangbahu</a></li>
+            <li><a href="#">Polsek Kembangbahu</a></li>
+            <li><a href="#">Puskesmas Terdekat</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3 class="footer-heading">Jelajahi</h3>
+          <ul class="footer-links">
+            <li><a href="https://kemendesa.go.id" target="_blank" rel="noopener">Website Kemendesa</a></li>
+            <li><a href="https://kemendagri.go.id" target="_blank" rel="noopener">Website Kemendagri</a></li>
+            <li><a href="https://lamongankab.go.id" target="_blank" rel="noopener">Website Kab. Lamongan</a></li>
+            <li><a href="https://cekdptonline.kpu.go.id" target="_blank" rel="noopener">Cek DPT Online</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Pemerintah {{ $desa['nama'] }}</p>
+      </div>
+    </footer>
+
+    <div class="floating-stats">
+      <div class="stats-trigger">
+
+        <span class="stats-icon" aria-hidden="true">
+          <svg class="ui-icon" viewBox="0 0 24 24">
+            <path d="M4 19V9"></path>
+            <path d="M10 19V5"></path>
+            <path d="M16 19v-7"></path>
+            <path d="M22 19V3"></path>
+            <path d="M2 19h22"></path>
+          </svg>
+        </span>
+
+        <span class="stats-brief">Kunjungan</span>
+
+      </div>
+
+      <div class="stats-panel">
+        <div class="ledger-row">
+          <span class="ledger-label">Hari Ini</span>
+          <span class="ledger-value mono">{{ str_pad((string) ($stats['hari_ini'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-label">Kemarin</span>
+          <span class="ledger-value mono">{{ str_pad((string) ($stats['kemarin'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-label">Minggu Ini</span>
+          <span class="ledger-value mono">{{ str_pad((string) ($stats['minggu_ini'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-label">Minggu Lalu</span>
+          <span class="ledger-value mono">{{ str_pad((string) ($stats['minggu_lalu'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-label">Bulan Ini</span>
+          <span class="ledger-value mono">{{ str_pad((string) ($stats['bulan_ini'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-label">Bulan Lalu</span>
+          <span class="ledger-value mono">{{ str_pad((string) ($stats['bulan_lalu'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
+        </div>
+        <div class="ledger-row ledger-row--total">
+          <span class="ledger-label">Total</span>
+          <span class="ledger-value mono" style="color: var(--rust-buoy-lt);">{{ str_pad((string) ($stats['total'] ?? 0), 5, '0', STR_PAD_LEFT) }}</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</body>
+
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Produk UMKM — {{ $desa['nama'] }}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+
+<body>
+
+    <main class="admin-edit-page">
+
+        <section class="admin-edit-card">
+
+            <a href="{{ route('admin_dashboard') }}" class="admin-edit-back">
+                ← Kembali ke Dashboard
+            </a>
+
+            <span class="admin-edit-label">
+                Manajemen UMKM
+            </span>
+
+            <h1>Edit Produk UMKM</h1>
+
+            <p class="admin-edit-description">
+                Ubah informasi produk UMKM melalui formulir berikut.
+            </p>
+
+            @if($error)
+            <div class="admin-edit-error">
+                {{ $error }}
+            </div>
+            @endif
+
+            <form method="POST" enctype="multipart/form-data" class="admin-edit-form" action="{{ route('admin_update_umkm', $item['id']) }}">
+      @csrf
+
+                <div class="admin-edit-field">
+                    <label for="nama_produk">
+                        Nama Produk
+                    </label>
+
+                    <input type="text" id="nama_produk" name="nama_produk" value="{{ $item['nama_produk'] }}" required>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="nama_usaha">
+                        Nama Usaha
+                    </label>
+
+                    <input type="text" id="nama_usaha" name="nama_usaha" value="{{ $item['nama_usaha'] }}" required>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="kategori">
+                        Kategori Produk
+                    </label>
+
+                    <select id="kategori" name="kategori" required>
+                        <option value="Makanan" @if($item["kategori"]=="Makanan")selected@endif>
+                            Makanan
+                        </option>
+
+                        <option value="Minuman" @if($item["kategori"]=="Minuman")selected@endif>
+                            Minuman
+                        </option>
+
+                        <option value="Kerajinan" @if($item["kategori"]=="Kerajinan")selected@endif>
+                            Kerajinan
+                        </option>
+
+                        <option value="Pertanian" @if($item["kategori"]=="Pertanian")selected@endif>
+                            Pertanian
+                        </option>
+
+                        <option value="Jasa" @if($item["kategori"]=="Jasa")selected@endif>
+                            Jasa
+                        </option>
+
+                        <option value="Lainnya" @if($item["kategori"]=="Lainnya")selected@endif>
+                            Lainnya
+                        </option>
+                    </select>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="deskripsi">
+                        Deskripsi Produk
+                    </label>
+
+                    <textarea id="deskripsi" name="deskripsi" rows="5">{{ $item['deskripsi'] }}</textarea>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="nomor_wa">
+                        Nomor WhatsApp
+                    </label>
+
+                    <input type="text" id="nomor_wa" name="nomor_wa" value="{{ $item['nomor_wa'] }}" required>
+
+                    <small>
+                        Gunakan format 628xxxxxxxxxx.
+                    </small>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="alamat">
+                        Alamat Usaha
+                    </label>
+
+                    <textarea id="alamat" name="alamat" rows="4" required>{{ $item['alamat'] }}</textarea>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="maps_url">
+                        Link Google Maps
+                    </label>
+
+                    <input type="url" id="maps_url" name="maps_url" value="{{ $item['maps_url'] }}" required>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="status">
+                        Status Produk
+                    </label>
+
+                    <select id="status" name="status" required>
+                        <option value="aktif" @if($item["status"]=="aktif")selected@endif>
+                            Aktif
+                        </option>
+
+                        <option value="nonaktif" @if($item["status"]=="nonaktif")selected@endif>
+                            Nonaktif
+                        </option>
+                    </select>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label>Preview Foto Produk</label>
+
+                    <div class="admin-image-editor" data-image-editor>
+
+                        <div class="admin-image-preview admin-image-preview--product">
+
+                            <img data-image-preview @if($item["gambar"] && $item["gambar"] !="default.jpg")
+                                src="{{ asset('uploads/' . $item['gambar']) }}"
+                                alt="{{ $item['nama_produk'] }}" @else hidden alt="Preview foto produk" @endif>
+
+                            <div class="admin-image-placeholder" data-image-placeholder @if($item["gambar"] &&
+                                $item["gambar"] !="default.jpg") hidden @endif>
+                                <span>🛍️</span>
+                                <p>Produk belum memiliki foto</p>
+                            </div>
+
+                        </div>
+
+                        <input type="file" id="gambar" name="gambar" accept=".jpg,.jpeg,.png,.webp,image/*"
+                            data-image-input>
+
+                        <input type="hidden" name="hapus_gambar" value="0" data-image-delete>
+
+                        <button type="button" class="admin-remove-photo-button" data-image-remove @if(!
+                            $item["gambar"] || $item["gambar"]=="default.jpg") hidden @endif>
+                            Hapus Foto Produk
+                        </button>
+
+                        <small>
+                            Pilih foto baru untuk mengganti foto produk lama.
+                        </small>
+
+                    </div>
+                </div>
+
+                <div class="admin-edit-actions">
+
+                    <a href="{{ route('admin_dashboard') }}" class="admin-cancel-button">
+                        Batal
+                    </a>
+
+                    <button type="submit" class="admin-save-button">
+                        Simpan Perubahan
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <script src="{{ asset('js/admin-image-preview.js') }}" defer></script>
+
+</body>
+
+</html>

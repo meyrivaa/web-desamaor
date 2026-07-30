@@ -1,0 +1,32 @@
+LAPORAN VALIDASI - WEBSITE DESA MAOR LARAVEL
+Tanggal paket: 30 Juli 2026
+
+HASIL PEMERIKSAAN YANG LULUS
+[OK] Seluruh 16 template Flask memiliki pasangan Blade Laravel.
+[OK] Seluruh route controller mengarah ke method yang tersedia.
+[OK] Seluruh named route yang dipakai oleh Blade telah terdaftar.
+[OK] Seluruh form POST Blade memiliki token CSRF.
+[OK] Seluruh referensi aset literal ditemukan.
+[OK] Seluruh file PHP lolos pemeriksaan sintaks.
+[OK] Seluruh file JavaScript lolos pemeriksaan sintaks.
+[OK] Struktur directive Blade lolos pemeriksaan.
+[OK] Database SQLite lolos PRAGMA integrity_check.
+[OK] Jumlah data hasil migrasi sama dengan database Python:
+     berita 6, poi 7, kunjungan 9, agenda 1,
+     infografis 2, struktur organisasi 3, umkm 2.
+[OK] Seluruh 22 aset asli identik byte-per-byte dengan proyek Python.
+[OK] SQL MySQL, migration, dan seeder disertakan.
+
+BATAS PENGUJIAN DI LINGKUNGAN PEMBUATAN PAKET
+Dependency Composer/vendor tidak disertakan karena lingkungan pembuatan paket
+ini tidak dapat mengakses Packagist. Karena itu server Laravel dan browser
+belum dapat dijalankan langsung di lingkungan tersebut.
+
+Pengujian runtime dilakukan setelah ekstrak dengan:
+  composer install
+  php artisan optimize:clear
+  php artisan test
+  php artisan serve
+
+Komputer pengguna yang sebelumnya menampilkan PHP 8.4.23 dan Composer 2.9.5
+sudah memenuhi persyaratan dasar proyek ini.

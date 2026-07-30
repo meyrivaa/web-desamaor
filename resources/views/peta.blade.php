@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Peta &mdash; {{ $desa['nama'] }}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+
+<body>
+  <header class="site-nav">
+    <div class="nav-inner">
+
+      <a class="brand" href="{{ route('listing') }}">
+        <span class="brand-mark" aria-hidden="true">
+          <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="Logo Desa Maor"
+            class="brand-logo">
+        </span>
+        <span class="brand-text">
+          <strong>{{ $desa['nama'] }}</strong>
+          <small>
+            {{ $desa['kecamatan'] }} &middot; {{ $desa['kabupaten'] }}
+          </small>
+        </span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Buka menu navigasi" aria-expanded="false"
+        aria-controls="primary-navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-links" id="primary-navigation" aria-label="Navigasi utama">
+        <a href="{{ route('listing') }}">Beranda</a>
+        <a href="{{ route('peta') }}" aria-current="page">Peta Desa</a>
+        <a href="{{ route('profil') }}">Visi &amp; Misi</a>
+        <a href="{{ route('struktur') }}">Struktur Organisasi</a>
+        <a href="{{ route('infografis') }}">Infografis</a>
+        <a href="{{ route('umkm') }}">UMKM</a>
+        <a href="{{ route('berita') }}">Berita</a>
+
+        <a href="{{ route('admin_login') }}" class="nav-admin-link nav-admin-icon-only"
+          aria-label="Masuk ke halaman admin" title="Masuk ke halaman admin">
+          <svg class="nav-admin-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21a8 8 0 0 1 16 0"></path>
+          </svg>
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="map-page-main">
+
+    <section class="map-section" id="peta">
+
+      <header class="map-section-header">
+        <span class="eyebrow">Peta Desa</span>
+
+        <h1>Peta Titik Lokasi Desa</h1>
+
+        <p class="section-lede">
+          Klik penanda pada peta untuk melihat nama, kategori,
+          dan informasi setiap lokasi di Desa Maor.
+        </p>
+      </header>
+      <div class="map-toolbar">
+
+        <p class="map-instruction">
+          Klik salah satu penanda untuk melihat informasi lokasi.
+        </p>
+
+        <button type="button" class="map-reset-button" id="map-reset-button">
+          Kembali ke Pusat Desa
+        </button>
+
+      </div>
+
+      <div id="peta-desa" class="leaflet-frame" aria-label="Peta titik lokasi Desa Maor"></div>
+
+      <ul class="legend" id="legenda-kategori" aria-label="Legenda kategori titik"></ul>
+
+    </section>
+
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="{{ asset('js/map.js') }}"></script>
+  <script src="{{ asset('js/navigation.js') }}"></script>
+</body>
+
+</html>

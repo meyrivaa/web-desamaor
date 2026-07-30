@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Titik Peta — {{ $desa['nama'] }}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+
+<body>
+
+    <main class="admin-edit-page">
+
+        <section class="admin-edit-card">
+
+            <a href="{{ route('admin_dashboard') }}" class="admin-edit-back">
+                ← Kembali ke Dashboard
+            </a>
+
+            <span class="admin-edit-label">
+                Manajemen Titik Peta
+            </span>
+
+            <h1>Edit Titik Peta</h1>
+
+            <p class="admin-edit-description">
+                Ubah nama, kategori, deskripsi, atau koordinat lokasi.
+            </p>
+
+            @if($error)
+            <div class="admin-edit-error">
+                {{ $error }}
+            </div>
+            @endif
+
+            <form method="POST" class="admin-edit-form" action="{{ route('admin_update_poi', $item['id']) }}">
+      @csrf
+
+                <div class="admin-edit-field">
+                    <label for="nama">
+                        Nama Lokasi
+                    </label>
+
+                    <input type="text" id="nama" name="nama" value="{{ $item['nama'] }}" required>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="kategori">
+                        Kategori
+                    </label>
+
+                    <select id="kategori" name="kategori" required>
+                        <option value="Pemerintahan" @if($item['kategori']=='Pemerintahan')selected@endif>
+                            Pemerintahan
+                        </option>
+
+                        <option value="Peribadatan" @if($item['kategori']=='Peribadatan')selected@endif>
+                            Peribadatan
+                        </option>
+
+                        <option value="Pendidikan" @if($item['kategori']=='Pendidikan')selected@endif>
+                            Pendidikan
+                        </option>
+
+                        <option value="Kesehatan" @if($item['kategori']=='Kesehatan')selected@endif>
+                            Kesehatan
+                        </option>
+
+                        <option value="Pertanian" @if($item['kategori']=='Pertanian')selected@endif>
+                            Pertanian
+                        </option>
+
+                        <option value="Pengairan" @if($item['kategori']=='Pengairan')selected@endif>
+                            Pengairan
+                        </option>
+
+                        <option value="Usaha Warga" @if($item['kategori']=='Usaha Warga')selected@endif>
+                            Usaha Warga
+                        </option>
+                    </select>
+                </div>
+
+                <div class="admin-edit-field">
+                    <label for="deskripsi">
+                        Deskripsi
+                    </label>
+
+                    <textarea id="deskripsi" name="deskripsi" rows="5" required>{{ $item['deskripsi'] }}</textarea>
+                </div>
+
+                <div class="admin-edit-field">
+
+                    <label>Pilih Posisi Titik pada Peta</label>
+
+                    <p class="admin-map-help">
+                        Klik lokasi baru atau geser penanda untuk memperbarui posisi.
+                    </p>
+
+                    <div id="admin-edit-poi-map" class="admin-map-picker" data-map-picker data-lat-input="#lat"
+                        data-lng-input="#lng" data-default-lat="{{ $desa['peta_pusat']['lat'] }}"
+                        data-default-lng="{{ $desa['peta_pusat']['lng'] }}" aria-label="Pilih posisi titik peta"></div>
+
+                </div>
+
+                <div class="admin-coordinate-grid">
+
+                    <div class="admin-edit-field">
+                        <label for="lat">
+                            Latitude (Otomatis)
+                        </label>
+
+                        <input type="number" step="any" id="lat" name="lat" value="{{ $item['lat'] }}" required readonly>
+                    </div>
+
+                    <div class="admin-edit-field">
+                        <label for="lng">
+                            Longitude (Otomatis)
+                        </label>
+
+                        <input type="number" step="any" id="lng" name="lng" value="{{ $item['lng'] }}" required readonly>
+                    </div>
+
+                </div>
+
+                <div class="admin-edit-actions">
+
+                    <a href="{{ route('admin_dashboard') }}" class="admin-cancel-button">
+                        Batal
+                    </a>
+
+                    <button type="submit" class="admin-save-button">
+                        Simpan Perubahan
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script src="{{ asset('js/admin-map-picker.js') }}"></script>
+
+</body>
+
+</html>

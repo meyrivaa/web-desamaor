@@ -112,19 +112,19 @@
 
             @if($kepala_desa && $kepala_desa["foto"] && $kepala_desa["foto"] != "default.jpg")
 
-            <img src="{{ asset('uploads/' . $kepala_desa['foto']) }}"
-              alt="Foto {{ $kepala_desa['nama'] }}" class="welcome-photo">
+              <img src="{{ asset('uploads/' . $kepala_desa['foto']) }}" alt="Foto {{ $kepala_desa['nama'] }}"
+                class="welcome-photo">
 
             @else
 
-            <div class="welcome-photo-placeholder">
+              <div class="welcome-photo-placeholder">
 
-              <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="8" r="4"></circle>
-                <path d="M4 21a8 8 0 0 1 16 0"></path>
-              </svg>
+                <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="8" r="4"></circle>
+                  <path d="M4 21a8 8 0 0 1 16 0"></path>
+                </svg>
 
-            </div>
+              </div>
 
             @endif
 
@@ -133,17 +133,17 @@
           <div class="welcome-identity">
             <span class="welcome-position">
               @if($kepala_desa)
-              {{ $kepala_desa["jabatan"] }}
+                {{ $kepala_desa["jabatan"] }}
               @else
-              Kepala Desa
+                Kepala Desa
               @endif
             </span>
 
             <h3>
               @if($kepala_desa)
-              {{ $kepala_desa["nama"] }}
+                {{ $kepala_desa["nama"] }}
               @else
-              Nama Kepala Desa
+                Nama Kepala Desa
               @endif
             </h3>
 
@@ -274,7 +274,7 @@
           </p>
 
           <p>
-            Dari Gambar Padi dan Kapas engambarkan murah sandang pangan
+            Dari Gambar Padi dan Kapas mengambarkan murah sandang pangan
             masyarakat serba kecukupan/makmur dan bertaqwa kepada Tuhan
             Yang Maha Esa.
           </p>
@@ -343,72 +343,72 @@
 
           @forelse($agenda as $item)
 
-          <li class="agenda-item">
+            <li class="agenda-item">
 
-            <!-- Tanggal kegiatan -->
-            <div class="agenda-date">
+              <!-- Tanggal kegiatan -->
+              <div class="agenda-date">
 
-              <span class="agenda-date-day">
-                {{ $item['tgl_angka'] }}
-              </span>
-
-              <span class="agenda-date-month">
-                {{ $item['bln_teks'] }}
-              </span>
-
-            </div>
-
-
-            <!-- Informasi kegiatan -->
-            <div class="agenda-item-content">
-
-              <h3>{{ $item['judul'] }}</h3>
-
-              <div class="agenda-meta">
-
-                <span class="agenda-meta-item">
-
-                  <svg class="ui-icon ui-icon--small" viewBox="0 0 24 24" aria-hidden="true">
-
-                    <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"></path>
-                    <circle cx="12" cy="10" r="2.5"></circle>
-
-                  </svg>
-
-                  <span>{{ $item['lokasi'] }}</span>
-
+                <span class="agenda-date-day">
+                  {{ $item['tgl_angka'] }}
                 </span>
 
-
-                <span class="agenda-meta-separator" aria-hidden="true">
-                  •
-                </span>
-
-
-                <span class="agenda-meta-item">
-
-                  <svg class="ui-icon ui-icon--small" viewBox="0 0 24 24" aria-hidden="true">
-
-                    <circle cx="12" cy="12" r="9"></circle>
-                    <path d="M12 7v5l3 2"></path>
-
-                  </svg>
-
-                  <span>{{ $item['waktu'] }}</span>
-
+                <span class="agenda-date-month">
+                  {{ $item['bln_teks'] }}
                 </span>
 
               </div>
 
-            </div>
 
-          </li>
+              <!-- Informasi kegiatan -->
+              <div class="agenda-item-content">
+
+                <h3>{{ $item['judul'] }}</h3>
+
+                <div class="agenda-meta">
+
+                  <span class="agenda-meta-item">
+
+                    <svg class="ui-icon ui-icon--small" viewBox="0 0 24 24" aria-hidden="true">
+
+                      <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"></path>
+                      <circle cx="12" cy="10" r="2.5"></circle>
+
+                    </svg>
+
+                    <span>{{ $item['lokasi'] }}</span>
+
+                  </span>
+
+
+                  <span class="agenda-meta-separator" aria-hidden="true">
+                    •
+                  </span>
+
+
+                  <span class="agenda-meta-item">
+
+                    <svg class="ui-icon ui-icon--small" viewBox="0 0 24 24" aria-hidden="true">
+
+                      <circle cx="12" cy="12" r="9"></circle>
+                      <path d="M12 7v5l3 2"></path>
+
+                    </svg>
+
+                    <span>{{ $item['waktu'] }}</span>
+
+                  </span>
+
+                </div>
+
+              </div>
+
+            </li>
 
           @empty
 
-          <li class="agenda-empty">
-            <p>Belum ada agenda kegiatan desa terdekat.</p>
-          </li>
+            <li class="agenda-empty">
+              <p>Belum ada agenda kegiatan desa terdekat.</p>
+            </li>
 
           @endforelse
 
@@ -423,15 +423,15 @@
         <div class="footer-col">
           <div class="footer-brand">
             <span class="footer-brand-mark" aria-hidden="true">
-              <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt=""
-                class="footer-brand-logo">
+              <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="" class="footer-brand-logo">
             </span>
 
             <span class="brand-text">
               <strong>Pemerintah {{ $desa['nama'] }}</strong>
             </span>
           </div>
-          <p>{{ $desa['alamat'] }}<br>{{ $desa['kecamatan'] }}, {{ $desa['kabupaten'] }}<br>{{ $desa['provinsi'] }}, {{ $desa['kode_pos'] }}
+          <p>{{ $desa['alamat'] }}<br>{{ $desa['kecamatan'] }}, {{ $desa['kabupaten'] }}<br>{{ $desa['provinsi'] }},
+            {{ $desa['kode_pos'] }}
           </p>
           <p style="margin-top: 1rem;">
             <strong style="color: var(--green-title);">Kode Wilayah:</strong>
@@ -540,23 +540,28 @@
         </div>
         <div class="ledger-row">
           <span class="ledger-label">Minggu Ini</span>
-          <span class="ledger-value mono">{{ str_pad((string) ($stats['minggu_ini'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
+          <span
+            class="ledger-value mono">{{ str_pad((string) ($stats['minggu_ini'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
         </div>
         <div class="ledger-row">
           <span class="ledger-label">Minggu Lalu</span>
-          <span class="ledger-value mono">{{ str_pad((string) ($stats['minggu_lalu'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
+          <span
+            class="ledger-value mono">{{ str_pad((string) ($stats['minggu_lalu'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
         </div>
         <div class="ledger-row">
           <span class="ledger-label">Bulan Ini</span>
-          <span class="ledger-value mono">{{ str_pad((string) ($stats['bulan_ini'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
+          <span
+            class="ledger-value mono">{{ str_pad((string) ($stats['bulan_ini'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
         </div>
         <div class="ledger-row">
           <span class="ledger-label">Bulan Lalu</span>
-          <span class="ledger-value mono">{{ str_pad((string) ($stats['bulan_lalu'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
+          <span
+            class="ledger-value mono">{{ str_pad((string) ($stats['bulan_lalu'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
         </div>
         <div class="ledger-row ledger-row--total">
           <span class="ledger-label">Total</span>
-          <span class="ledger-value mono" style="color: var(--rust-buoy-lt);">{{ str_pad((string) ($stats['total'] ?? 0), 5, '0', STR_PAD_LEFT) }}</span>
+          <span class="ledger-value mono"
+            style="color: var(--rust-buoy-lt);">{{ str_pad((string) ($stats['total'] ?? 0), 5, '0', STR_PAD_LEFT) }}</span>
         </div>
       </div>
     </div>

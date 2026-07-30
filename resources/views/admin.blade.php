@@ -312,7 +312,41 @@
   </header>
 
   <main class="profil-main admin-main">
-    <h1 class="admin-header-title">Sistem Informasi Manajemen Desa</h1>
+    <h1 class="admin-header-title">
+      Sistem Informasi Manajemen Desa
+    </h1>
+
+    @if ($errors->any())
+      <div style="
+              margin: 0 0 1.5rem;
+              padding: 1rem 1.25rem;
+              border: 1px solid #dc2626;
+              border-radius: 8px;
+              background: #fef2f2;
+              color: #991b1b;
+            ">
+        <strong>Data belum berhasil disimpan:</strong>
+
+        <ul style="margin: 0.75rem 0 0; padding-left: 1.25rem;">
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
+
+    @if (session('success'))
+      <div style="
+              margin: 0 0 1.5rem;
+              padding: 1rem 1.25rem;
+              border: 1px solid #16a34a;
+              border-radius: 8px;
+              background: #f0fdf4;
+              color: #166534;
+            ">
+        {{ session('success') }}
+      </div>
+    @endif
 
     <div class="admin-grid">
 
@@ -326,7 +360,7 @@
           <span>Publikasi Berita Baru</span>
         </h2>
         <form class="admin-form" method="POST" action="{{ route('admin_store') }}" enctype="multipart/form-data">
-      @csrf
+          @csrf
           <input type="hidden" name="jenis_form" value="berita">
 
           <div class="form-group">
@@ -389,7 +423,7 @@
           <span>Upload Infografis Baru</span>
         </h2>
         <form class="admin-form" method="POST" action="{{ route('admin_store') }}" enctype="multipart/form-data">
-      @csrf
+          @csrf
           <input type="hidden" name="jenis_form" value="infografis">
 
           <div class="form-group">
@@ -442,7 +476,7 @@
           <span>Tambah Titik Peta (POI)</span>
         </h2>
         <form class="admin-form" method="POST" action="{{ route('admin_store') }}">
-      @csrf
+          @csrf
           <input type="hidden" name="jenis_form" value="poi">
 
           <div class="form-group">
@@ -516,7 +550,7 @@
           <span>Tambah Agenda Desa</span>
         </h2>
         <form class="admin-form" method="POST" action="{{ route('admin_store') }}">
-      @csrf
+          @csrf
           <input type="hidden" name="jenis_form" value="agenda">
 
           <div class="form-group">
@@ -558,14 +592,14 @@
         </h2>
 
         <form class="admin-form" method="POST" action="{{ route('admin_store') }}" enctype="multipart/form-data">
-      @csrf
+          @csrf
           <input type="hidden" name="jenis_form" value="struktur">
 
           <div class="grid-2-col">
 
             <div class="form-group">
               <label>Nama Lengkap</label>
-              <input type="text" name="nama" class="form-control" required placeholder="Cth: H. Supriyono">
+              <input type="text" name="nama" class="form-control" required placeholder="Cth: Sidik">
             </div>
 
             <div class="form-group">
@@ -631,7 +665,7 @@
         </h2>
 
         <form class="admin-form" method="POST" action="{{ route('admin_store') }}" enctype="multipart/form-data">
-      @csrf
+          @csrf
           <input type="hidden" name="jenis_form" value="umkm">
 
           <div class="grid-2-col">
@@ -748,96 +782,96 @@
 
         @if($daftar_struktur)
 
-        <div style="overflow-x: auto;">
-          <table style="
-      width: 100%;
-      min-width: 800px;
-      border-collapse: collapse;
-    ">
+          <div style="overflow-x: auto;">
+            <table style="
+                  width: 100%;
+                  min-width: 800px;
+                  border-collapse: collapse;
+                ">
 
-            <thead>
-              <tr>
-                <th style="padding: 1rem; text-align: left;">Urutan</th>
-                <th style="padding: 1rem; text-align: left;">Foto</th>
-                <th style="padding: 1rem; text-align: left;">Nama</th>
-                <th style="padding: 1rem; text-align: left;">Jabatan</th>
-                <th style="padding: 1rem; text-align: center;">Aksi</th>
-              </tr>
-            </thead>
+              <thead>
+                <tr>
+                  <th style="padding: 1rem; text-align: left;">Urutan</th>
+                  <th style="padding: 1rem; text-align: left;">Foto</th>
+                  <th style="padding: 1rem; text-align: left;">Nama</th>
+                  <th style="padding: 1rem; text-align: left;">Jabatan</th>
+                  <th style="padding: 1rem; text-align: center;">Aksi</th>
+                </tr>
+              </thead>
 
-            <tbody>
-              @foreach($daftar_struktur as $item_struktur)
-              <tr>
+              <tbody>
+                @foreach($daftar_struktur as $item_struktur)
+                  <tr>
 
-                <td style="padding: 1rem;">
-                  {{ $item_struktur["urutan"] }}
-                </td>
+                    <td style="padding: 1rem;">
+                      {{ $item_struktur["urutan"] }}
+                    </td>
 
-                <td style="padding: 1rem;">
+                    <td style="padding: 1rem;">
 
-                  @if($item_struktur["foto"] && $item_struktur["foto"] != "default.jpg")
+                      @if($item_struktur["foto"] && $item_struktur["foto"] != "default.jpg")
 
-                  <img src="{{ asset('uploads/' . $item_struktur['foto']) }}"
-                    alt="{{ $item_struktur['nama'] }}" style="
-                width: 65px;
-                height: 80px;
-                object-fit: cover;
-                object-position: center top;
-                border-radius: 7px;
-              ">
+                        <img src="{{ asset('uploads/' . $item_struktur['foto']) }}" alt="{{ $item_struktur['nama'] }}" style="
+                                                width: 65px;
+                                                height: 80px;
+                                                object-fit: cover;
+                                                object-position: center top;
+                                                border-radius: 7px;
+                                              ">
 
-                  @else
+                      @else
 
-                  <span style="color: var(--muted-sage);">
-                    Belum ada foto
-                  </span>
+                        <span style="color: var(--muted-sage);">
+                          Belum ada foto
+                        </span>
 
-                  @endif
+                      @endif
 
-                </td>
+                    </td>
 
-                <td style="padding: 1rem;">
-                  <strong>{{ $item_struktur["nama"] }}</strong>
-                </td>
+                    <td style="padding: 1rem;">
+                      <strong>{{ $item_struktur["nama"] }}</strong>
+                    </td>
 
-                <td style="padding: 1rem;">
-                  {{ $item_struktur["jabatan"] }}
-                </td>
+                    <td style="padding: 1rem;">
+                      {{ $item_struktur["jabatan"] }}
+                    </td>
 
-                <td class="admin-action-cell">
+                    <td class="admin-action-cell">
 
-                  <div class="admin-action-group">
+                      <div class="admin-action-group">
 
-                    <a href="{{ route('admin_edit_struktur', $item_struktur['id']) }}" class="admin-edit-button">
-                      Edit
-                    </a>
+                        <a href="{{ route('admin_edit_struktur', $item_struktur['id']) }}" class="admin-edit-button">
+                          Edit
+                        </a>
 
-                    <form class="admin-delete-form" action="{{ route('admin_hapus_struktur', $item_struktur['id']) }}" method="POST" onsubmit="return confirm(
-                  'Apakah Anda yakin ingin menghapus perangkat desa ini?'
-                );">
-      @csrf
-                      <button class="admin-delete-button" type="submit">
-                        Hapus
-                      </button>
-                    </form>
+                        <form class="admin-delete-form" action="{{ route('admin_hapus_struktur', $item_struktur['id']) }}"
+                          method="POST" onsubmit="return confirm(
+                                      'Apakah Anda yakin ingin menghapus perangkat desa ini?'
+                                    );">
+                          @csrf
+                          <button class="admin-delete-button" type="submit">
+                            Hapus
+                          </button>
+                        </form>
 
-                  </div>
+                      </div>
 
-                </td>
+                    </td>
 
-              </tr>
+                  </tr>
 
-              @endforeach
-            </tbody>
+                @endforeach
+              </tbody>
 
-          </table>
-        </div>
+            </table>
+          </div>
 
         @else
 
-        <p style="color: var(--muted-sage);">
-          Belum ada data struktur organisasi.
-        </p>
+          <p style="color: var(--muted-sage);">
+            Belum ada data struktur organisasi.
+          </p>
 
         @endif
 
@@ -854,80 +888,79 @@
         </h2>
 
         @if($daftar_berita)
-        <div style="overflow-x: auto;">
-          <table style="
-          width: 100%;
-          min-width: 700px;
-          border-collapse: collapse;
-        ">
-            <thead>
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
-                <th style="padding: 1rem; text-align: left;">No.</th>
-                <th style="padding: 1rem; text-align: left;">Judul</th>
-                <th style="padding: 1rem; text-align: left;">Tanggal</th>
-                <th style="padding: 1rem; text-align: left;">Gambar</th>
-                <th style="padding: 1rem; text-align: center;">Aksi</th>
-              </tr>
-            </thead>
+          <div style="overflow-x: auto;">
+            <table style="
+                  width: 100%;
+                  min-width: 700px;
+                  border-collapse: collapse;
+                ">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+                  <th style="padding: 1rem; text-align: left;">No.</th>
+                  <th style="padding: 1rem; text-align: left;">Judul</th>
+                  <th style="padding: 1rem; text-align: left;">Tanggal</th>
+                  <th style="padding: 1rem; text-align: left;">Gambar</th>
+                  <th style="padding: 1rem; text-align: center;">Aksi</th>
+                </tr>
+              </thead>
 
-            <tbody>
-              @foreach($daftar_berita as $item)
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-                <td style="padding: 1rem;">
-                  {{ $loop->iteration }}
-                </td>
+              <tbody>
+                @foreach($daftar_berita as $item)
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <td style="padding: 1rem;">
+                      {{ $loop->iteration }}
+                    </td>
 
-                <td style="padding: 1rem;">
-                  <strong>{{ $item["judul"] }}</strong>
-                </td>
+                    <td style="padding: 1rem;">
+                      <strong>{{ $item["judul"] }}</strong>
+                    </td>
 
-                <td style="padding: 1rem;">
-                  {{ $item["tanggal"] }}
-                </td>
+                    <td style="padding: 1rem;">
+                      {{ $item["tanggal"] }}
+                    </td>
 
-                <td style="padding: 1rem;">
-                  @if($item["gambar"])
-                  <img src="{{ asset('uploads/' . $item['gambar']) }}" alt="{{ $item['judul'] }}"
-                    style="
-                        width: 80px;
-                        height: 55px;
-                        object-fit: cover;
-                        border-radius: 6px;
-                      ">
-                  @else
-                  Tidak ada gambar
-                  @endif
-                </td>
+                    <td style="padding: 1rem;">
+                      @if($item["gambar"])
+                        <img src="{{ asset('uploads/' . $item['gambar']) }}" alt="{{ $item['judul'] }}" style="
+                                                width: 80px;
+                                                height: 55px;
+                                                object-fit: cover;
+                                                border-radius: 6px;
+                                              ">
+                      @else
+                        Tidak ada gambar
+                      @endif
+                    </td>
 
-                <td class="admin-action-cell">
+                    <td class="admin-action-cell">
 
-                  <div class="admin-action-group">
+                      <div class="admin-action-group">
 
-                    <a href="{{ route('admin_edit_berita', $item['id']) }}" class="admin-edit-button">
-                      Edit
-                    </a>
+                        <a href="{{ route('admin_edit_berita', $item['id']) }}" class="admin-edit-button">
+                          Edit
+                        </a>
 
-                    <form class="admin-delete-form" action="{{ route('admin_hapus_berita', $item['id']) }}"
-                      method="POST" onsubmit="return confirm('Apakah anda yakin ingin menghapus berita ini?');">
-      @csrf
-                      <button class="admin-delete-button" type="submit">
-                        Hapus
-                      </button>
-                    </form>
+                        <form class="admin-delete-form" action="{{ route('admin_hapus_berita', $item['id']) }}"
+                          method="POST" onsubmit="return confirm('Apakah anda yakin ingin menghapus berita ini?');">
+                          @csrf
+                          <button class="admin-delete-button" type="submit">
+                            Hapus
+                          </button>
+                        </form>
 
-                  </div>
+                      </div>
 
-                </td>
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
 
         @else
-        <p style="color: var(--muted-sage);">
-          Belum ada berita yang tersimpan.
-        </p>
+          <p style="color: var(--muted-sage);">
+            Belum ada berita yang tersimpan.
+          </p>
         @endif
       </section>
 
@@ -942,100 +975,100 @@
         </h2>
 
         @if($daftar_infografis)
-        <div style="overflow-x: auto;">
-          <table style="
-          width: 100%;
-          min-width: 650px;
-          border-collapse: collapse;
-        ">
-            <thead>
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
-                <th style="padding: 1rem; text-align: left;">
-                  No.
-                </th>
+          <div style="overflow-x: auto;">
+            <table style="
+                  width: 100%;
+                  min-width: 650px;
+                  border-collapse: collapse;
+                ">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+                  <th style="padding: 1rem; text-align: left;">
+                    No.
+                  </th>
 
-                <th style="padding: 1rem; text-align: left;">
-                  Judul
-                </th>
+                  <th style="padding: 1rem; text-align: left;">
+                    Judul
+                  </th>
 
-                <th style="padding: 1rem; text-align: left;">
-                  Tanggal
-                </th>
+                  <th style="padding: 1rem; text-align: left;">
+                    Tanggal
+                  </th>
 
-                <th style="padding: 1rem; text-align: left;">
-                  Gambar
-                </th>
+                  <th style="padding: 1rem; text-align: left;">
+                    Gambar
+                  </th>
 
-                <th style="padding: 1rem; text-align: center;">
-                  Aksi
-                </th>
-              </tr>
-            </thead>
+                  <th style="padding: 1rem; text-align: center;">
+                    Aksi
+                  </th>
+                </tr>
+              </thead>
 
-            <tbody>
-              @foreach($daftar_infografis as $item_info)
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+              <tbody>
+                @foreach($daftar_infografis as $item_info)
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
 
-                <td style="padding: 1rem;">
-                  {{ $loop->iteration }}
-                </td>
+                    <td style="padding: 1rem;">
+                      {{ $loop->iteration }}
+                    </td>
 
-                <td style="padding: 1rem;">
-                  <strong>
-                    {{ $item_info["judul"] }}
-                  </strong>
-                </td>
+                    <td style="padding: 1rem;">
+                      <strong>
+                        {{ $item_info["judul"] }}
+                      </strong>
+                    </td>
 
-                <td style="padding: 1rem;">
-                  {{ $item_info["tanggal"] }}
-                </td>
+                    <td style="padding: 1rem;">
+                      {{ $item_info["tanggal"] }}
+                    </td>
 
-                <td style="padding: 1rem;">
-                  @if($item_info["gambar"])
-                  <img src="{{ asset('uploads/' . $item_info['gambar']) }}"
-                    alt="{{ $item_info['judul'] }}" style="
-    width: 75px;
-    height: 95px;
-    object-fit: contain;
-    border-radius: 6px;
-    background: #f3f7f5;
-  ">
-                  @else
-                  Tidak ada gambar
-                  @endif
-                </td>
+                    <td style="padding: 1rem;">
+                      @if($item_info["gambar"])
+                        <img src="{{ asset('uploads/' . $item_info['gambar']) }}" alt="{{ $item_info['judul'] }}" style="
+                                                    width: 75px;
+                                                    height: 95px;
+                                                    object-fit: contain;
+                                                    border-radius: 6px;
+                                                    background: #f3f7f5;
+                                                  ">
+                      @else
+                        Tidak ada gambar
+                      @endif
+                    </td>
 
-                <td class="admin-action-cell">
+                    <td class="admin-action-cell">
 
-                  <div class="admin-action-group">
+                      <div class="admin-action-group">
 
-                    <a href="{{ route('admin_edit_infografis', $item_info['id']) }}" class="admin-edit-button">
-                      Edit
-                    </a>
+                        <a href="{{ route('admin_edit_infografis', $item_info['id']) }}" class="admin-edit-button">
+                          Edit
+                        </a>
 
-                    <form class="admin-delete-form" action="{{ route('admin_hapus_infografis', $item_info['id']) }}" method="POST" onsubmit="return confirm(
-        'Apakah anda yakin ingin menghapus infografis ini?'
-      );">
-      @csrf
-                      <button class="admin-delete-button" type="submit">
-                        Hapus
-                      </button>
-                    </form>
+                        <form class="admin-delete-form" action="{{ route('admin_hapus_infografis', $item_info['id']) }}"
+                          method="POST" onsubmit="return confirm(
+                                'Apakah anda yakin ingin menghapus infografis ini?'
+                              );">
+                          @csrf
+                          <button class="admin-delete-button" type="submit">
+                            Hapus
+                          </button>
+                        </form>
 
-                  </div>
+                      </div>
 
-                </td>
+                    </td>
 
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
 
         @else
-        <p style="color: var(--muted-sage);">
-          Belum ada infografis yang tersimpan.
-        </p>
+          <p style="color: var(--muted-sage);">
+            Belum ada infografis yang tersimpan.
+          </p>
         @endif
       </section>
 
@@ -1050,97 +1083,98 @@
         </h2>
 
         @if($daftar_agenda)
-        <div style="overflow-x: auto;">
-          <table style="
-          width: 100%;
-          min-width: 850px;
-          border-collapse: collapse;
-        ">
-            <thead>
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
-                <th style="padding: 1rem; text-align: left;">
-                  No.
-                </th>
+          <div style="overflow-x: auto;">
+            <table style="
+                  width: 100%;
+                  min-width: 850px;
+                  border-collapse: collapse;
+                ">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+                  <th style="padding: 1rem; text-align: left;">
+                    No.
+                  </th>
 
-                <th style="padding: 1rem; text-align: left;">
-                  Nama Kegiatan
-                </th>
+                  <th style="padding: 1rem; text-align: left;">
+                    Nama Kegiatan
+                  </th>
 
-                <th style="padding: 1rem; text-align: left;">
-                  Tanggal
-                </th>
+                  <th style="padding: 1rem; text-align: left;">
+                    Tanggal
+                  </th>
 
-                <th style="padding: 1rem; text-align: left;">
-                  Waktu
-                </th>
+                  <th style="padding: 1rem; text-align: left;">
+                    Waktu
+                  </th>
 
-                <th style="padding: 1rem; text-align: left;">
-                  Lokasi
-                </th>
+                  <th style="padding: 1rem; text-align: left;">
+                    Lokasi
+                  </th>
 
-                <th style="padding: 1rem; text-align: center;">
-                  Aksi
-                </th>
-              </tr>
-            </thead>
+                  <th style="padding: 1rem; text-align: center;">
+                    Aksi
+                  </th>
+                </tr>
+              </thead>
 
-            <tbody>
-              @foreach($daftar_agenda as $item_agenda)
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+              <tbody>
+                @foreach($daftar_agenda as $item_agenda)
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
 
-                <td style="padding: 1rem;">
-                  {{ $loop->iteration }}
-                </td>
+                    <td style="padding: 1rem;">
+                      {{ $loop->iteration }}
+                    </td>
 
-                <td style="padding: 1rem;">
-                  <strong>
-                    {{ $item_agenda["judul"] }}
-                  </strong>
-                </td>
+                    <td style="padding: 1rem;">
+                      <strong>
+                        {{ $item_agenda["judul"] }}
+                      </strong>
+                    </td>
 
-                <td style="padding: 1rem;">
-                  {{ $item_agenda["tanggal"] }}
-                </td>
+                    <td style="padding: 1rem;">
+                      {{ $item_agenda["tanggal"] }}
+                    </td>
 
-                <td style="padding: 1rem;">
-                  {{ $item_agenda["waktu"] }}
-                </td>
+                    <td style="padding: 1rem;">
+                      {{ $item_agenda["waktu"] }}
+                    </td>
 
-                <td style="padding: 1rem;">
-                  {{ $item_agenda["lokasi"] }}
-                </td>
+                    <td style="padding: 1rem;">
+                      {{ $item_agenda["lokasi"] }}
+                    </td>
 
-                <td class="admin-action-cell">
+                    <td class="admin-action-cell">
 
-                  <div class="admin-action-group">
+                      <div class="admin-action-group">
 
-                    <a href="{{ route('admin_edit_agenda', $item_agenda['id']) }}" class="admin-edit-button">
-                      Edit
-                    </a>
+                        <a href="{{ route('admin_edit_agenda', $item_agenda['id']) }}" class="admin-edit-button">
+                          Edit
+                        </a>
 
-                    <form class="admin-delete-form" action="{{ route('admin_hapus_agenda', $item_agenda['id']) }}" method="POST" onsubmit="return confirm(
-        'Apakah kamu yakin ingin menghapus agenda ini?'
-      );">
-      @csrf
-                      <button class="admin-delete-button" type="submit">
-                        Hapus
-                      </button>
-                    </form>
+                        <form class="admin-delete-form" action="{{ route('admin_hapus_agenda', $item_agenda['id']) }}"
+                          method="POST" onsubmit="return confirm(
+                                'Apakah kamu yakin ingin menghapus agenda ini?'
+                              );">
+                          @csrf
+                          <button class="admin-delete-button" type="submit">
+                            Hapus
+                          </button>
+                        </form>
 
-                  </div>
+                      </div>
 
-                </td>
+                    </td>
 
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
 
         @else
-        <p style="color: var(--muted-sage);">
-          Belum ada agenda yang tersimpan.
-        </p>
+          <p style="color: var(--muted-sage);">
+            Belum ada agenda yang tersimpan.
+          </p>
         @endif
       </section>
 
@@ -1155,111 +1189,112 @@
         </h2>
 
         @if($daftar_poi)
-        <div style="overflow-x: auto;">
-          <table style="
-          width: 100%;
-          min-width: 1050px;
-          border-collapse: collapse;
-        ">
-            <thead>
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+          <div style="overflow-x: auto;">
+            <table style="
+                  width: 100%;
+                  min-width: 1050px;
+                  border-collapse: collapse;
+                ">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
 
-                <th style="padding: 1rem; text-align: left;">
-                  No.
-                </th>
+                  <th style="padding: 1rem; text-align: left;">
+                    No.
+                  </th>
 
-                <th style="padding: 1rem; text-align: left;">
-                  Nama Lokasi
-                </th>
+                  <th style="padding: 1rem; text-align: left;">
+                    Nama Lokasi
+                  </th>
 
-                <th style="padding: 1rem; text-align: left;">
-                  Kategori
-                </th>
+                  <th style="padding: 1rem; text-align: left;">
+                    Kategori
+                  </th>
 
-                <th style="padding: 1rem; text-align: left;">
-                  Deskripsi
-                </th>
+                  <th style="padding: 1rem; text-align: left;">
+                    Deskripsi
+                  </th>
 
-                <th style="padding: 1rem; text-align: left;">
-                  Latitude
-                </th>
+                  <th style="padding: 1rem; text-align: left;">
+                    Latitude
+                  </th>
 
-                <th style="padding: 1rem; text-align: left;">
-                  Longitude
-                </th>
+                  <th style="padding: 1rem; text-align: left;">
+                    Longitude
+                  </th>
 
-                <th style="padding: 1rem; text-align: center;">
-                  Aksi
-                </th>
+                  <th style="padding: 1rem; text-align: center;">
+                    Aksi
+                  </th>
 
-              </tr>
-            </thead>
+                </tr>
+              </thead>
 
-            <tbody>
-              @foreach($daftar_poi as $item_poi)
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+              <tbody>
+                @foreach($daftar_poi as $item_poi)
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
 
-                <td style="padding: 1rem;">
-                  {{ $loop->iteration }}
-                </td>
+                    <td style="padding: 1rem;">
+                      {{ $loop->iteration }}
+                    </td>
 
-                <td style="padding: 1rem;">
-                  <strong>
-                    {{ $item_poi["nama"] }}
-                  </strong>
-                </td>
+                    <td style="padding: 1rem;">
+                      <strong>
+                        {{ $item_poi["nama"] }}
+                      </strong>
+                    </td>
 
-                <td style="padding: 1rem;">
-                  {{ $item_poi["kategori"] }}
-                </td>
+                    <td style="padding: 1rem;">
+                      {{ $item_poi["kategori"] }}
+                    </td>
 
-                <td style="
-                padding: 1rem;
-                min-width: 240px;
-                line-height: 1.6;
-              ">
-                  {{ $item_poi["deskripsi"] }}
-                </td>
+                    <td style="
+                                        padding: 1rem;
+                                        min-width: 240px;
+                                        line-height: 1.6;
+                                      ">
+                      {{ $item_poi["deskripsi"] }}
+                    </td>
 
-                <td style="padding: 1rem;">
-                  {{ $item_poi["lat"] }}
-                </td>
+                    <td style="padding: 1rem;">
+                      {{ $item_poi["lat"] }}
+                    </td>
 
-                <td style="padding: 1rem;">
-                  {{ $item_poi["lng"] }}
-                </td>
+                    <td style="padding: 1rem;">
+                      {{ $item_poi["lng"] }}
+                    </td>
 
-                <td class="admin-action-cell">
+                    <td class="admin-action-cell">
 
-                  <div class="admin-action-group">
+                      <div class="admin-action-group">
 
-                    <a href="{{ route('admin_edit_poi', $item_poi['id']) }}" class="admin-edit-button">
-                      Edit
-                    </a>
+                        <a href="{{ route('admin_edit_poi', $item_poi['id']) }}" class="admin-edit-button">
+                          Edit
+                        </a>
 
-                    <form class="admin-delete-form" action="{{ route('admin_hapus_poi', $item_poi['id']) }}" method="POST" onsubmit="return confirm(
-        'Apakah Anda yakin ingin menghapus titik peta ini?'
-      );">
-      @csrf
-                      <button class="admin-delete-button" type="submit">
-                        Hapus
-                      </button>
-                    </form>
+                        <form class="admin-delete-form" action="{{ route('admin_hapus_poi', $item_poi['id']) }}"
+                          method="POST" onsubmit="return confirm(
+                                'Apakah Anda yakin ingin menghapus titik peta ini?'
+                              );">
+                          @csrf
+                          <button class="admin-delete-button" type="submit">
+                            Hapus
+                          </button>
+                        </form>
 
-                  </div>
+                      </div>
 
-                </td>
+                    </td>
 
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
 
         @else
-        <p style="color: var(--muted-sage);">
-          Belum ada titik peta yang tersimpan.
-        </p>
+          <p style="color: var(--muted-sage);">
+            Belum ada titik peta yang tersimpan.
+          </p>
         @endif
       </section>
 
@@ -1274,144 +1309,144 @@
         </h2>
 
         @if($daftar_umkm)
-        <div style="overflow-x: auto;">
+          <div style="overflow-x: auto;">
 
-          <table style="
-      width: 100%;
-      min-width: 1100px;
-      border-collapse: collapse;
-    ">
-
-            <thead>
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
-
-                <th style="padding: 1rem; text-align: left;">
-                  No.
-                </th>
-
-                <th style="padding: 1rem; text-align: left;">
-                  Produk
-                </th>
-
-                <th style="padding: 1rem; text-align: left;">
-                  Nama Usaha
-                </th>
-
-                <th style="padding: 1rem; text-align: left;">
-                  Kategori
-                </th>
-
-                <th style="padding: 1rem; text-align: left;">
-                  WhatsApp
-                </th>
-
-                <th style="padding: 1rem; text-align: left;">
-                  Status
-                </th>
-
-                <th style="padding: 1rem; text-align: left;">
-                  Gambar
-                </th>
-
-                <th style="padding: 1rem; text-align: center;">
-                  Aksi
-                </th>
-
-              </tr>
-            </thead>
-
-            <tbody>
-
-              @foreach($daftar_umkm as $item_umkm)
-
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-
-                <td style="padding: 1rem;">
-                  {{ $loop->iteration }}
-                </td>
-
-                <td style="padding: 1rem; min-width: 180px;">
-                  <strong>
-                    {{ $item_umkm["nama_produk"] }}
-                  </strong>
-                </td>
-
-                <td style="padding: 1rem;">
-                  {{ $item_umkm["nama_usaha"] }}
-                </td>
-
-                <td style="padding: 1rem;">
-                  {{ $item_umkm["kategori"] }}
-                </td>
-
-                <td style="padding: 1rem;">
-                  <a href="https://wa.me/{{ $item_umkm['nomor_wa'] }}" target="_blank" rel="noopener noreferrer"
-                    class="admin-whatsapp-link">
-                    {{ $item_umkm["nomor_wa"] }}
-                  </a>
-                </td>
-
-                <td style="padding: 1rem;">
-                  @if($item_umkm["status"] == "aktif")
-                  <span class="admin-status-badge admin-status-badge--active">
-                    Aktif
-                  </span>
-                  @else
-                  <span class="admin-status-badge admin-status-badge--inactive">
-                    Nonaktif
-                  </span>
-                  @endif
-                </td>
-
-                <td style="padding: 1rem;">
-                  @if($item_umkm["gambar"])
-                  <img src="{{ asset('uploads/' . $item_umkm['gambar']) }}"
-                    alt="{{ $item_umkm['nama_produk'] }}" style="
-                  width: 85px;
-                  height: 70px;
-                  object-fit: cover;
-                  border-radius: 7px;
+            <table style="
+                  width: 100%;
+                  min-width: 1100px;
+                  border-collapse: collapse;
                 ">
-                  @else
-                  Tidak ada gambar
-                  @endif
-                </td>
 
-                <td class="admin-action-cell">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
 
-                  <div class="admin-action-group">
+                  <th style="padding: 1rem; text-align: left;">
+                    No.
+                  </th>
 
-                    <a href="{{ route('admin_edit_umkm', $item_umkm['id']) }}" class="admin-edit-button">
-                      Edit
-                    </a>
+                  <th style="padding: 1rem; text-align: left;">
+                    Produk
+                  </th>
 
-                    <form class="admin-delete-form" action="{{ route('admin_hapus_umkm', $item_umkm['id']) }}" method="POST" onsubmit="return confirm(
-        'Apakah Anda yakin ingin menghapus produk UMKM ini?'
-      );">
-      @csrf
-                      <button class="admin-delete-button" type="submit">
-                        Hapus
-                      </button>
-                    </form>
+                  <th style="padding: 1rem; text-align: left;">
+                    Nama Usaha
+                  </th>
 
-                  </div>
+                  <th style="padding: 1rem; text-align: left;">
+                    Kategori
+                  </th>
 
-                </td>
+                  <th style="padding: 1rem; text-align: left;">
+                    WhatsApp
+                  </th>
 
-              </tr>
+                  <th style="padding: 1rem; text-align: left;">
+                    Status
+                  </th>
 
-              @endforeach
+                  <th style="padding: 1rem; text-align: left;">
+                    Gambar
+                  </th>
 
-            </tbody>
-          </table>
+                  <th style="padding: 1rem; text-align: center;">
+                    Aksi
+                  </th>
 
-        </div>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                @foreach($daftar_umkm as $item_umkm)
+
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+
+                    <td style="padding: 1rem;">
+                      {{ $loop->iteration }}
+                    </td>
+
+                    <td style="padding: 1rem; min-width: 180px;">
+                      <strong>
+                        {{ $item_umkm["nama_produk"] }}
+                      </strong>
+                    </td>
+
+                    <td style="padding: 1rem;">
+                      {{ $item_umkm["nama_usaha"] }}
+                    </td>
+
+                    <td style="padding: 1rem;">
+                      {{ $item_umkm["kategori"] }}
+                    </td>
+
+                    <td style="padding: 1rem;">
+                      <a href="https://wa.me/{{ $item_umkm['nomor_wa'] }}" target="_blank" rel="noopener noreferrer"
+                        class="admin-whatsapp-link">
+                        {{ $item_umkm["nomor_wa"] }}
+                      </a>
+                    </td>
+
+                    <td style="padding: 1rem;">
+                      @if($item_umkm["status"] == "aktif")
+                        <span class="admin-status-badge admin-status-badge--active">
+                          Aktif
+                        </span>
+                      @else
+                        <span class="admin-status-badge admin-status-badge--inactive">
+                          Nonaktif
+                        </span>
+                      @endif
+                    </td>
+
+                    <td style="padding: 1rem;">
+                      @if($item_umkm["gambar"])
+                        <img src="{{ asset('uploads/' . $item_umkm['gambar']) }}" alt="{{ $item_umkm['nama_produk'] }}" style="
+                                                        width: 85px;
+                                                        height: 70px;
+                                                        object-fit: cover;
+                                                        border-radius: 7px;
+                                                      ">
+                      @else
+                        Tidak ada gambar
+                      @endif
+                    </td>
+
+                    <td class="admin-action-cell">
+
+                      <div class="admin-action-group">
+
+                        <a href="{{ route('admin_edit_umkm', $item_umkm['id']) }}" class="admin-edit-button">
+                          Edit
+                        </a>
+
+                        <form class="admin-delete-form" action="{{ route('admin_hapus_umkm', $item_umkm['id']) }}"
+                          method="POST" onsubmit="return confirm(
+                                    'Apakah Anda yakin ingin menghapus produk UMKM ini?'
+                                  );">
+                          @csrf
+                          <button class="admin-delete-button" type="submit">
+                            Hapus
+                          </button>
+                        </form>
+
+                      </div>
+
+                    </td>
+
+                  </tr>
+
+                @endforeach
+
+              </tbody>
+            </table>
+
+          </div>
 
         @else
 
-        <p style="color: var(--muted-sage);">
-          Belum ada produk UMKM yang tersimpan.
-        </p>
+          <p style="color: var(--muted-sage);">
+            Belum ada produk UMKM yang tersimpan.
+          </p>
 
         @endif
 

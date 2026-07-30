@@ -23,8 +23,7 @@
 
       <a class="brand" href="{{ route('listing') }}">
         <span class="brand-mark" aria-hidden="true">
-          <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="Logo Desa Maor"
-            class="brand-logo">
+          <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="Logo Desa Maor" class="brand-logo">
         </span>
 
         <span class="brand-text">
@@ -82,45 +81,44 @@
 
         @forelse($daftar_struktur as $orang)
 
-        <article class="org-card @if($orang['jabatan'] == 'Kepala Desa')org-kades@endif">
+          <article class="org-card {{ $orang['jabatan'] === 'Kepala Desa' ? 'org-kades' : '' }}">
 
-          <div class="org-photo-wrapper">
-            @if($orang["foto"] && $orang["foto"] != "default.jpg")
+            <div class="org-photo-wrapper">
+              @if($orang["foto"] && $orang["foto"] != "default.jpg")
 
-            <img src="{{ asset('uploads/' . $orang['foto']) }}" alt="Foto {{ $orang['nama'] }}"
-              class="org-photo">
+                <img src="{{ asset('uploads/' . $orang['foto']) }}" alt="Foto {{ $orang['nama'] }}" class="org-photo">
 
-            @else
+              @else
 
-            <div class="org-photo-placeholder">
+                <div class="org-photo-placeholder">
 
-              <svg class="org-placeholder-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="8" r="4"></circle>
-                <path d="M4 21a8 8 0 0 1 16 0"></path>
-              </svg>
+                  <svg class="org-placeholder-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4 21a8 8 0 0 1 16 0"></path>
+                  </svg>
 
+                </div>
+
+              @endif
             </div>
 
-            @endif
-          </div>
+            <div class="org-card-content">
+              <div class="org-role">
+                {{ $orang["jabatan"] }}
+              </div>
 
-          <div class="org-card-content">
-            <div class="org-role">
-              {{ $orang["jabatan"] }}
+              <div class="org-name">
+                {{ $orang["nama"] }}
+              </div>
             </div>
 
-            <div class="org-name">
-              {{ $orang["nama"] }}
-            </div>
-          </div>
-
-        </article>
+          </article>
 
         @empty
 
-        <div class="org-empty">
-          <p>Data struktur organisasi belum tersedia.</p>
-        </div>
+          <div class="org-empty">
+            <p>Data struktur organisasi belum tersedia.</p>
+          </div>
 
         @endforelse
 
@@ -139,9 +137,11 @@
           </span>
           <span class="brand-text"><strong>Pemerintah {{ $desa['nama'] }}</strong></span>
         </div>
-        <p>{{ $desa['alamat'] }}<br>{{ $desa['kecamatan'] }}, {{ $desa['kabupaten'] }}<br>{{ $desa['provinsi'] }}, {{ $desa['kode_pos'] }}
+        <p>{{ $desa['alamat'] }}<br>{{ $desa['kecamatan'] }}, {{ $desa['kabupaten'] }}<br>{{ $desa['provinsi'] }},
+          {{ $desa['kode_pos'] }}
         </p>
-        <p style="margin-top: 1rem;"><strong style="color: var(--paper-sand);">Kode Wilayah:</strong> {{ $desa['kode_wilayah'] }}</p>
+        <p style="margin-top: 1rem;"><strong style="color: var(--paper-sand);">Kode Wilayah:</strong>
+          {{ $desa['kode_wilayah'] }}</p>
       </div>
 
       <div class="footer-col">

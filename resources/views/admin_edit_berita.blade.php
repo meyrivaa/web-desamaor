@@ -37,14 +37,21 @@
         Ubah informasi berita melalui formulir berikut.
       </p>
 
-      @if($error)
-      <div class="admin-edit-error">
-        {{ $error }}
-      </div>
+      @if ($errors->any())
+        <div class="admin-edit-error">
+          <strong>Perubahan belum berhasil disimpan:</strong>
+
+          <ul>
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
       @endif
 
-      <form method="POST" enctype="multipart/form-data" class="admin-edit-form" action="{{ route('admin_update_berita', $item['id']) }}">
-      @csrf
+      <form method="POST" enctype="multipart/form-data" class="admin-edit-form"
+        action="{{ route('admin_update_berita', $item['id']) }}">
+        @csrf
 
         <div class="admin-edit-field">
           <label for="judul">
@@ -89,12 +96,14 @@
 
             <div class="admin-image-preview admin-image-preview--landscape">
 
-              <img data-image-preview @if($item["gambar"] && $item["gambar"] !="default.jpg")
-                src="{{ asset('uploads/' . $item['gambar']) }}" alt="{{ $item['judul'] }}" @else
-                hidden alt="Preview gambar berita" @endif>
+              <img data-image-preview @if($item["gambar"] && $item["gambar"] != "default.jpg")
+              src="{{ asset('uploads/' . $item['gambar']) }}" alt="{{ $item['judul'] }}" @else hidden
+                alt="Preview gambar berita" @endif>
 
-              <div class="admin-image-placeholder" data-image-placeholder @if($item["gambar"] && $item["gambar"]
-                !="default.jpg") hidden @endif>
+              <div class="admin-image-placeholder" data-image-placeholder @if(
+                $item["gambar"] && $item["gambar"]
+                != "default.jpg"
+              ) hidden @endif>
                 <span>📰</span>
                 <p>Berita belum memiliki gambar</p>
               </div>
@@ -105,8 +114,10 @@
 
             <input type="hidden" name="hapus_gambar" value="0" data-image-delete>
 
-            <button type="button" class="admin-remove-photo-button" data-image-remove @if(! $item["gambar"] ||
-              $item["gambar"]=="default.jpg") hidden @endif>
+            <button type="button" class="admin-remove-photo-button" data-image-remove @if(
+              !$item["gambar"] ||
+              $item["gambar"] == "default.jpg"
+            ) hidden @endif>
               Hapus Gambar
             </button>
 

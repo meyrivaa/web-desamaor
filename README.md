@@ -29,7 +29,6 @@ Buka:
 
 - Website: `http://127.0.0.1:8000`
 - Admin: `http://127.0.0.1:8000/admin`
-- Password awal: `adminmaor123`
 
 Database lokal sudah tersedia di `database/database.sqlite`, jadi pemakaian pertama tidak perlu menjalankan migrate.
 

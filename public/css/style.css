@@ -8923,3 +8923,153 @@ main>section.agenda-section {
     flex-basis: 32px;
   }
 }
+
+/* =========================================================================
+   TAMPILAN KOSONG INFOGRAFIS SEDERHANA
+   ========================================================================= */
+
+.infographic-empty {
+  grid-column: 1 / -1;
+
+  display: block;
+
+  width: 100%;
+  max-width: none;
+  min-height: 0;
+
+  margin: 0;
+  padding: 2rem 0;
+
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+
+  text-align: center;
+}
+
+.infographic-empty h2 {
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  font-family: var(--font-sans) !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0 !important;
+}
+
+@media (max-width: 600px) {
+  .infographic-empty {
+    min-height: 0;
+    padding: 1.5rem 0;
+  }
+
+  .infographic-empty h2 {
+    font-size: 0.95rem !important;
+  }
+}
+
+/* =========================================================================
+   TAMPILAN KOSONG BERITA SEDERHANA
+   ========================================================================= */
+
+.news-empty {
+  grid-column: 1 / -1;
+
+  display: block;
+
+  width: 100%;
+  max-width: none;
+  min-height: 0;
+
+  margin: 0;
+  padding: 2rem 0;
+
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+
+  text-align: center;
+}
+
+.news-empty h2 {
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  font-family: var(--font-sans) !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0 !important;
+}
+
+@media (max-width: 600px) {
+  .news-empty {
+    min-height: 0;
+    padding: 1.5rem 0;
+  }
+
+  .news-empty h2 {
+    font-size: 0.95rem !important;
+  }
+}
+
+/* =========================================================================
+   TAMPILAN KOSONG UMKM SEDERHANA
+   ========================================================================= */
+
+.umkm-empty,
+.umkm-filter-empty {
+  grid-column: 1 / -1;
+
+  display: block;
+
+  width: 100%;
+  max-width: none;
+  min-height: 0;
+
+  margin: 0;
+  padding: 2rem 0;
+
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+
+  text-align: center;
+}
+
+.umkm-filter-empty {
+  margin-top: 1.5rem;
+}
+
+.umkm-empty h2,
+.umkm-filter-empty h2 {
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  font-family: var(--font-sans) !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0 !important;
+}
+
+@media (max-width: 600px) {
+
+  .umkm-empty,
+  .umkm-filter-empty {
+    min-height: 0;
+    padding: 1.5rem 0;
+  }
+
+  .umkm-empty h2,
+  .umkm-filter-empty h2 {
+    font-size: 0.95rem !important;
+  }
+}

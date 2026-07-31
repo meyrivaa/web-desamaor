@@ -16,7 +16,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=6">
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=7">
 
   <script defer src="{{ asset('js/navigation.js') }}?v=4"></script>
 </head>
@@ -31,8 +31,7 @@
 
       <a class="brand" href="{{ route('listing') }}">
         <span class="brand-mark" aria-hidden="true">
-          <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="Logo Desa Maor"
-            class="brand-logo">
+          <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="Logo Desa Maor" class="brand-logo">
         </span>
 
         <span class="brand-text">
@@ -95,55 +94,48 @@
 
         @forelse($berita as $item)
 
-        <article class="news-card">
+          <article class="news-card">
 
-          <a href="{{ route('berita_detail', $item['id']) }}" class="news-image-link" aria-label="Baca berita {{ $item['judul'] }}">
-            <div class="news-image">
+            <a href="{{ route('berita_detail', $item['id']) }}" class="news-image-link"
+              aria-label="Baca berita {{ $item['judul'] }}">
+              <div class="news-image">
 
-              <img src="{{ asset('uploads/' . $item['gambar']) }}" alt="{{ $item['judul'] }}"
-                loading="lazy" decoding="async">
+                <img src="{{ asset('uploads/' . $item['gambar']) }}" alt="{{ $item['judul'] }}" loading="lazy"
+                  decoding="async">
 
-            </div>
-          </a>
-
-          <div class="news-content">
-
-            <time class="news-date mono">
-              {{ $item['tanggal'] }}
-            </time>
-
-            <h2 class="news-title">
-              <a href="{{ route('berita_detail', $item['id']) }}">
-                {{ $item['judul'] }}
-              </a>
-            </h2>
-
-            <p class="news-summary">
-              {{ $item['ringkasan'] }}
-            </p>
-
-            <a href="{{ route('berita_detail', $item['id']) }}" class="news-readmore">
-              Baca Selengkapnya
-              <span aria-hidden="true">&rarr;</span>
+              </div>
             </a>
 
-          </div>
+            <div class="news-content">
 
-        </article>
+              <time class="news-date mono">
+                {{ $item['tanggal'] }}
+              </time>
+
+              <h2 class="news-title">
+                <a href="{{ route('berita_detail', $item['id']) }}">
+                  {{ $item['judul'] }}
+                </a>
+              </h2>
+
+              <p class="news-summary">
+                {{ $item['ringkasan'] }}
+              </p>
+
+              <a href="{{ route('berita_detail', $item['id']) }}" class="news-readmore">
+                Baca Selengkapnya
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+
+            </div>
+
+          </article>
 
         @empty
 
-        <div class="news-empty">
-
-          <span aria-hidden="true">📰</span>
-
-          <h2>Belum Ada Berita</h2>
-
-          <p>
-            Belum ada berita atau pengumuman yang dipublikasikan.
-          </p>
-
-        </div>
+          <div class="news-empty">
+            <h2>Belum Ada Berita</h2>
+          </div>
 
         @endforelse
 

@@ -29,8 +29,7 @@
 
       <a class="brand" href="{{ route('listing') }}">
         <span class="brand-mark" aria-hidden="true">
-          <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="Logo Desa Maor"
-            class="brand-logo">
+          <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="Logo Desa Maor" class="brand-logo">
         </span>
 
         <span class="brand-text">
@@ -93,41 +92,34 @@
 
         @forelse($infografis as $info)
 
-        <article class="infographic-card">
+          <article class="infographic-card">
 
-          <div class="infographic-image-wrapper">
-            <img src="{{ asset('uploads/' . $info['gambar']) }}" alt="{{ $info['judul'] }}"
-              class="infographic-image" loading="lazy" decoding="async">
-          </div>
+            <div class="infographic-image-wrapper">
+              <img src="{{ asset('uploads/' . $info['gambar']) }}" alt="{{ $info['judul'] }}" class="infographic-image"
+                loading="lazy" decoding="async">
+            </div>
 
-          <div class="infographic-content">
+            <div class="infographic-content">
 
-            <span class="infographic-label">
-              Infografis Desa
-            </span>
+              <span class="infographic-label">
+                Infografis Desa
+              </span>
 
-            <h2>{{ $info['judul'] }}</h2>
+              <h2>{{ $info['judul'] }}</h2>
 
-            <time class="infographic-date">
-              Diunggah pada: {{ $info['tanggal'] }}
-            </time>
+              <time class="infographic-date">
+                Diunggah pada: {{ $info['tanggal'] }}
+              </time>
 
-          </div>
+            </div>
 
-        </article>
+          </article>
 
         @empty
 
-        <div class="infographic-empty">
-          <span aria-hidden="true">📊</span>
-
-          <h2>Belum Ada Infografis</h2>
-
-          <p>
-            Belum ada infografis yang diunggah.
-            Silakan tambahkan melalui Panel Admin.
-          </p>
-        </div>
+          <div class="infographic-empty">
+            <h2>Belum Ada Infografis</h2>
+          </div>
 
         @endforelse
 

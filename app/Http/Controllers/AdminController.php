@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizer;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizerAction;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
 class AdminController extends Controller
 {
     private array $tables = ['berita', 'infografis', 'agenda', 'poi', 'umkm', 'struktur_organisasi'];
@@ -106,12 +109,124 @@ class AdminController extends Controller
     {
         return Carbon::now('Asia/Jakarta')->translatedFormat('d F Y');
     }
+
+    private function sanitizeNewsHtml(string $html): string
+    {
+        $config = (new HtmlSanitizerConfig())
+            /*
+             * Tag yang tidak diizinkan akan dihapus,
+             * tetapi tulisannya tetap dipertahankan.
+             */
+            ->defaultAction(HtmlSanitizerAction::Block)
+
+            /*
+             * Format yang diperbolehkan dalam berita.
+             */
+            ->allowElement('p', [])
+            ->allowElement('br', [])
+            ->allowElement('h2', [])
+            ->allowElement('h3', [])
+            ->allowElement('strong', [])
+            ->allowElement('em', [])
+            ->allowElement('u', [])
+            ->allowElement('s', [])
+            ->allowElement('blockquote', [])
+            ->allowElement('ol', [])
+            ->allowElement('ul', [])
+            ->allowElement('li', ['class', 'data-list'])
+            ->allowElement('span', ['class'])
+            ->allowElement('a', ['href'])
+
+            /*
+             * Batasi jenis tautan yang diperbolehkan.
+             */
+            ->allowLinkSchemes([
+                'http',
+                'https',
+                'mailto',
+            ])
+            ->allowRelativeLinks()
+
+            /*
+             * Perlindungan tambahan pada tautan.
+             */
+            ->forceAttribute(
+                'a',
+                'rel',
+                'noopener noreferrer'
+            )
+
+            /*
+             * Tag berbahaya dibuang beserta isinya.
+             */
+            ->dropElement('script')
+            ->dropElement('style')
+            ->dropElement('iframe')
+            ->dropElement('object')
+            ->dropElement('embed')
+
+            /*
+             * Batas maksimal panjang isi berita.
+             */
+            ->withMaxInputLength(100000);
+
+        $sanitizer = new HtmlSanitizer($config);
+
+        return trim($sanitizer->sanitize($html));
+    }
+
+    private function validateNewsContent(string $html): string
+    {
+        $cleanHtml = $this->sanitizeNewsHtml($html);
+
+        $plainText = html_entity_decode(
+            strip_tags($cleanHtml),
+            ENT_QUOTES | ENT_HTML5,
+            'UTF-8'
+        );
+
+        $plainText = str_replace(
+            "\u{00A0}",
+            ' ',
+            $plainText
+        );
+
+        if (trim($plainText) === '') {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'isi' => 'Isi berita wajib diisi.',
+            ]);
+        }
+
+        return $cleanHtml;
+    }
+
     private function storeBerita(Request $r): void
     {
-        $d = $r->validate(['judul' => 'required|string|max:255', 'ringkasan' => 'required|string', 'isi' => 'required|string']);
-        $d += ['tanggal' => $this->nowLabel(), 'gambar' => $this->upload($r, 'gambar', 'berita')];
+        $d = $r->validate([
+            'judul' => 'required|string|max:255',
+            'ringkasan' => 'required|string',
+            'isi' => 'required|string',
+        ]);
+
+        /*
+         * Bersihkan HTML dari editor sebelum disimpan.
+         */
+        $d['isi'] = $this->validateNewsContent(
+            $d['isi']
+        );
+
+        $d += [
+            'tanggal' => $this->nowLabel(),
+            'gambar' => $this->upload(
+                $r,
+                'gambar',
+                'berita'
+            ),
+        ];
+
         DB::table('berita')->insert($d);
     }
+
     private function storeInfografis(Request $r): void
     {
         $d = $r->validate(['judul' => 'required|string|max:255']);
@@ -170,6 +285,13 @@ class AdminController extends Controller
             'ringkasan' => 'required|string',
             'isi' => 'required|string',
         ]);
+
+        /*
+         * Bersihkan HTML dari editor sebelum perubahan disimpan.
+         */
+        $data['isi'] = $this->validateNewsContent(
+            $data['isi']
+        );
 
         $imageName = $old->gambar ?: 'default.jpg';
 

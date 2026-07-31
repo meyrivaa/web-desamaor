@@ -70,10 +70,9 @@
   <main>
     <section class="hero">
       <div class="hero-copy">
-        <span class="eyebrow">Peta &amp; Titik Lokasi</span>
-        <h1>Peta {{ $desa['nama'] }}</h1>
-        <p>Register geospasial titik&#8209;titik penting {{ $desa['nama'] }} &mdash; dari area persawahan, fasilitas
-          pendidikan, hingga pusat layanan warga, dipetakan untuk mempermudah akses informasi desa.</p>
+        <h1>Profil Desa Maor</h1>
+        <p> Portal informasi Desa Maor yang menghadirkan profil desa, kabar terbaru, ragam produk UMKM lokal, dan
+          potensi pada sektor agrikultur tebu dan palawija dalam satu tempat. </p>
 
         <dl class="coord-readout">
           <div>
@@ -155,10 +154,6 @@
         <!-- Bagian isi sambutan -->
         <div class="welcome-content">
 
-          <span class="profile-section-number">
-            01 / SAMBUTAN
-          </span>
-
           <h2>Sambutan Kepala Desa</h2>
 
           <div class="profile-title-line">
@@ -228,10 +223,6 @@
 
         <!-- Bagian judul sejarah -->
         <div class="history-heading">
-
-          <span class="profile-section-number">
-            02 / SEJARAH
-          </span>
 
           <h2>Sejarah Singkat</h2>
 
@@ -484,16 +475,6 @@
             <a href="{{ $desa['sosial']['youtube'] }}" target="_blank" rel="noopener">YT</a>
             <a href="{{ $desa['sosial']['tiktok'] }}" target="_blank" rel="noopener">TK</a>
           </div>
-        </div>
-
-        <div class="footer-col">
-          <h3 class="footer-heading">Nomor Telepon Penting</h3>
-          <ul class="footer-links">
-            <li>Kades Maor / {{ $desa["kepala_desa"] }}</li>
-            <li><a href="#">Ambulan Kembangbahu</a></li>
-            <li><a href="#">Polsek Kembangbahu</a></li>
-            <li><a href="#">Puskesmas Terdekat</a></li>
-          </ul>
         </div>
 
         <div class="footer-col">

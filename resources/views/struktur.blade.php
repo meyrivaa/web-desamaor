@@ -141,7 +141,8 @@
           {{ $desa['kode_pos'] }}
         </p>
         <p style="margin-top: 1rem;"><strong style="color: var(--paper-sand);">Kode Wilayah:</strong>
-          {{ $desa['kode_wilayah'] }}</p>
+          {{ $desa['kode_wilayah'] }}
+        </p>
       </div>
 
       <div class="footer-col">
@@ -189,16 +190,6 @@
           <a href="{{ $desa['sosial']['youtube'] }}" target="_blank" rel="noopener">YT</a>
           <a href="{{ $desa['sosial']['tiktok'] }}" target="_blank" rel="noopener">TK</a>
         </div>
-      </div>
-
-      <div class="footer-col">
-        <h3 class="footer-heading">Nomor Telepon Penting</h3>
-        <ul class="footer-links">
-          <li>Kades Maor / {{ $desa["kepala_desa"] }}</li>
-          <li><a href="#">Ambulan Kembangbahu</a></li>
-          <li><a href="#">Polsek Kembangbahu</a></li>
-          <li><a href="#">Puskesmas Terdekat</a></li>
-        </ul>
       </div>
 
       <div class="footer-col">

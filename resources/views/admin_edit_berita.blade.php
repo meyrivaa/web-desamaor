@@ -15,6 +15,42 @@
     rel="stylesheet">
 
   <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+
+  <style>
+    .admin-rich-text-editor {
+      width: 100%;
+    }
+
+    .admin-rich-text-editor .ql-toolbar.ql-snow {
+      border: 1px solid var(--light-border);
+      border-radius: 6px 6px 0 0;
+      background: #f8faf9;
+    }
+
+    .admin-rich-text-editor .ql-container.ql-snow {
+      border: 1px solid var(--light-border);
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      background: #ffffff;
+      font-family: var(--font-sans);
+    }
+
+    .admin-rich-text-editor .ql-editor {
+      min-height: 300px;
+      padding: 1rem;
+      color: var(--light-text);
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    .admin-rich-text-editor .ql-editor.ql-blank::before {
+      color: #96a29e;
+      font-style: normal;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -82,11 +118,22 @@
         </div>
 
         <div class="admin-edit-field">
-          <label for="isi">
+          <label for="berita-isi">
             Isi Berita
           </label>
 
-          <textarea id="isi" name="isi" rows="10" required>{{ $item['isi'] }}</textarea>
+          <div class="admin-rich-text-editor" data-rich-text-editor data-input="#berita-isi"
+            data-placeholder="Tulis seluruh isi berita di sini...">
+
+            <textarea id="berita-isi" name="isi" hidden>{{ old('isi', $item['isi']) }}</textarea>
+
+            <div data-rich-text-area></div>
+          </div>
+
+          <small>
+            Gunakan toolbar untuk membuat subjudul, tulisan tebal,
+            daftar, kutipan, atau tautan.
+          </small>
         </div>
 
         <div class="admin-edit-field">
@@ -147,6 +194,10 @@
   </main>
 
   <script src="{{ asset('js/admin-image-preview.js') }}" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+  <script src="{{ asset('js/admin-rich-text-editor.js') }}"></script>
 
 </body>
 

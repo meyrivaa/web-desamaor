@@ -16,7 +16,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=6">
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=19">
 
   <script defer src="{{ asset('js/navigation.js') }}?v=4"></script>
 </head>
@@ -30,7 +30,9 @@
     <div class="nav-inner">
 
       <a class="brand" href="{{ route('listing') }}">
-        <span class="brand-mark" aria-hidden="true">🌾</span>
+        <span class="brand-mark" aria-hidden="true">
+          <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="" class="brand-logo">
+        </span>
 
         <span class="brand-text">
           <strong>{{ $desa['nama'] }}</strong>
@@ -89,14 +91,46 @@
 
       <figure class="news-article-figure">
 
-        <img src="{{ asset('uploads/' . $item['gambar']) }}" alt="{{ $item['judul'] }}"
-          class="news-article-image">
+        <img src="{{ asset('uploads/' . $item['gambar']) }}" alt="{{ $item['judul'] }}" class="news-article-image">
 
       </figure>
 
 
+      @php
+        $isiBerita = $item['isi'] ?? '';
+
+        $isiBerita = preg_replace(
+          '/(?:\x{00A0}|&nbsp;|&#160;|&#xA0;)/iu',
+          ' ',
+          $isiBerita
+        ) ?? $isiBerita;
+
+        /*
+         * Berita baru dari editor sudah berbentuk HTML.
+         * Berita lama masih berbentuk teks biasa.
+         */
+        $isiMengandungHtml = preg_match(
+          '/<[a-z][\s\S]*>/i',
+          $isiBerita
+        );
+      @endphp
+
       <div class="news-article-body">
-        {{ $item['isi'] }}
+        @if ($isiMengandungHtml)
+
+          {!! $isiBerita !!}
+
+        @else
+
+          @foreach (preg_split('/\r\n|\r|\n/', $isiBerita) as $paragraf)
+
+            @if (trim($paragraf) !== '')
+              <p>{{ $paragraf }}</p>
+            @endif
+
+          @endforeach
+
+        @endif
       </div>
 
     </article>

@@ -9073,3 +9073,165 @@ main>section.agenda-section {
     font-size: 0.95rem !important;
   }
 }
+
+/* =====================================================
+   HALAMAN DETAIL BERITA
+   ===================================================== */
+
+/* Gambar utama dan jaraknya dengan isi berita */
+.news-article-figure {
+  width: 100%;
+  margin: 0 0 1.25rem;
+}
+
+/* Pembungkus isi berita */
+.news-article-body {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  color: var(--light-text);
+  font-size: 1rem;
+  line-height: 1.85;
+
+  /*
+   * Jangan mempertahankan spasi dan baris kosong
+   * dari kode Blade.
+   */
+  white-space: normal;
+
+  /*
+   * Kata biasa tidak terpotong di tengah.
+   * Tautan yang sangat panjang tetap boleh turun baris.
+   */
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+
+/* Paragraf berita */
+.news-article-body p {
+  width: 100%;
+  max-width: 100%;
+
+  margin: 0 0 1.1rem;
+
+  text-align: left;
+  text-indent: 0;
+
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+
+/* Elemen pertama tidak memiliki jarak tambahan */
+.news-article-body> :first-child {
+  margin-top: 0;
+}
+
+/* Elemen terakhir tidak memiliki jarak bawah */
+.news-article-body> :last-child {
+  margin-bottom: 0;
+}
+
+/* Subjudul dari editor */
+.news-article-body h2,
+.news-article-body h3 {
+  color: var(--light-text);
+  font-family: var(--font-serif);
+  line-height: 1.35;
+  text-align: left;
+
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+.news-article-body h2 {
+  margin: 2rem 0 0.9rem;
+  font-size: 1.65rem;
+}
+
+.news-article-body h3 {
+  margin: 1.6rem 0 0.8rem;
+  font-size: 1.3rem;
+}
+
+/* Daftar bernomor dan daftar poin */
+.news-article-body ul,
+.news-article-body ol {
+  margin: 0 0 1.1rem;
+  padding-left: 1.5rem;
+  text-align: left;
+}
+
+.news-article-body li {
+  margin-bottom: 0.45rem;
+  line-height: 1.75;
+
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+/* Kutipan */
+.news-article-body blockquote {
+  margin: 1.4rem 0;
+  padding: 0.25rem 0 0.25rem 1.25rem;
+
+  border-left: 4px solid var(--rust-buoy-lt);
+
+  color: var(--muted-sage);
+  font-style: italic;
+}
+
+/* Tautan */
+.news-article-body a {
+  color: var(--rust-buoy);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  overflow-wrap: break-word;
+}
+
+.news-article-body a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* =====================================================
+   FINAL OVERRIDE ISI DETAIL BERITA
+   Harus berada di baris paling bawah style.css
+   ===================================================== */
+
+.news-article-body,
+.news-article-body p,
+.news-article-body div,
+.news-article-body li,
+.news-article-body blockquote {
+  text-align: left !important;
+  text-align-last: left !important;
+
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+
+  word-spacing: normal !important;
+  letter-spacing: normal !important;
+}
+
+/*
+ * Menghilangkan pergantian baris paksa yang tersimpan
+ * di tengah kata dari data berita sebelumnya.
+ */
+.news-article-body p br {
+  display: none;
+}
+
+/* Tautan panjang tetap boleh turun baris */
+.news-article-body a {
+  overflow-wrap: anywhere !important;
+}

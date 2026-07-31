@@ -23,8 +23,7 @@
 
       <a class="brand" href="{{ route('listing') }}">
         <span class="brand-mark" aria-hidden="true">
-          <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="Logo Desa Maor"
-            class="brand-logo">
+          <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="Logo Desa Maor" class="brand-logo">
         </span>
 
         <span class="brand-text">
@@ -99,7 +98,7 @@
 
         <ol class="vm-list">
           @foreach($desa['misi'] as $item)
-          <li>{{ $item }}</li>
+            <li>{{ $item }}</li>
           @endforeach
         </ol>
 
@@ -117,7 +116,8 @@
           </span>
           <span class="brand-text"><strong>Pemerintah {{ $desa['nama'] }}</strong></span>
         </div>
-        <p>{{ $desa['alamat'] }}<br>{{ $desa['kecamatan'] }}, {{ $desa['kabupaten'] }}<br>{{ $desa['provinsi'] }}, {{ $desa['kode_pos'] }}
+        <p>{{ $desa['alamat'] }}<br>{{ $desa['kecamatan'] }}, {{ $desa['kabupaten'] }}<br>{{ $desa['provinsi'] }},
+          {{ $desa['kode_pos'] }}
         </p>
         <p style="margin-top: 1rem;">
           <strong style="color: var(--green-title);">
@@ -171,16 +171,6 @@
           <a href="{{ $desa['sosial']['youtube'] }}" target="_blank" rel="noopener">YT</a>
           <a href="{{ $desa['sosial']['tiktok'] }}" target="_blank" rel="noopener">TK</a>
         </div>
-      </div>
-
-      <div class="footer-col">
-        <h3 class="footer-heading">Nomor Telepon Penting</h3>
-        <ul class="footer-links">
-          <li>Kades Maor / {{ $desa["kepala_desa"] }}</li>
-          <li><a href="#">Ambulan Kembangbahu</a></li>
-          <li><a href="#">Polsek Kembangbahu</a></li>
-          <li><a href="#">Puskesmas Terdekat</a></li>
-        </ul>
       </div>
 
       <div class="footer-col">

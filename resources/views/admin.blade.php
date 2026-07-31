@@ -11,6 +11,8 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+
   <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=16" />
   <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=15" />
   <style>
@@ -201,6 +203,38 @@
         gap: 1.25rem;
       }
     }
+
+    /* Editor isi berita */
+    .admin-rich-text-editor {
+      width: 100%;
+    }
+
+    .admin-rich-text-editor .ql-toolbar.ql-snow {
+      border: 1px solid var(--light-border);
+      border-radius: 6px 6px 0 0;
+      background: #f8faf9;
+    }
+
+    .admin-rich-text-editor .ql-container.ql-snow {
+      border: 1px solid var(--light-border);
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      background: #ffffff;
+      font-family: var(--font-sans);
+    }
+
+    .admin-rich-text-editor .ql-editor {
+      min-height: 260px;
+      padding: 1rem;
+      color: var(--light-text);
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    .admin-rich-text-editor .ql-editor.ql-blank::before {
+      color: #96a29e;
+      font-style: normal;
+    }
   </style>
 </head>
 
@@ -318,13 +352,13 @@
 
     @if ($errors->any())
       <div style="
-              margin: 0 0 1.5rem;
-              padding: 1rem 1.25rem;
-              border: 1px solid #dc2626;
-              border-radius: 8px;
-              background: #fef2f2;
-              color: #991b1b;
-            ">
+                                margin: 0 0 1.5rem;
+                                padding: 1rem 1.25rem;
+                                border: 1px solid #dc2626;
+                                border-radius: 8px;
+                                background: #fef2f2;
+                                color: #991b1b;
+                              ">
         <strong>Data belum berhasil disimpan:</strong>
 
         <ul style="margin: 0.75rem 0 0; padding-left: 1.25rem;">
@@ -337,13 +371,13 @@
 
     @if (session('success'))
       <div style="
-              margin: 0 0 1.5rem;
-              padding: 1rem 1.25rem;
-              border: 1px solid #16a34a;
-              border-radius: 8px;
-              background: #f0fdf4;
-              color: #166534;
-            ">
+                                margin: 0 0 1.5rem;
+                                padding: 1rem 1.25rem;
+                                border: 1px solid #16a34a;
+                                border-radius: 8px;
+                                background: #f0fdf4;
+                                color: #166534;
+                              ">
         {{ session('success') }}
       </div>
     @endif
@@ -373,11 +407,21 @@
             <textarea name="ringkasan" class="form-control" rows="2" required
               placeholder="Tulis sedikit inti berita..."></textarea>
           </div>
-
           <div class="form-group">
             <label>Isi Berita Lengkap</label>
-            <textarea name="isi" class="form-control" rows="8" required
-              placeholder="Tulis seluruh paragraf di sini..."></textarea>
+
+            <div class="admin-rich-text-editor" data-rich-text-editor data-input="#berita-isi"
+              data-placeholder="Tulis seluruh isi berita di sini...">
+
+              <textarea id="berita-isi" name="isi" hidden>{{ old('isi') }}</textarea>
+
+              <div data-rich-text-area></div>
+            </div>
+
+            <small>
+              Gunakan toolbar untuk membuat subjudul, tulisan tebal,
+              daftar, kutipan, atau tautan.
+            </small>
           </div>
 
           <div class="form-group">
@@ -784,10 +828,10 @@
 
           <div style="overflow-x: auto;">
             <table style="
-                  width: 100%;
-                  min-width: 800px;
-                  border-collapse: collapse;
-                ">
+                                    width: 100%;
+                                    min-width: 800px;
+                                    border-collapse: collapse;
+                                  ">
 
               <thead>
                 <tr>
@@ -812,12 +856,12 @@
                       @if($item_struktur["foto"] && $item_struktur["foto"] != "default.jpg")
 
                         <img src="{{ asset('uploads/' . $item_struktur['foto']) }}" alt="{{ $item_struktur['nama'] }}" style="
-                                                width: 65px;
-                                                height: 80px;
-                                                object-fit: cover;
-                                                object-position: center top;
-                                                border-radius: 7px;
-                                              ">
+                                                                                                      width: 65px;
+                                                                                                      height: 80px;
+                                                                                                      object-fit: cover;
+                                                                                                      object-position: center top;
+                                                                                                      border-radius: 7px;
+                                                                                                    ">
 
                       @else
 
@@ -847,8 +891,8 @@
 
                         <form class="admin-delete-form" action="{{ route('admin_hapus_struktur', $item_struktur['id']) }}"
                           method="POST" onsubmit="return confirm(
-                                      'Apakah Anda yakin ingin menghapus perangkat desa ini?'
-                                    );">
+                                                                          'Apakah Anda yakin ingin menghapus perangkat desa ini?'
+                                                                        );">
                           @csrf
                           <button class="admin-delete-button" type="submit">
                             Hapus
@@ -890,10 +934,10 @@
         @if($daftar_berita)
           <div style="overflow-x: auto;">
             <table style="
-                  width: 100%;
-                  min-width: 700px;
-                  border-collapse: collapse;
-                ">
+                                    width: 100%;
+                                    min-width: 700px;
+                                    border-collapse: collapse;
+                                  ">
               <thead>
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
                   <th style="padding: 1rem; text-align: left;">No.</th>
@@ -922,11 +966,11 @@
                     <td style="padding: 1rem;">
                       @if($item["gambar"])
                         <img src="{{ asset('uploads/' . $item['gambar']) }}" alt="{{ $item['judul'] }}" style="
-                                                width: 80px;
-                                                height: 55px;
-                                                object-fit: cover;
-                                                border-radius: 6px;
-                                              ">
+                                                                                                      width: 80px;
+                                                                                                      height: 55px;
+                                                                                                      object-fit: cover;
+                                                                                                      border-radius: 6px;
+                                                                                                    ">
                       @else
                         Tidak ada gambar
                       @endif
@@ -977,10 +1021,10 @@
         @if($daftar_infografis)
           <div style="overflow-x: auto;">
             <table style="
-                  width: 100%;
-                  min-width: 650px;
-                  border-collapse: collapse;
-                ">
+                                    width: 100%;
+                                    min-width: 650px;
+                                    border-collapse: collapse;
+                                  ">
               <thead>
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
                   <th style="padding: 1rem; text-align: left;">
@@ -1026,12 +1070,12 @@
                     <td style="padding: 1rem;">
                       @if($item_info["gambar"])
                         <img src="{{ asset('uploads/' . $item_info['gambar']) }}" alt="{{ $item_info['judul'] }}" style="
-                                                    width: 75px;
-                                                    height: 95px;
-                                                    object-fit: contain;
-                                                    border-radius: 6px;
-                                                    background: #f3f7f5;
-                                                  ">
+                                                                                                          width: 75px;
+                                                                                                          height: 95px;
+                                                                                                          object-fit: contain;
+                                                                                                          border-radius: 6px;
+                                                                                                          background: #f3f7f5;
+                                                                                                        ">
                       @else
                         Tidak ada gambar
                       @endif
@@ -1047,8 +1091,8 @@
 
                         <form class="admin-delete-form" action="{{ route('admin_hapus_infografis', $item_info['id']) }}"
                           method="POST" onsubmit="return confirm(
-                                'Apakah anda yakin ingin menghapus infografis ini?'
-                              );">
+                                                                    'Apakah anda yakin ingin menghapus infografis ini?'
+                                                                  );">
                           @csrf
                           <button class="admin-delete-button" type="submit">
                             Hapus
@@ -1085,10 +1129,10 @@
         @if($daftar_agenda)
           <div style="overflow-x: auto;">
             <table style="
-                  width: 100%;
-                  min-width: 850px;
-                  border-collapse: collapse;
-                ">
+                                    width: 100%;
+                                    min-width: 850px;
+                                    border-collapse: collapse;
+                                  ">
               <thead>
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
                   <th style="padding: 1rem; text-align: left;">
@@ -1153,8 +1197,8 @@
 
                         <form class="admin-delete-form" action="{{ route('admin_hapus_agenda', $item_agenda['id']) }}"
                           method="POST" onsubmit="return confirm(
-                                'Apakah kamu yakin ingin menghapus agenda ini?'
-                              );">
+                                                                    'Apakah kamu yakin ingin menghapus agenda ini?'
+                                                                  );">
                           @csrf
                           <button class="admin-delete-button" type="submit">
                             Hapus
@@ -1191,10 +1235,10 @@
         @if($daftar_poi)
           <div style="overflow-x: auto;">
             <table style="
-                  width: 100%;
-                  min-width: 1050px;
-                  border-collapse: collapse;
-                ">
+                                    width: 100%;
+                                    min-width: 1050px;
+                                    border-collapse: collapse;
+                                  ">
               <thead>
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
 
@@ -1248,10 +1292,10 @@
                     </td>
 
                     <td style="
-                                        padding: 1rem;
-                                        min-width: 240px;
-                                        line-height: 1.6;
-                                      ">
+                                                                            padding: 1rem;
+                                                                            min-width: 240px;
+                                                                            line-height: 1.6;
+                                                                          ">
                       {{ $item_poi["deskripsi"] }}
                     </td>
 
@@ -1273,8 +1317,8 @@
 
                         <form class="admin-delete-form" action="{{ route('admin_hapus_poi', $item_poi['id']) }}"
                           method="POST" onsubmit="return confirm(
-                                'Apakah Anda yakin ingin menghapus titik peta ini?'
-                              );">
+                                                                    'Apakah Anda yakin ingin menghapus titik peta ini?'
+                                                                  );">
                           @csrf
                           <button class="admin-delete-button" type="submit">
                             Hapus
@@ -1312,10 +1356,10 @@
           <div style="overflow-x: auto;">
 
             <table style="
-                  width: 100%;
-                  min-width: 1100px;
-                  border-collapse: collapse;
-                ">
+                                    width: 100%;
+                                    min-width: 1100px;
+                                    border-collapse: collapse;
+                                  ">
 
               <thead>
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
@@ -1401,11 +1445,11 @@
                     <td style="padding: 1rem;">
                       @if($item_umkm["gambar"])
                         <img src="{{ asset('uploads/' . $item_umkm['gambar']) }}" alt="{{ $item_umkm['nama_produk'] }}" style="
-                                                        width: 85px;
-                                                        height: 70px;
-                                                        object-fit: cover;
-                                                        border-radius: 7px;
-                                                      ">
+                                                                                                              width: 85px;
+                                                                                                              height: 70px;
+                                                                                                              object-fit: cover;
+                                                                                                              border-radius: 7px;
+                                                                                                            ">
                       @else
                         Tidak ada gambar
                       @endif
@@ -1421,8 +1465,8 @@
 
                         <form class="admin-delete-form" action="{{ route('admin_hapus_umkm', $item_umkm['id']) }}"
                           method="POST" onsubmit="return confirm(
-                                    'Apakah Anda yakin ingin menghapus produk UMKM ini?'
-                                  );">
+                                                                        'Apakah Anda yakin ingin menghapus produk UMKM ini?'
+                                                                      );">
                           @csrf
                           <button class="admin-delete-button" type="submit">
                             Hapus
@@ -1458,6 +1502,10 @@
   </main>
 
   <script src="{{ asset('js/admin-image-preview.js') }}" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+  <script src="{{ asset('js/admin-rich-text-editor.js') }}"></script>
 
 </body>
 

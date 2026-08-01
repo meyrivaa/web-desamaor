@@ -17,7 +17,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=8">
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=30">
 
   <script defer src="{{ asset('js/navigation.js') }}?v=4"></script>
   <script defer src="{{ asset('js/news-search.js') }}?v=1"></script>

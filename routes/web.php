@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminPasswordResetController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PublicController;
 use Illuminate\Http\Request;
@@ -62,8 +63,32 @@ Route::post('/api/poi', function (Request $r) {
     return response()->json(['id' => $id, 'status' => 'tersimpan'], 201);
 })->name('api_poi_create');
 Route::get('/api/stats', [PublicController::class, 'apiStats'])->name('api_stats');
-Route::get('/admin', [AuthController::class, 'show'])->name('admin_login');
-Route::post('/admin', [AuthController::class, 'login'])->name('admin_login_submit');
+Route::get('/admin', [AuthController::class, 'show'])
+    ->name('admin_login');
+
+Route::post('/admin', [AuthController::class, 'login'])
+    ->name('admin_login_submit');
+
+Route::get(
+    '/admin/lupa-password',
+    [AdminPasswordResetController::class, 'showForgotForm']
+)->name('password.request');
+
+Route::post(
+    '/admin/lupa-password',
+    [AdminPasswordResetController::class, 'sendResetLink']
+)->name('password.email');
+
+Route::get(
+    '/admin/reset-password/{token}',
+    [AdminPasswordResetController::class, 'showResetForm']
+)->name('password.reset');
+
+Route::post(
+    '/admin/reset-password',
+    [AdminPasswordResetController::class, 'resetPassword']
+)->name('password.update');
+
 Route::middleware('admin.auth')->group(function () {
     Route::match(['get', 'post'], '/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin_dashboard');
     Route::post('/admin/dashboard/simpan', [AdminController::class, 'store'])->name('admin_store');

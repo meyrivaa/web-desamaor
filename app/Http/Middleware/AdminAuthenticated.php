@@ -1,4 +1,22 @@
 <?php
+
 namespace App\Http\Middleware;
-use Closure; use Illuminate\Http\Request; use Symfony\Component\HttpFoundation\Response;
-class AdminAuthenticated { public function handle(Request $request, Closure $next): Response { if (!$request->session()->get('admin_logged_in')) return redirect()->route('admin_login'); return $next($request); } }
+
+use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
+
+class AdminAuthenticated
+{
+    public function handle(Request $request, Closure $next): Response
+    {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()
+                ->route('admin_login')
+                ->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        return $next($request);
+    }
+}

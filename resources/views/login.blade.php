@@ -87,9 +87,22 @@
     @endif
     <form method="POST" action="{{ route('admin_login_submit') }}">
       @csrf
-      <input type="password" name="password" class="login-input" placeholder="Masukkan Password..." required>
-      <button type="submit" class="btn btn-primary" style="width: 100%;">Masuk</button>
+
+      <input type="email" name="email" class="login-input" placeholder="Masukkan Email Admin..."
+        value="{{ old('email') }}" autocomplete="email" required>
+
+      <input type="password" name="password" class="login-input" placeholder="Masukkan Password..."
+        autocomplete="current-password" required>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%;">
+        Masuk
+      </button>
     </form>
+
+    <a href="{{ route('password.request') }}"
+      style="display: block; margin-top: 1rem; text-align: center; text-decoration: none;">
+      Lupa Password?
+    </a>
     <a href="{{ route('listing') }}"
       style="color: var(--muted-sage); display: block; margin-top: 1rem; font-size: 0.8rem;">&larr;
       Kembali ke Web Utama</a>

@@ -10383,3 +10383,804 @@ main>section.home-hero {
     max-width: none;
   }
 }
+
+/* =========================================================================
+   STATISTIK DESA MODERN DAN FORMAL
+   ========================================================================= */
+
+.statistics-main {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+  padding: 4.5rem 2rem 5rem;
+}
+
+.statistics-heading {
+  max-width: 760px;
+  margin: 0 auto 2.75rem;
+
+  text-align: center;
+}
+
+.statistics-heading h1 {
+  margin-bottom: 0.9rem;
+}
+
+.statistics-heading p {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+
+/* Kartu total penduduk */
+.statistics-overview-card {
+  width: min(100%, 1020px);
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+
+  gap: 2rem;
+  margin: 0 auto 1.25rem;
+  padding: 2rem 2.25rem;
+
+  background: #ffffff;
+  border: 1px solid var(--green-border);
+  border-left: 5px solid var(--green-primary);
+  border-radius: 14px;
+
+  box-shadow:
+    0 10px 28px rgba(34, 73, 63, 0.09);
+}
+
+.statistics-overview-copy {
+  min-width: 0;
+}
+
+.statistics-overview-label {
+  display: block;
+  margin-bottom: 0.45rem;
+
+  color: var(--green-primary);
+
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.statistics-overview-copy h2 {
+  margin: 0 0 0.55rem;
+
+  color: var(--green-dark);
+
+  font-size: clamp(1.4rem, 3vw, 1.9rem) !important;
+  line-height: 1.35;
+}
+
+.statistics-overview-copy p {
+  margin: 0;
+
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+
+/* Angka total */
+.statistics-overview-value {
+  min-width: 230px;
+
+  padding: 1.4rem 1.75rem;
+
+  background: var(--green-section-soft);
+  border: 1px solid var(--green-border-strong);
+  border-radius: 10px;
+
+  text-align: right;
+}
+
+.statistics-overview-value strong {
+  display: block;
+
+  color: var(--green-dark);
+
+  font-size: clamp(2.7rem, 6vw, 4.2rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.statistics-overview-value span {
+  display: block;
+  margin-top: 0.55rem;
+
+  color: var(--green-primary);
+
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+
+/* Empat kartu ringkasan */
+.statistics-summary-grid {
+  width: min(100%, 1020px);
+
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 1rem;
+  margin: 0 auto;
+}
+
+.statistics-summary-card {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 0.9rem;
+  padding: 1.35rem;
+
+  background: #ffffff;
+  border: 1px solid var(--green-border);
+  border-radius: 12px;
+
+  box-shadow:
+    0 6px 18px rgba(34, 73, 63, 0.065);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.statistics-summary-card:hover {
+  transform: none;
+
+  border-color: var(--green-border-strong);
+
+  box-shadow:
+    0 9px 24px rgba(34, 73, 63, 0.1);
+}
+
+
+/* Simbol sederhana agar tidak terlihat berlebihan */
+.statistics-summary-symbol {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--green-section-soft);
+  border: 1px solid var(--green-border-strong);
+  border-radius: 50%;
+}
+
+.statistics-summary-symbol span {
+  width: 13px;
+  height: 13px;
+
+  display: block;
+
+  background: var(--green-primary);
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 5px rgba(47, 117, 103, 0.12);
+}
+
+.statistics-summary-content {
+  min-width: 0;
+}
+
+.statistics-summary-label {
+  display: block;
+  margin-bottom: 0.3rem;
+
+  color: var(--text-secondary);
+
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.statistics-summary-content strong {
+  display: inline;
+
+  color: var(--green-dark);
+
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+.statistics-summary-content small {
+  margin-left: 0.3rem;
+
+  color: var(--green-primary);
+
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+
+/* Tablet */
+@media (max-width: 900px) {
+  .statistics-main {
+    padding: 3.5rem 1.5rem 4rem;
+  }
+
+  .statistics-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+/* HP */
+@media (max-width: 600px) {
+  .statistics-main {
+    padding: 2.5rem 1rem 3rem;
+  }
+
+  .statistics-heading {
+    margin-bottom: 2rem;
+  }
+
+  .statistics-overview-card {
+    grid-template-columns: 1fr;
+
+    gap: 1.25rem;
+    padding: 1.5rem 1.25rem;
+
+    border-left-width: 4px;
+    border-radius: 10px;
+  }
+
+  .statistics-overview-value {
+    width: 100%;
+    min-width: 0;
+
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .statistics-overview-value strong {
+    font-size: 3rem;
+  }
+
+  .statistics-summary-grid {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .statistics-summary-card {
+    padding: 1.15rem;
+  }
+}
+
+/* =========================================================================
+   PENYEMPURNAAN TAMPILAN STATISTIK DESA
+   ========================================================================= */
+
+.statistics-main {
+  width: 100%;
+  max-width: 1180px;
+
+  margin: 0 auto;
+  padding: 4.25rem 2rem 5rem;
+}
+
+.statistics-heading {
+  max-width: 720px;
+  margin: 0 auto 3.25rem;
+
+  text-align: center;
+}
+
+.statistics-heading h1 {
+  margin: 0.8rem 0 1rem;
+
+  color: var(--green-dark);
+}
+
+.statistics-heading p {
+  max-width: 650px;
+  margin: 0 auto;
+
+  color: var(--text-secondary);
+}
+
+
+/* Kartu utama */
+.statistics-feature-card {
+  width: min(100%, 960px);
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(260px, 0.9fr);
+
+  overflow: hidden;
+
+  margin: 0 auto;
+
+  background: #ffffff;
+  border: 1px solid var(--green-border);
+  border-radius: 14px;
+
+  box-shadow:
+    0 12px 30px rgba(34, 73, 63, 0.1);
+}
+
+
+/* Bagian kiri */
+.statistics-feature-info {
+  padding: 2.5rem 2.75rem;
+
+  border-left: 4px solid var(--green-primary);
+}
+
+.statistics-feature-label {
+  display: block;
+  margin-bottom: 0.55rem;
+
+  color: var(--green-primary);
+
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.statistics-feature-info h2 {
+  margin: 0 0 0.55rem;
+
+  color: var(--green-dark);
+
+  font-family: var(--font-sans) !important;
+  font-size: clamp(1.35rem, 3vw, 1.75rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.35;
+}
+
+.statistics-feature-info>p {
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+
+
+/* Perbandingan laki-laki dan perempuan */
+.statistics-ratio {
+  margin-top: 1.8rem;
+}
+
+.statistics-ratio-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 1rem;
+  margin-bottom: 0.55rem;
+
+  color: var(--text-secondary);
+
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.statistics-ratio-header strong {
+  color: var(--green-dark);
+}
+
+.statistics-ratio-bar {
+  width: 100%;
+  height: 12px;
+
+  display: flex;
+  overflow: hidden;
+
+  background: var(--green-section-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 999px;
+}
+
+.statistics-ratio-fill {
+  display: block;
+  width: 0;
+
+  transition:
+    width 1.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.statistics-ratio-fill--male {
+  background: var(--green-primary);
+}
+
+.statistics-ratio-fill--female {
+  background: var(--green-accent);
+}
+
+
+/* Bagian angka total */
+.statistics-feature-total {
+  position: relative;
+  overflow: hidden;
+
+  min-height: 245px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+
+  padding: 2.5rem;
+
+  background:
+    linear-gradient(145deg,
+      var(--green-primary),
+      var(--green-dark));
+
+  color: #ffffff;
+  text-align: right;
+}
+
+.statistics-feature-total::before {
+  content: "";
+
+  position: absolute;
+  top: -70px;
+  right: -60px;
+
+  width: 190px;
+  height: 190px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+}
+
+.statistics-feature-total strong {
+  position: relative;
+
+  color: #ffffff;
+
+  font-family: var(--font-sans);
+  font-size: clamp(3.2rem, 7vw, 4.7rem);
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.statistics-feature-total span {
+  position: relative;
+
+  margin-top: 0.65rem;
+
+  color: rgba(255, 255, 255, 0.8);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+
+/* Empat kartu data */
+.statistics-metric-grid {
+  width: min(100%, 960px);
+
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 1rem;
+  margin: 1.1rem auto 0;
+}
+
+.statistics-metric-card {
+  min-width: 0;
+  padding: 1.35rem;
+
+  background: #ffffff;
+  border: 1px solid var(--green-border);
+  border-radius: 12px;
+
+  box-shadow:
+    0 6px 18px rgba(34, 73, 63, 0.07);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.statistics-metric-card:hover {
+  border-color: var(--green-border-strong);
+
+  box-shadow:
+    0 9px 24px rgba(34, 73, 63, 0.1);
+}
+
+.statistics-metric-icon {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 0.9rem;
+
+  background: var(--green-section-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 9px;
+
+  color: var(--green-primary);
+}
+
+.statistics-metric-icon svg {
+  width: 18px;
+  height: 18px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.statistics-metric-label {
+  display: block;
+  margin-bottom: 0.35rem;
+
+  color: var(--text-secondary);
+
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.statistics-metric-value {
+  display: block;
+
+  color: var(--green-dark);
+
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+}
+
+.statistics-metric-unit {
+  display: block;
+  margin-top: 0.25rem;
+
+  color: var(--green-primary);
+
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+
+/* Tablet */
+@media (max-width: 900px) {
+  .statistics-main {
+    padding: 3.5rem 1.5rem 4rem;
+  }
+
+  .statistics-feature-card {
+    grid-template-columns: 1fr;
+  }
+
+  .statistics-feature-total {
+    min-height: 180px;
+
+    align-items: flex-start;
+
+    text-align: left;
+  }
+
+  .statistics-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+/* HP */
+@media (max-width: 600px) {
+  .statistics-main {
+    padding: 2.5rem 1rem 3rem;
+  }
+
+  .statistics-heading {
+    margin-bottom: 2rem;
+  }
+
+  .statistics-feature-card {
+    border-radius: 10px;
+  }
+
+  .statistics-feature-info {
+    padding: 1.6rem 1.25rem;
+
+    border-left-width: 3px;
+  }
+
+  .statistics-ratio-header {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 0.25rem;
+  }
+
+  .statistics-feature-total {
+    min-height: 150px;
+    padding: 1.6rem 1.25rem;
+  }
+
+  .statistics-feature-total strong {
+    font-size: 3.3rem;
+  }
+
+  .statistics-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 0.75rem;
+  }
+
+  .statistics-metric-card {
+    padding: 1rem;
+  }
+
+  .statistics-metric-value {
+    font-size: 1.55rem;
+  }
+}
+
+
+/* HP sangat kecil */
+@media (max-width: 380px) {
+  .statistics-metric-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================================
+   AKSEN ORANYE PADA STATISTIK DESA
+   Disesuaikan dengan warna scrollbar Sambutan Kepala Desa
+   ========================================================================= */
+
+.statistics-main {
+  --statistics-warm: #d9784e;
+  --statistics-warm-dark: #c46a43;
+  --statistics-warm-soft: rgba(217, 120, 78, 0.1);
+  --statistics-warm-border: rgba(217, 120, 78, 0.3);
+}
+
+
+/* Label Data Kependudukan */
+.statistics-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.5rem;
+}
+
+.statistics-eyebrow::before {
+  content: "";
+
+  width: 6px;
+  height: 6px;
+
+  display: block;
+
+  background: var(--statistics-warm);
+  border-radius: 50%;
+}
+
+
+/* Garis kiri kartu utama dibuat oranye */
+.statistics-feature-info {
+  border-left-color: var(--statistics-warm);
+}
+
+
+/* Tulisan Ringkasan Utama */
+.statistics-feature-label {
+  color: var(--statistics-warm-dark);
+}
+
+
+/* Bagian perempuan pada grafik perbandingan */
+.statistics-ratio-fill--female {
+  background:
+    linear-gradient(90deg,
+      var(--statistics-warm),
+      #e49a76);
+}
+
+
+/* Cahaya oranye tipis pada kartu total */
+.statistics-feature-total::after {
+  content: "";
+
+  position: absolute;
+  top: -60px;
+  right: -45px;
+
+  width: 190px;
+  height: 190px;
+
+  background:
+    radial-gradient(circle,
+      rgba(217, 120, 78, 0.26),
+      transparent 68%);
+
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+
+/* Pastikan angka tetap berada di atas dekorasi */
+.statistics-feature-total strong,
+.statistics-feature-total span {
+  z-index: 1;
+}
+
+
+/* Kartu ringkasan */
+.statistics-metric-card {
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* Garis oranye tipis di atas kartu */
+.statistics-metric-card::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 3px;
+
+  background:
+    linear-gradient(90deg,
+      var(--statistics-warm),
+      rgba(217, 120, 78, 0.15));
+}
+
+
+/* Kotak ikon diberi sentuhan oranye lembut */
+.statistics-metric-icon {
+  background:
+    linear-gradient(145deg,
+      var(--green-section-soft),
+      var(--statistics-warm-soft));
+
+  border-color: var(--statistics-warm-border);
+}
+
+
+/* Tulisan satuan */
+.statistics-metric-unit {
+  color: var(--statistics-warm-dark);
+}
+
+
+/* Hover kartu tetap sederhana */
+.statistics-metric-card:hover {
+  border-color: var(--statistics-warm-border);
+}

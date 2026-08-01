@@ -16,9 +16,10 @@
         href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=21">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=26">
 
     <script defer src="{{ asset('js/navigation.js') }}?v=4"></script>
+    <script defer src="{{ asset('js/statistics-counter.js') }}?v=1"></script>
 </head>
 
 <body>
@@ -114,111 +115,203 @@
 
         </header>
 
-
         @if ($statistik)
 
                 @php
                     $tanggalData = \Carbon\Carbon::parse(
                         $statistik['tanggal_data']
                     )->translatedFormat('d F Y');
-                  @endphp
 
-                <!-- Total penduduk -->
-                <section class="statistics-total-card">
+                    $totalPenduduk = (int) $statistik['total_penduduk'];
+                    $jumlahLakiLaki = (int) $statistik['laki_laki'];
+                    $jumlahPerempuan = (int) $statistik['perempuan'];
 
-                    <span class="statistics-total-label">
-                        Total Penduduk
-                    </span>
+                    $persentaseLakiLaki = $totalPenduduk > 0
+                        ? ($jumlahLakiLaki / $totalPenduduk) * 100
+                        : 0;
 
-                    <strong class="statistics-total-number">
-                        {{ number_format(
-                $statistik['total_penduduk'],
+                    $persentasePerempuan = $totalPenduduk > 0
+                        ? ($jumlahPerempuan / $totalPenduduk) * 100
+                        : 0;
+
+                    $ringkasanStatistik = [
+                        [
+                            'label' => 'Laki-laki',
+                            'value' => $jumlahLakiLaki,
+                            'unit' => 'Jiwa',
+                            'icon' => 'person',
+                        ],
+                        [
+                            'label' => 'Perempuan',
+                            'value' => $jumlahPerempuan,
+                            'unit' => 'Jiwa',
+                            'icon' => 'person',
+                        ],
+                        [
+                            'label' => 'Kepala Keluarga',
+                            'value' => (int) $statistik['jumlah_kk'],
+                            'unit' => 'KK',
+                            'icon' => 'family',
+                        ],
+                        [
+                            'label' => 'Rumah Tangga',
+                            'value' => (int) $statistik['jumlah_rumah_tangga'],
+                            'unit' => 'Rumah',
+                            'icon' => 'home',
+                        ],
+                    ];
+                @endphp
+
+
+                <section class="statistics-feature-card" aria-label="Ringkasan utama statistik Desa Maor">
+
+                    <div class="statistics-feature-info">
+
+                        <span class="statistics-feature-label">
+                            Ringkasan Utama
+                        </span>
+
+                        <h2>
+                            Jumlah Penduduk {{ $desa['nama'] }}
+                        </h2>
+
+                        <p>
+                            Data kependudukan terakhir diperbarui pada
+                            {{ $tanggalData }}.
+                        </p>
+
+
+                        <div class="statistics-ratio">
+
+                            <div class="statistics-ratio-header">
+
+                                <span>
+                                    Laki-laki ·
+                                    <strong>
+                                        {{ number_format(
+                $jumlahLakiLaki,
                 0,
                 ',',
                 '.'
             ) }}
-                    </strong>
+                                    </strong>
+                                </span>
 
-                    <p>
-                        jiwa berdasarkan data per {{ $tanggalData }}
-                    </p>
+                                <span>
+                                    Perempuan ·
+                                    <strong>
+                                        {{ number_format(
+                $jumlahPerempuan,
+                0,
+                ',',
+                '.'
+            ) }}
+                                    </strong>
+                                </span>
+
+                            </div>
+
+
+                            <div class="statistics-ratio-bar" aria-label="Perbandingan jumlah laki-laki dan perempuan">
+
+                                <span class="statistics-ratio-fill statistics-ratio-fill--male" data-statistics-ratio
+                                    data-width="{{ number_format(
+                $persentaseLakiLaki,
+                4,
+                '.',
+                ''
+            ) }}">
+                                </span>
+
+                                <span class="statistics-ratio-fill statistics-ratio-fill--female" data-statistics-ratio
+                                    data-width="{{ number_format(
+                $persentasePerempuan,
+                4,
+                '.',
+                ''
+            ) }}">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="statistics-feature-total">
+
+                        <strong data-statistics-counter data-count="{{ $totalPenduduk }}">
+
+                            {{ number_format(
+                $totalPenduduk,
+                0,
+                ',',
+                '.'
+            ) }}
+                        </strong>
+
+                        <span>Jiwa</span>
+
+                    </div>
 
                 </section>
 
 
-                <!-- Ringkasan utama -->
-                <section class="statistics-summary-grid" aria-label="Ringkasan statistik kependudukan">
+                <section class="statistics-metric-grid" aria-label="Ringkasan statistik kependudukan">
 
-                    <article class="statistics-summary-card">
+                    @foreach ($ringkasanStatistik as $ringkasan)
 
-                        <span>Laki-laki</span>
+                            <article class="statistics-metric-card">
 
-                        <strong>
-                            {{ number_format(
-                $statistik['laki_laki'],
-                0,
-                ',',
-                '.'
-            ) }}
-                        </strong>
+                                <div class="statistics-metric-icon" aria-hidden="true">
 
-                        <small>Jiwa</small>
+                                    @if ($ringkasan['icon'] === 'home')
 
-                    </article>
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M3 11 12 4l9 7"></path>
+                                            <path d="M5 10v10h14V10"></path>
+                                        </svg>
 
+                                    @elseif ($ringkasan['icon'] === 'family')
 
-                    <article class="statistics-summary-card">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M4 21V9l8-5 8 5v12"></path>
+                                            <path d="M9 21v-6h6v6"></path>
+                                        </svg>
 
-                        <span>Perempuan</span>
+                                    @else
 
-                        <strong>
-                            {{ number_format(
-                $statistik['perempuan'],
-                0,
-                ',',
-                '.'
-            ) }}
-                        </strong>
+                                        <svg viewBox="0 0 24 24">
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                            <path d="M5 21c0-4.5 3-8 7-8s7 3.5 7 8"></path>
+                                        </svg>
 
-                        <small>Jiwa</small>
+                                    @endif
 
-                    </article>
+                                </div>
 
+                                <span class="statistics-metric-label">
+                                    {{ $ringkasan['label'] }}
+                                </span>
 
-                    <article class="statistics-summary-card">
+                                <strong class="statistics-metric-value" data-statistics-counter data-count="{{ $ringkasan['value'] }}">
 
-                        <span>Kepala Keluarga</span>
+                                    {{ number_format(
+                            $ringkasan['value'],
+                            0,
+                            ',',
+                            '.'
+                        ) }}
+                                </strong>
 
-                        <strong>
-                            {{ number_format(
-                $statistik['jumlah_kk'],
-                0,
-                ',',
-                '.'
-            ) }}
-                        </strong>
+                                <small class="statistics-metric-unit">
+                                    {{ $ringkasan['unit'] }}
+                                </small>
 
-                        <small>KK</small>
+                            </article>
 
-                    </article>
-
-
-                    <article class="statistics-summary-card">
-
-                        <span>Rumah Tangga</span>
-
-                        <strong>
-                            {{ number_format(
-                $statistik['jumlah_rumah_tangga'],
-                0,
-                ',',
-                '.'
-            ) }}
-                        </strong>
-
-                        <small>Rumah</small>
-
-                    </article>
+                    @endforeach
 
                 </section>
 

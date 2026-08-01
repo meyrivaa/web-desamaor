@@ -14,7 +14,7 @@
     rel="stylesheet">
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=22" />
 
   <script defer src="{{ asset('js/navigation.js') }}?v=2"></script>
 </head>
@@ -68,36 +68,83 @@
   </header>
 
   <main>
-    <section class="hero">
-      <div class="hero-copy">
-        <h1>Profil Desa Maor</h1>
-        <p> Portal informasi Desa Maor yang menghadirkan profil desa, kabar terbaru, ragam produk UMKM lokal, dan
-          potensi pada sektor agrikultur tebu dan palawija dalam satu tempat. </p>
+    <section class="home-hero" aria-labelledby="home-hero-title">
 
-        <dl class="coord-readout">
+      <div class="home-hero-media" aria-hidden="true">
+
+        <video class="home-hero-video" autoplay muted loop playsinline preload="metadata">
+
+          <source src="{{ asset('video/profil-desa.mp4') }}" type="video/mp4">
+
+        </video>
+
+      </div>
+
+      <div class="home-hero-overlay" aria-hidden="true"></div>
+
+      <div class="home-hero-content">
+
+        <span class="home-hero-eyebrow">
+          Portal Resmi Desa Maor
+        </span>
+
+        <h1 id="home-hero-title">
+          Selamat Datang di Desa Maor
+        </h1>
+
+        <p class="home-hero-description">
+          Portal resmi Desa Maor yang menyajikan profil desa,
+          informasi pemerintahan, kabar terbaru, produk UMKM lokal,
+          serta potensi wisata religi dalam satu tempat.
+        </p>
+
+        <div class="home-hero-actions">
+
+          <a href="#profil-desa" class="home-hero-button home-hero-button--primary">
+
+            Jelajahi Desa
+          </a>
+
+          <a href="{{ route('peta') }}" class="home-hero-button home-hero-button--secondary">
+
+            Lihat Peta Desa
+          </a>
+
+        </div>
+
+        <dl class="home-hero-meta">
+
           <div>
             <dt>Provinsi</dt>
-            <dd>{{ str_replace('Provinsi ', '', $desa['provinsi']) }}</dd>
+
+            <dd>
+              {{ str_replace('Provinsi ', '', $desa['provinsi']) }}
+            </dd>
           </div>
+
           <div>
             <dt>Kabupaten</dt>
-            <dd>{{ str_replace('Kabupaten ', '', $desa['kabupaten']) }}</dd>
+
+            <dd>
+              {{ str_replace('Kabupaten ', '', $desa['kabupaten']) }}
+            </dd>
           </div>
+
           <div>
             <dt>Kode Wilayah</dt>
-            <dd class="mono">{{ $desa['kode_wilayah'] }}</dd>
+
+            <dd class="mono">
+              {{ $desa['kode_wilayah'] }}
+            </dd>
           </div>
+
         </dl>
+
       </div>
-      <div class="hero-media">
-        <video class="drone-video" autoplay muted loop playsinline>
-          <source src="{{ asset('video/profil-desa.mp4') }}" type="video/mp4">
-          Browser Anda tidak mendukung tag video.
-        </video>
-      </div>
+
     </section>
 
-    <section class="village-profile-section">
+    <section class="village-profile-section" id="profil-desa">
 
       <!-- =====================================================
        SAMBUTAN KEPALA DESA

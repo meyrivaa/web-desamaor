@@ -65,7 +65,6 @@
   <main class="profil-main">
 
     <header class="profile-page-heading">
-      <span class="profile-page-eyebrow">Profil Desa</span>
       <h1>Visi &amp; Misi</h1>
       <p>
         Arah pembangunan dan komitmen Pemerintah {{ $desa['nama'] }}

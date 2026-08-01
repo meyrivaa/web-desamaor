@@ -6,8 +6,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 Route::get('/', [PublicController::class, 'index'])->name('index');
-Route::get('/listing', [PublicController::class, 'listing'])->name('listing');
-Route::get('/profil', [PublicController::class, 'profil'])->name('profil');
+Route::get(
+    '/beranda',
+    [PublicController::class, 'listing']
+)->name('listing');
+
+/*
+ * Alamat lama tetap diarahkan ke Beranda.
+ */
+Route::redirect(
+    '/listing',
+    '/beranda',
+    301
+);
+Route::get(
+    '/visimisi',
+    [PublicController::class, 'profil']
+)->name('profil');
+
+/*
+ * Alamat lama diarahkan ke halaman Visi & Misi.
+ */
+Route::redirect(
+    '/profil',
+    '/visimisi',
+    301
+);
 Route::get('/struktur', [PublicController::class, 'struktur'])->name('struktur');
 Route::get('/berita', [PublicController::class, 'berita'])->name('berita');
 Route::get('/berita/{id}', [PublicController::class, 'beritaDetail'])->whereNumber('id')->name('berita_detail');

@@ -46,7 +46,7 @@
         <a href="{{ route('peta') }}">Peta Desa</a>
         <a href="{{ route('profil') }}">Visi &amp; Misi</a>
         <a href="{{ route('struktur') }}" aria-current="page">Struktur Organisasi</a>
-        <a href="{{ route('infografis') }}">Infografis</a>
+        <a href="{{ route('statistik') }}">Statistik Desa</a>
         <a href="{{ route('umkm') }}">UMKM</a>
         <a href="{{ route('berita') }}">Berita</a>
 

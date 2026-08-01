@@ -16,9 +16,10 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=7">
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=8">
 
   <script defer src="{{ asset('js/navigation.js') }}?v=4"></script>
+  <script defer src="{{ asset('js/news-search.js') }}?v=1"></script>
 </head>
 
 <body>
@@ -55,7 +56,7 @@
         <a href="{{ route('peta') }}">Peta Desa</a>
         <a href="{{ route('profil') }}">Visi &amp; Misi</a>
         <a href="{{ route('struktur') }}">Struktur Organisasi</a>
-        <a href="{{ route('infografis') }}">Infografis</a>
+        <a href="{{ route('statistik') }}">Statistik Desa</a>
         <a href="{{ route('umkm') }}">UMKM</a>
         <a href="{{ route('berita') }}" aria-current="page">Berita</a>
 
@@ -88,22 +89,48 @@
     </header>
 
 
+    @if(count($berita) > 0)
+
+      <section class="news-search-section" aria-label="Pencarian berita">
+
+        <div class="news-search-bar">
+
+          <div class="news-search-field">
+
+            <label for="news-search">
+              Cari Berita
+            </label>
+
+            <input type="search" id="news-search" placeholder="Cari judul atau isi ringkasan berita..." autocomplete="off"
+              data-news-search>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    @endif
+
+
     <section class="news-list-section" aria-label="Daftar berita desa">
 
       <div class="news-grid">
 
         @forelse($berita as $item)
 
-          <article class="news-card">
+          <article class="news-card" data-news-card data-search="{{ $item['judul'] }} {{ $item['ringkasan'] }}">
 
             <a href="{{ route('berita_detail', $item['id']) }}" class="news-image-link"
               aria-label="Baca berita {{ $item['judul'] }}">
+
               <div class="news-image">
 
                 <img src="{{ asset('uploads/' . $item['gambar']) }}" alt="{{ $item['judul'] }}" loading="lazy"
                   decoding="async">
 
               </div>
+
             </a>
 
             <div class="news-content">
@@ -113,9 +140,11 @@
               </time>
 
               <h2 class="news-title">
+
                 <a href="{{ route('berita_detail', $item['id']) }}">
                   {{ $item['judul'] }}
                 </a>
+
               </h2>
 
               <p class="news-summary">
@@ -123,8 +152,10 @@
               </p>
 
               <a href="{{ route('berita_detail', $item['id']) }}" class="news-readmore">
+
                 Baca Selengkapnya
                 <span aria-hidden="true">&rarr;</span>
+
               </a>
 
             </div>
@@ -138,6 +169,21 @@
           </div>
 
         @endforelse
+
+
+        @if(count($berita) > 0)
+
+          <div class="news-filter-empty" data-news-filter-empty hidden>
+
+            <h2>Berita Tidak Ditemukan</h2>
+
+            <p>
+              Tidak ada berita yang sesuai dengan kata pencarian.
+            </p>
+
+          </div>
+
+        @endif
 
       </div>
 

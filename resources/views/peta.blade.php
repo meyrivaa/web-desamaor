@@ -25,8 +25,7 @@
 
       <a class="brand" href="{{ route('listing') }}">
         <span class="brand-mark" aria-hidden="true">
-          <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="Logo Desa Maor"
-            class="brand-logo">
+          <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="Logo Desa Maor" class="brand-logo">
         </span>
         <span class="brand-text">
           <strong>{{ $desa['nama'] }}</strong>
@@ -48,7 +47,7 @@
         <a href="{{ route('peta') }}" aria-current="page">Peta Desa</a>
         <a href="{{ route('profil') }}">Visi &amp; Misi</a>
         <a href="{{ route('struktur') }}">Struktur Organisasi</a>
-        <a href="{{ route('infografis') }}">Infografis</a>
+        <a href="{{ route('statistik') }}">Statistik Desa</a>
         <a href="{{ route('umkm') }}">UMKM</a>
         <a href="{{ route('berita') }}">Berita</a>
 

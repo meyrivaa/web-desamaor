@@ -9,7 +9,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=12">
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=13">
 
   <script defer src="{{ asset('js/navigation.js') }}?v=3"></script>
 </head>
@@ -46,7 +46,7 @@
         <a href="{{ route('peta') }}">Peta Desa</a>
         <a href="{{ route('profil') }}" aria-current="page">Visi &amp; Misi</a>
         <a href="{{ route('struktur') }}">Struktur Organisasi</a>
-        <a href="{{ route('infografis') }}">Infografis</a>
+        <a href="{{ route('statistik') }}">Statistik Desa</a>
         <a href="{{ route('umkm') }}">UMKM</a>
         <a href="{{ route('berita') }}">Berita</a>
 
@@ -77,7 +77,6 @@
       <div class="card vm-card vm-card--vision">
 
         <div class="vm-card-header">
-          <span class="vm-card-label">Arah Pembangunan</span>
           <h2 class="vm-title">Visi</h2>
         </div>
 
@@ -92,7 +91,6 @@
       <div class="card vm-card vm-card--mission">
 
         <div class="vm-card-header">
-          <span class="vm-card-label">Langkah Strategis</span>
           <h2 class="vm-title">Misi</h2>
         </div>
 

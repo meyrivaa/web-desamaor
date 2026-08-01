@@ -10,19 +10,117 @@ use Symfony\Component\HtmlSanitizer\HtmlSanitizerAction;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
 class AdminController extends Controller
 {
-    private array $tables = ['berita', 'infografis', 'agenda', 'poi', 'umkm', 'struktur_organisasi'];
+    private array $tables = ['berita', 'agenda', 'poi', 'umkm', 'struktur_organisasi'];
     private function data(string $t, string $order = 'id', string $dir = 'desc'): array
     {
         return DB::table($t)->orderBy($order, $dir)->get()->map(fn($r) => (array) $r)->all();
     }
+
+    private function statistikRincianText(
+        ?int $statistikId,
+        string $kategori
+    ): string {
+        if ($statistikId === null) {
+            return '';
+        }
+
+        return DB::table('statistik_rincian')
+            ->where('statistik_desa_id', $statistikId)
+            ->where('kategori', $kategori)
+            ->orderBy('urutan')
+            ->orderBy('id')
+            ->get()
+            ->map(function ($item): string {
+                /*
+                 * Format setiap baris:
+                 * Nama data | Jumlah
+                 *
+                 * Nilai kosong ditampilkan menggunakan tanda "-".
+                 */
+                $jumlah = $item->jumlah === null
+                    ? '-'
+                    : (string) $item->jumlah;
+
+                return $item->nama . ' | ' . $jumlah;
+            })
+            ->implode(PHP_EOL);
+    }
+
     public function dashboard(Request $r): View
     {
-        return view('admin', ['desa' => config('desa'), 'daftar_berita' => $this->data('berita'), 'daftar_infografis' => $this->data('infografis'), 'daftar_agenda' => $this->data('agenda', 'tanggal', 'asc'), 'daftar_poi' => $this->data('poi', 'id', 'asc'), 'daftar_umkm' => $this->data('umkm'), 'daftar_struktur' => $this->data('struktur_organisasi', 'urutan', 'asc')]);
+        /*
+         * Ambil data statistik aktif yang paling baru.
+         */
+        $statistik = DB::table('statistik_desa')
+            ->where('is_active', true)
+            ->orderByDesc('tanggal_data')
+            ->orderByDesc('id')
+            ->first();
+
+        $statistikId = $statistik !== null
+            ? (int) $statistik->id
+            : null;
+
+        return view('admin', [
+            'desa' => config('desa'),
+
+            'daftar_berita' => $this->data('berita'),
+
+            'daftar_agenda' => $this->data(
+                'agenda',
+                'tanggal',
+                'asc'
+            ),
+
+            'daftar_poi' => $this->data(
+                'poi',
+                'id',
+                'asc'
+            ),
+
+            'daftar_umkm' => $this->data('umkm'),
+
+            'daftar_struktur' => $this->data(
+                'struktur_organisasi',
+                'urutan',
+                'asc'
+            ),
+
+            /*
+             * Data yang digunakan oleh formulir Statistik Desa.
+             */
+            'statistik' => $statistik !== null
+                ? (array) $statistik
+                : null,
+
+            'statistik_agama' => $this->statistikRincianText(
+                $statistikId,
+                'agama'
+            ),
+
+            'statistik_pekerjaan' => $this->statistikRincianText(
+                $statistikId,
+                'pekerjaan'
+            ),
+
+            'statistik_pendidikan' => $this->statistikRincianText(
+                $statistikId,
+                'pendidikan'
+            ),
+        ]);
     }
     public function store(Request $r)
     {
         $type = $r->input('jenis_form');
-        match ($type) { 'berita' => $this->storeBerita($r), 'infografis' => $this->storeInfografis($r), 'agenda' => $this->storeAgenda($r), 'poi' => $this->storePoi($r), 'struktur' => $this->storeStruktur($r), 'umkm' => $this->storeUmkm($r), default => abort(422, 'Jenis formulir tidak valid.')};
+        match ($type) {
+            'berita' => $this->storeBerita($r),
+            'statistik' => $this->storeStatistik($r),
+            'agenda' => $this->storeAgenda($r),
+            'poi' => $this->storePoi($r),
+            'struktur' => $this->storeStruktur($r),
+            'umkm' => $this->storeUmkm($r),
+            default => abort(422, 'Jenis formulir tidak valid.')
+        };
         return redirect()->route('admin_dashboard')->with('success', 'Data berhasil disimpan.');
     }
     private function upload(
@@ -227,12 +325,199 @@ class AdminController extends Controller
         DB::table('berita')->insert($d);
     }
 
-    private function storeInfografis(Request $r): void
-    {
-        $d = $r->validate(['judul' => 'required|string|max:255']);
-        $d += ['tanggal' => $this->nowLabel(), 'gambar' => $this->upload($r, 'gambar', 'infografis')];
-        DB::table('infografis')->insert($d);
+    private function parseStatistikRincian(
+        string $value,
+        string $field
+    ): array {
+        $lines = preg_split(
+            '/\r\n|\r|\n/',
+            trim($value)
+        );
+
+        $result = [];
+
+        foreach ($lines as $index => $line) {
+            $line = trim($line);
+
+            if ($line === '') {
+                continue;
+            }
+
+            /*
+             * Format yang diterima:
+             * Nama data | Jumlah
+             *
+             * Contoh:
+             * Pemeluk agama Islam | 1309
+             * Pemeluk agama Hindu | -
+             */
+            $parts = array_map(
+                'trim',
+                explode('|', $line, 2)
+            );
+
+            if (
+                count($parts) !== 2 ||
+                $parts[0] === ''
+            ) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    $field => sprintf(
+                        'Format pada baris %d belum benar. Gunakan format: Nama | Jumlah.',
+                        $index + 1
+                    ),
+                ]);
+            }
+
+            $nama = $parts[0];
+            $rawJumlah = $parts[1];
+
+            if (strlen($nama) > 255) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    $field => sprintf(
+                        'Nama data pada baris %d terlalu panjang.',
+                        $index + 1
+                    ),
+                ]);
+            }
+
+            /*
+             * Tanda "-" berarti data belum tersedia,
+             * sehingga disimpan sebagai null.
+             */
+            if (
+                $rawJumlah === '' ||
+                $rawJumlah === '-' ||
+                $rawJumlah === '–'
+            ) {
+                $jumlah = null;
+            } else {
+                /*
+                 * Titik dan spasi pemisah ribuan dihapus.
+                 * Contoh: 1.310 menjadi 1310.
+                 */
+                $normalized = preg_replace(
+                    '/[.\s]/',
+                    '',
+                    $rawJumlah
+                );
+
+                if (
+                    $normalized === null ||
+                    $normalized === '' ||
+                    !ctype_digit($normalized)
+                ) {
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        $field => sprintf(
+                            'Jumlah pada baris %d harus berupa angka atau tanda "-".',
+                            $index + 1
+                        ),
+                    ]);
+                }
+
+                $jumlah = (int) $normalized;
+            }
+
+            $result[] = [
+                'nama' => $nama,
+                'jumlah' => $jumlah,
+                'urutan' => count($result) + 1,
+            ];
+        }
+
+        if ($result === []) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                $field => 'Rincian statistik wajib diisi.',
+            ]);
+        }
+
+        return $result;
     }
+
+    private function storeStatistik(Request $r): void
+    {
+        $data = $r->validate([
+            'statistik_id' => 'nullable|integer',
+
+            'tanggal_data' => 'required|date',
+
+            'total_penduduk' => 'required|integer|min:0',
+            'laki_laki' => 'required|integer|min:0',
+            'perempuan' => 'required|integer|min:0',
+            'jumlah_kk' => 'required|integer|min:0',
+            'jumlah_rumah_tangga' => 'required|integer|min:0',
+        ]);
+
+        /*
+         * Total penduduk harus sama dengan jumlah
+         * penduduk laki-laki dan perempuan.
+         */
+        if (
+            ((int) $data['laki_laki']
+                + (int) $data['perempuan'])
+            !== (int) $data['total_penduduk']
+        ) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'total_penduduk' =>
+                    'Total penduduk harus sama dengan jumlah laki-laki dan perempuan.',
+            ]);
+        }
+
+        DB::transaction(function () use ($data): void {
+            /*
+             * Nonaktifkan periode statistik lainnya.
+             */
+            DB::table('statistik_desa')->update([
+                'is_active' => false,
+                'updated_at' => now(),
+            ]);
+
+            $statistikId = isset($data['statistik_id'])
+                ? (int) $data['statistik_id']
+                : 0;
+
+            $mainData = [
+                'tanggal_data' => $data['tanggal_data'],
+                'judul' => 'Statistik Desa Maor',
+                'deskripsi' => null,
+
+                'total_penduduk' =>
+                    (int) $data['total_penduduk'],
+
+                'laki_laki' =>
+                    (int) $data['laki_laki'],
+
+                'perempuan' =>
+                    (int) $data['perempuan'],
+
+                'jumlah_kk' =>
+                    (int) $data['jumlah_kk'],
+
+                'jumlah_rumah_tangga' =>
+                    (int) $data['jumlah_rumah_tangga'],
+
+                'sumber_data' => null,
+                'is_active' => true,
+                'updated_at' => now(),
+            ];
+
+            $exists = $statistikId > 0
+                && DB::table('statistik_desa')
+                    ->where('id', $statistikId)
+                    ->exists();
+
+            if ($exists) {
+                DB::table('statistik_desa')
+                    ->where('id', $statistikId)
+                    ->update($mainData);
+            } else {
+                $mainData['created_at'] = now();
+
+                DB::table('statistik_desa')
+                    ->insert($mainData);
+            }
+        });
+    }
+
     private function storeAgenda(Request $r): void
     {
         DB::table('agenda')->insert($r->validate(['judul' => 'required|string|max:255', 'tanggal' => 'required|date', 'waktu' => 'required|string|max:100', 'lokasi' => 'required|string|max:255']));
@@ -335,32 +620,7 @@ class AdminController extends Controller
     {
         return $this->destroy('berita', $id, 'gambar');
     }
-    public function editInfografis(int $id): View
-    {
-        return $this->editView('infografis', $id, 'admin_edit_infografis');
-    }
-    public function updateInfografis(Request $r, int $id)
-    {
-        $old = DB::table('infografis')->find($id);
-        abort_unless($old, 404);
-        $d = $r->validate(['judul' => 'required|string|max:255', 'tanggal' => 'required|string|max:100']);
-        $img = $old->gambar;
-        if ($r->boolean('hapus_gambar')) {
-            $this->deleteFile($img);
-            $img = 'default.jpg';
-        }
-        if ($r->hasFile('gambar')) {
-            $this->deleteFile($img);
-            $img = $this->upload($r, 'gambar', 'infografis');
-        }
-        $d['gambar'] = $img;
-        DB::table('infografis')->where('id', $id)->update($d);
-        return $this->back();
-    }
-    public function destroyInfografis(int $id)
-    {
-        return $this->destroy('infografis', $id, 'gambar');
-    }
+
     public function editAgenda(int $id): View
     {
         return $this->editView('agenda', $id, 'admin_edit_agenda');

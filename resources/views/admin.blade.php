@@ -352,13 +352,13 @@
 
     @if ($errors->any())
       <div style="
-                                margin: 0 0 1.5rem;
-                                padding: 1rem 1.25rem;
-                                border: 1px solid #dc2626;
-                                border-radius: 8px;
-                                background: #fef2f2;
-                                color: #991b1b;
-                              ">
+                                                  margin: 0 0 1.5rem;
+                                                  padding: 1rem 1.25rem;
+                                                  border: 1px solid #dc2626;
+                                                  border-radius: 8px;
+                                                  background: #fef2f2;
+                                                  color: #991b1b;
+                                                ">
         <strong>Data belum berhasil disimpan:</strong>
 
         <ul style="margin: 0.75rem 0 0; padding-left: 1.25rem;">
@@ -371,13 +371,13 @@
 
     @if (session('success'))
       <div style="
-                                margin: 0 0 1.5rem;
-                                padding: 1rem 1.25rem;
-                                border: 1px solid #16a34a;
-                                border-radius: 8px;
-                                background: #f0fdf4;
-                                color: #166534;
-                              ">
+                                                  margin: 0 0 1.5rem;
+                                                  padding: 1rem 1.25rem;
+                                                  border: 1px solid #16a34a;
+                                                  border-radius: 8px;
+                                                  background: #f0fdf4;
+                                                  color: #166534;
+                                                ">
         {{ session('success') }}
       </div>
     @endif
@@ -457,57 +457,119 @@
         </form>
       </div>
 
-      <!-- FORM INFOGRAFIS -->
+      <!-- FORM STATISTIK DESA -->
       <div class="admin-card">
+
         <h2 class="admin-card-title">
           <svg class="admin-ui-icon" aria-hidden="true">
             <use href="#icon-chart"></use>
           </svg>
 
-          <span>Upload Infografis Baru</span>
+          <span>Kelola Statistik Desa</span>
         </h2>
-        <form class="admin-form" method="POST" action="{{ route('admin_store') }}" enctype="multipart/form-data">
+
+        <form class="admin-form" method="POST" action="{{ route('admin_store') }}">
+
           @csrf
-          <input type="hidden" name="jenis_form" value="infografis">
+
+          <input type="hidden" name="jenis_form" value="statistik">
+
+          <input type="hidden" name="statistik_id" value="{{ old(
+  'statistik_id',
+  $statistik['id'] ?? ''
+) }}">
 
           <div class="form-group">
-            <label>Judul Infografis</label>
-            <input type="text" name="judul" class="form-control" required placeholder="Cth: Infografis APBDes 2026...">
+            <label for="tanggal-data">
+              Tanggal Data
+            </label>
+
+            <input type="date" id="tanggal-data" name="tanggal_data" class="form-control" value="{{ old(
+  'tanggal_data',
+  $statistik['tanggal_data'] ?? ''
+) }}" required>
+
+            <small>
+              Tanggal ini ditampilkan pada keterangan di bawah
+              jumlah total penduduk.
+            </small>
           </div>
 
-          <div class="form-group">
-            <label>File Gambar Infografis</label>
+          <div class="grid-2-col">
 
-            <div class="admin-image-editor" data-image-editor>
+            <div class="form-group">
+              <label for="total-penduduk">
+                Total Penduduk
+              </label>
 
-              <div class="admin-image-preview admin-image-preview--poster">
-                <img data-image-preview alt="Preview infografis" hidden>
-
-                <div class="admin-image-placeholder" data-image-placeholder>
-
-                  <svg class="admin-placeholder-icon" aria-hidden="true">
-                    <use href="#icon-chart"></use>
-                  </svg>
-
-                  <p>Belum ada infografis dipilih</p>
-
-                </div>
-              </div>
-
-              <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*"
-                data-image-input>
-
-              <button type="button" class="admin-remove-photo-button" data-image-remove hidden>
-                Batalkan Gambar
-              </button>
-
+              <input type="number" id="total-penduduk" name="total_penduduk" class="form-control" min="0" value="{{ old(
+  'total_penduduk',
+  $statistik['total_penduduk'] ?? ''
+) }}" required>
             </div>
+
+            <div class="form-group">
+              <label for="jumlah-laki-laki">
+                Laki-laki
+              </label>
+
+              <input type="number" id="jumlah-laki-laki" name="laki_laki" class="form-control" min="0" value="{{ old(
+  'laki_laki',
+  $statistik['laki_laki'] ?? ''
+) }}" required>
+            </div>
+
           </div>
+
+          <div class="grid-2-col">
+
+            <div class="form-group">
+              <label for="jumlah-perempuan">
+                Perempuan
+              </label>
+
+              <input type="number" id="jumlah-perempuan" name="perempuan" class="form-control" min="0" value="{{ old(
+  'perempuan',
+  $statistik['perempuan'] ?? ''
+) }}" required>
+            </div>
+
+            <div class="form-group">
+              <label for="jumlah-kk">
+                Kepala Keluarga
+              </label>
+
+              <input type="number" id="jumlah-kk" name="jumlah_kk" class="form-control" min="0" value="{{ old(
+  'jumlah_kk',
+  $statistik['jumlah_kk'] ?? ''
+) }}" required>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <label for="jumlah-rumah-tangga">
+              Jumlah Rumah Tangga
+            </label>
+
+            <input type="number" id="jumlah-rumah-tangga" name="jumlah_rumah_tangga" class="form-control" min="0" value="{{ old(
+  'jumlah_rumah_tangga',
+  $statistik['jumlah_rumah_tangga'] ?? ''
+) }}" required>
+          </div>
+
+          <small>
+            Total penduduk harus sama dengan jumlah
+            laki-laki ditambah perempuan.
+          </small>
 
           <button type="submit" class="btn-submit">
-            Upload Infografis
+
+            Simpan Statistik Desa
           </button>
+
         </form>
+
       </div>
 
       <!-- KARTU KANAN: FORM POI (TITIK PETA) -->
@@ -828,10 +890,10 @@
 
           <div style="overflow-x: auto;">
             <table style="
-                                    width: 100%;
-                                    min-width: 800px;
-                                    border-collapse: collapse;
-                                  ">
+                                                      width: 100%;
+                                                      min-width: 800px;
+                                                      border-collapse: collapse;
+                                                    ">
 
               <thead>
                 <tr>
@@ -855,13 +917,14 @@
 
                       @if($item_struktur["foto"] && $item_struktur["foto"] != "default.jpg")
 
-                        <img src="{{ asset('uploads/' . $item_struktur['foto']) }}" alt="{{ $item_struktur['nama'] }}" style="
-                                                                                                      width: 65px;
-                                                                                                      height: 80px;
-                                                                                                      object-fit: cover;
-                                                                                                      object-position: center top;
-                                                                                                      border-radius: 7px;
-                                                                                                    ">
+                        <img src="{{ asset('uploads/' . $item_struktur['foto']) }}" alt="{{ $item_struktur['nama'] }}"
+                          style="
+                                                                                                                                                            width: 65px;
+                                                                                                                                                            height: 80px;
+                                                                                                                                                            object-fit: cover;
+                                                                                                                                                            object-position: center top;
+                                                                                                                                                            border-radius: 7px;
+                                                                                                                                                          ">
 
                       @else
 
@@ -891,8 +954,8 @@
 
                         <form class="admin-delete-form" action="{{ route('admin_hapus_struktur', $item_struktur['id']) }}"
                           method="POST" onsubmit="return confirm(
-                                                                          'Apakah Anda yakin ingin menghapus perangkat desa ini?'
-                                                                        );">
+                                                                                                              'Apakah Anda yakin ingin menghapus perangkat desa ini?'
+                                                                                                            );">
                           @csrf
                           <button class="admin-delete-button" type="submit">
                             Hapus
@@ -934,10 +997,10 @@
         @if($daftar_berita)
           <div style="overflow-x: auto;">
             <table style="
-                                    width: 100%;
-                                    min-width: 700px;
-                                    border-collapse: collapse;
-                                  ">
+                                                      width: 100%;
+                                                      min-width: 700px;
+                                                      border-collapse: collapse;
+                                                    ">
               <thead>
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
                   <th style="padding: 1rem; text-align: left;">No.</th>
@@ -965,12 +1028,13 @@
 
                     <td style="padding: 1rem;">
                       @if($item["gambar"])
-                        <img src="{{ asset('uploads/' . $item['gambar']) }}" alt="{{ $item['judul'] }}" style="
-                                                                                                      width: 80px;
-                                                                                                      height: 55px;
-                                                                                                      object-fit: cover;
-                                                                                                      border-radius: 6px;
-                                                                                                    ">
+                        <img src="{{ asset('uploads/' . $item['gambar']) }}" alt="{{ $item['judul'] }}"
+                          style="
+                                                                                                                                                            width: 80px;
+                                                                                                                                                            height: 55px;
+                                                                                                                                                            object-fit: cover;
+                                                                                                                                                            border-radius: 6px;
+                                                                                                                                                          ">
                       @else
                         Tidak ada gambar
                       @endif
@@ -1008,114 +1072,6 @@
         @endif
       </section>
 
-      <!-- DAFTAR INFOGRAFIS YANG SUDAH TERSIMPAN -->
-      <section class="admin-card admin-list-card">
-        <h2 class="admin-card-title">
-          <svg class="admin-ui-icon" aria-hidden="true">
-            <use href="#icon-chart"></use>
-          </svg>
-
-          <span>Daftar Infografis Tersimpan</span>
-        </h2>
-
-        @if($daftar_infografis)
-          <div style="overflow-x: auto;">
-            <table style="
-                                    width: 100%;
-                                    min-width: 650px;
-                                    border-collapse: collapse;
-                                  ">
-              <thead>
-                <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
-                  <th style="padding: 1rem; text-align: left;">
-                    No.
-                  </th>
-
-                  <th style="padding: 1rem; text-align: left;">
-                    Judul
-                  </th>
-
-                  <th style="padding: 1rem; text-align: left;">
-                    Tanggal
-                  </th>
-
-                  <th style="padding: 1rem; text-align: left;">
-                    Gambar
-                  </th>
-
-                  <th style="padding: 1rem; text-align: center;">
-                    Aksi
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                @foreach($daftar_infografis as $item_info)
-                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-
-                    <td style="padding: 1rem;">
-                      {{ $loop->iteration }}
-                    </td>
-
-                    <td style="padding: 1rem;">
-                      <strong>
-                        {{ $item_info["judul"] }}
-                      </strong>
-                    </td>
-
-                    <td style="padding: 1rem;">
-                      {{ $item_info["tanggal"] }}
-                    </td>
-
-                    <td style="padding: 1rem;">
-                      @if($item_info["gambar"])
-                        <img src="{{ asset('uploads/' . $item_info['gambar']) }}" alt="{{ $item_info['judul'] }}" style="
-                                                                                                          width: 75px;
-                                                                                                          height: 95px;
-                                                                                                          object-fit: contain;
-                                                                                                          border-radius: 6px;
-                                                                                                          background: #f3f7f5;
-                                                                                                        ">
-                      @else
-                        Tidak ada gambar
-                      @endif
-                    </td>
-
-                    <td class="admin-action-cell">
-
-                      <div class="admin-action-group">
-
-                        <a href="{{ route('admin_edit_infografis', $item_info['id']) }}" class="admin-edit-button">
-                          Edit
-                        </a>
-
-                        <form class="admin-delete-form" action="{{ route('admin_hapus_infografis', $item_info['id']) }}"
-                          method="POST" onsubmit="return confirm(
-                                                                    'Apakah anda yakin ingin menghapus infografis ini?'
-                                                                  );">
-                          @csrf
-                          <button class="admin-delete-button" type="submit">
-                            Hapus
-                          </button>
-                        </form>
-
-                      </div>
-
-                    </td>
-
-                  </tr>
-                @endforeach
-              </tbody>
-            </table>
-          </div>
-
-        @else
-          <p style="color: var(--muted-sage);">
-            Belum ada infografis yang tersimpan.
-          </p>
-        @endif
-      </section>
-
       <!-- DAFTAR AGENDA YANG SUDAH TERSIMPAN -->
       <section class="admin-card admin-list-card">
         <h2 class="admin-card-title">
@@ -1129,10 +1085,10 @@
         @if($daftar_agenda)
           <div style="overflow-x: auto;">
             <table style="
-                                    width: 100%;
-                                    min-width: 850px;
-                                    border-collapse: collapse;
-                                  ">
+                                                      width: 100%;
+                                                      min-width: 850px;
+                                                      border-collapse: collapse;
+                                                    ">
               <thead>
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
                   <th style="padding: 1rem; text-align: left;">
@@ -1197,8 +1153,8 @@
 
                         <form class="admin-delete-form" action="{{ route('admin_hapus_agenda', $item_agenda['id']) }}"
                           method="POST" onsubmit="return confirm(
-                                                                    'Apakah kamu yakin ingin menghapus agenda ini?'
-                                                                  );">
+                                                                                                        'Apakah kamu yakin ingin menghapus agenda ini?'
+                                                                                                      );">
                           @csrf
                           <button class="admin-delete-button" type="submit">
                             Hapus
@@ -1235,10 +1191,10 @@
         @if($daftar_poi)
           <div style="overflow-x: auto;">
             <table style="
-                                    width: 100%;
-                                    min-width: 1050px;
-                                    border-collapse: collapse;
-                                  ">
+                                                      width: 100%;
+                                                      min-width: 1050px;
+                                                      border-collapse: collapse;
+                                                    ">
               <thead>
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
 
@@ -1292,10 +1248,10 @@
                     </td>
 
                     <td style="
-                                                                            padding: 1rem;
-                                                                            min-width: 240px;
-                                                                            line-height: 1.6;
-                                                                          ">
+                                                                                                                padding: 1rem;
+                                                                                                                min-width: 240px;
+                                                                                                                line-height: 1.6;
+                                                                                                              ">
                       {{ $item_poi["deskripsi"] }}
                     </td>
 
@@ -1317,8 +1273,8 @@
 
                         <form class="admin-delete-form" action="{{ route('admin_hapus_poi', $item_poi['id']) }}"
                           method="POST" onsubmit="return confirm(
-                                                                    'Apakah Anda yakin ingin menghapus titik peta ini?'
-                                                                  );">
+                                                                                                        'Apakah Anda yakin ingin menghapus titik peta ini?'
+                                                                                                      );">
                           @csrf
                           <button class="admin-delete-button" type="submit">
                             Hapus
@@ -1356,10 +1312,10 @@
           <div style="overflow-x: auto;">
 
             <table style="
-                                    width: 100%;
-                                    min-width: 1100px;
-                                    border-collapse: collapse;
-                                  ">
+                                                      width: 100%;
+                                                      min-width: 1100px;
+                                                      border-collapse: collapse;
+                                                    ">
 
               <thead>
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
@@ -1444,12 +1400,13 @@
 
                     <td style="padding: 1rem;">
                       @if($item_umkm["gambar"])
-                        <img src="{{ asset('uploads/' . $item_umkm['gambar']) }}" alt="{{ $item_umkm['nama_produk'] }}" style="
-                                                                                                              width: 85px;
-                                                                                                              height: 70px;
-                                                                                                              object-fit: cover;
-                                                                                                              border-radius: 7px;
-                                                                                                            ">
+                        <img src="{{ asset('uploads/' . $item_umkm['gambar']) }}" alt="{{ $item_umkm['nama_produk'] }}"
+                          style="
+                                                                                                                                                                    width: 85px;
+                                                                                                                                                                    height: 70px;
+                                                                                                                                                                    object-fit: cover;
+                                                                                                                                                                    border-radius: 7px;
+                                                                                                                                                                  ">
                       @else
                         Tidak ada gambar
                       @endif
@@ -1465,8 +1422,8 @@
 
                         <form class="admin-delete-form" action="{{ route('admin_hapus_umkm', $item_umkm['id']) }}"
                           method="POST" onsubmit="return confirm(
-                                                                        'Apakah Anda yakin ingin menghapus produk UMKM ini?'
-                                                                      );">
+                                                                                                            'Apakah Anda yakin ingin menghapus produk UMKM ini?'
+                                                                                                          );">
                           @csrf
                           <button class="admin-delete-button" type="submit">
                             Hapus

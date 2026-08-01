@@ -51,7 +51,7 @@
         <a href="{{ route('peta') }}">Peta Desa</a>
         <a href="{{ route('profil') }}">Visi &amp; Misi</a>
         <a href="{{ route('struktur') }}">Struktur Organisasi</a>
-        <a href="{{ route('infografis') }}">Infografis</a>
+        <a href="{{ route('statistik') }}">Statistik Desa</a>
         <a href="{{ route('umkm') }}">UMKM</a>
         <a href="{{ route('berita') }}">Berita</a>
 
@@ -91,7 +91,7 @@
       </div>
       <div class="hero-media">
         <video class="drone-video" autoplay muted loop playsinline>
-          <source src="{{ asset('video/15498625_1920_1080_25fps.mp4') }}" type="video/mp4">
+          <source src="{{ asset('video/profil-desa.mp4') }}" type="video/mp4">
           Browser Anda tidak mendukung tag video.
         </video>
       </div>

@@ -10288,3 +10288,98 @@ main>section.home-hero {
     padding: 3.5rem 1rem;
   }
 }
+
+/* =========================================================================
+   FOOTER TIGA KOLOM SIMETRIS
+   ========================================================================= */
+
+.mega-footer {
+  padding-top: 4.5rem;
+}
+
+/* Tiga kolom memiliki lebar yang sama */
+.mega-footer .footer-top {
+  width: 100%;
+  max-width: 1080px;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  justify-content: center;
+
+  gap: 4rem;
+  margin: 0 auto 4rem;
+}
+
+/* Setiap isi kolom ditempatkan di tengah kolomnya */
+.mega-footer .footer-col {
+  width: 100%;
+  max-width: 280px;
+
+  justify-self: center;
+  text-align: left;
+}
+
+/* Judul dan logo tetap rapi sejajar */
+.mega-footer .footer-brand,
+.mega-footer .footer-heading {
+  margin-bottom: 1.35rem;
+}
+
+/* Daftar kontak dan tautan tidak memiliki jarak bawaan */
+.mega-footer .footer-contact,
+.mega-footer .footer-links {
+  margin: 0;
+  padding: 0;
+}
+
+/* Tombol media sosial tetap sejajar dari kiri */
+.mega-footer .footer-social {
+  justify-content: flex-start;
+}
+
+/* Garis dan copyright mengikuti lebar susunan kolom */
+.mega-footer .footer-bottom {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+
+/* Tablet */
+@media (max-width: 900px) {
+  .mega-footer .footer-top {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    max-width: 720px;
+    gap: 3rem;
+  }
+
+  /* Kolom Jelajahi berada di tengah baris kedua */
+  .mega-footer .footer-col--links {
+    grid-column: 1 / -1;
+  }
+}
+
+
+/* HP */
+@media (max-width: 600px) {
+  .mega-footer {
+    padding-top: 3rem;
+  }
+
+  .mega-footer .footer-top {
+    grid-template-columns: 1fr;
+
+    max-width: 360px;
+    gap: 2.5rem;
+  }
+
+  .mega-footer .footer-col,
+  .mega-footer .footer-col--links {
+    grid-column: auto;
+
+    width: 100%;
+    max-width: none;
+  }
+}

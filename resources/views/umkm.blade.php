@@ -56,7 +56,7 @@
                 <a href="{{ route('peta') }}">Peta Desa</a>
                 <a href="{{ route('profil') }}">Visi &amp; Misi</a>
                 <a href="{{ route('struktur') }}">Struktur Organisasi</a>
-                <a href="{{ route('statistik') }}">Statistik Desa</a>
+                <a href="{{ route('statistik') }}">Infografis</a>
                 <a href="{{ route('umkm') }}" aria-current="page">UMKM</a>
                 <a href="{{ route('berita') }}">Berita</a>
 
@@ -229,14 +229,15 @@
                                     target="_blank" rel="noopener noreferrer">
 
                                     <svg class="umkm-inline-icon" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8
-                                                                                            8.5 8.5 0 0 1-7.6 4.7
-                                                                                            8.38 8.38 0 0 1-3.8-.9
-                                                                                            L3 21l1.9-5.7
-                                                                                            a8.38 8.38 0 0 1-.9-3.8
-                                                                                            8.5 8.5 0 0 1 4.7-7.6
-                                                                                            8.38 8.38 0 0 1 3.8-.9
-                                                                                            h.5a8.48 8.48 0 0 1 8 8Z">
+                                        <path
+                                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8
+                                                                                                    8.5 8.5 0 0 1-7.6 4.7
+                                                                                                    8.38 8.38 0 0 1-3.8-.9
+                                                                                                    L3 21l1.9-5.7
+                                                                                                    a8.38 8.38 0 0 1-.9-3.8
+                                                                                                    8.5 8.5 0 0 1 4.7-7.6
+                                                                                                    8.38 8.38 0 0 1 3.8-.9
+                                                                                                    h.5a8.48 8.48 0 0 1 8 8Z">
                                         </path>
                                     </svg>
 
@@ -278,6 +279,8 @@
         </section>
 
     </main>
+
+    @include('partials.footer')
 
     @if(count($daftar_umkm) > 0)
 

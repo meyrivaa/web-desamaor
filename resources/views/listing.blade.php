@@ -93,9 +93,8 @@
         </h1>
 
         <p class="home-hero-description">
-          Portal resmi Desa Maor yang menyajikan profil desa,
-          informasi pemerintahan, kabar terbaru, produk UMKM lokal,
-          serta potensi wisata religi dalam satu tempat.
+          Portal informasi Desa Maor yang menghadirkan profil desa, kabar terbaru, ragam produk UMKM lokal, dan potensi
+          pada sektor agrikultur tebu dan palawija dalam satu tempat.
         </p>
 
         <div class="home-hero-actions">
@@ -456,143 +455,8 @@
 
     </section>
 
-    <footer class="mega-footer" id="kontak">
-      <div class="footer-top">
-        <div class="footer-col">
-          <div class="footer-brand">
-            <span class="footer-brand-mark" aria-hidden="true">
-              <img src="{{ asset('uploads/logo-desa-maor.png') }}" alt="" class="footer-brand-logo">
-            </span>
+    @include('partials.footer')
 
-            <span class="brand-text">
-              <strong>Pemerintah {{ $desa['nama'] }}</strong>
-            </span>
-          </div>
-          <p>{{ $desa['alamat'] }}<br>{{ $desa['kecamatan'] }}, {{ $desa['kabupaten'] }}<br>{{ $desa['provinsi'] }},
-            {{ $desa['kode_pos'] }}
-          </p>
-          <p style="margin-top: 1rem;">
-            <strong style="color: var(--green-title);">Kode Wilayah:</strong>
-            {{ $desa['kode_wilayah'] }}
-          </p>
-        </div>
-
-        <div class="footer-col">
-          <h3 class="footer-heading">Hubungi Kami</h3>
-          <ul class="footer-contact">
-
-            <li>
-              <svg class="ui-icon footer-contact-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2
-           19.79 19.79 0 0 1-8.63-3.07
-           19.5 19.5 0 0 1-6-6
-           19.79 19.79 0 0 1-3.07-8.67
-           A2 2 0 0 1 4.11 2h3
-           a2 2 0 0 1 2 1.72
-           12.84 12.84 0 0 0 .7 2.81
-           2 2 0 0 1-.45 2.11L8.09 9.91
-           a16 16 0 0 0 6 6l1.27-1.27
-           a2 2 0 0 1 2.11-.45
-           12.84 12.84 0 0 0 2.81.7
-           A2 2 0 0 1 22 16.92Z">
-                </path>
-              </svg>
-
-              <a href="tel:{{ $desa['telepon'] }}">
-                {{ $desa['telepon'] }}
-              </a>
-            </li>
-
-            <li>
-              <svg class="ui-icon footer-contact-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-                <path d="m3 7 9 6 9-6"></path>
-              </svg>
-
-              <a href="mailto:{{ $desa['email'] }}">
-                {{ $desa['email'] }}
-              </a>
-            </li>
-
-          </ul>
-          <div class="footer-social">
-            <a href="{{ $desa['sosial']['instagram'] }}" target="_blank" rel="noopener">IG</a>
-            <a href="{{ $desa['sosial']['facebook'] }}" target="_blank" rel="noopener">FB</a>
-            <a href="{{ $desa['sosial']['twitter'] }}" target="_blank" rel="noopener">X</a>
-            <a href="{{ $desa['sosial']['youtube'] }}" target="_blank" rel="noopener">YT</a>
-            <a href="{{ $desa['sosial']['tiktok'] }}" target="_blank" rel="noopener">TK</a>
-          </div>
-        </div>
-
-        <div class="footer-col">
-          <h3 class="footer-heading">Jelajahi</h3>
-          <ul class="footer-links">
-            <li><a href="https://kemendesa.go.id" target="_blank" rel="noopener">Website Kemendesa</a></li>
-            <li><a href="https://kemendagri.go.id" target="_blank" rel="noopener">Website Kemendagri</a></li>
-            <li><a href="https://lamongankab.go.id" target="_blank" rel="noopener">Website Kab. Lamongan</a></li>
-            <li><a href="https://cekdptonline.kpu.go.id" target="_blank" rel="noopener">Cek DPT Online</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>&copy; 2026 Pemerintah {{ $desa['nama'] }}</p>
-      </div>
-    </footer>
-
-    <div class="floating-stats">
-      <div class="stats-trigger">
-
-        <span class="stats-icon" aria-hidden="true">
-          <svg class="ui-icon" viewBox="0 0 24 24">
-            <path d="M4 19V9"></path>
-            <path d="M10 19V5"></path>
-            <path d="M16 19v-7"></path>
-            <path d="M22 19V3"></path>
-            <path d="M2 19h22"></path>
-          </svg>
-        </span>
-
-        <span class="stats-brief">Kunjungan</span>
-
-      </div>
-
-      <div class="stats-panel">
-        <div class="ledger-row">
-          <span class="ledger-label">Hari Ini</span>
-          <span class="ledger-value mono">{{ str_pad((string) ($stats['hari_ini'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
-        </div>
-        <div class="ledger-row">
-          <span class="ledger-label">Kemarin</span>
-          <span class="ledger-value mono">{{ str_pad((string) ($stats['kemarin'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
-        </div>
-        <div class="ledger-row">
-          <span class="ledger-label">Minggu Ini</span>
-          <span
-            class="ledger-value mono">{{ str_pad((string) ($stats['minggu_ini'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
-        </div>
-        <div class="ledger-row">
-          <span class="ledger-label">Minggu Lalu</span>
-          <span
-            class="ledger-value mono">{{ str_pad((string) ($stats['minggu_lalu'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
-        </div>
-        <div class="ledger-row">
-          <span class="ledger-label">Bulan Ini</span>
-          <span
-            class="ledger-value mono">{{ str_pad((string) ($stats['bulan_ini'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
-        </div>
-        <div class="ledger-row">
-          <span class="ledger-label">Bulan Lalu</span>
-          <span
-            class="ledger-value mono">{{ str_pad((string) ($stats['bulan_lalu'] ?? 0), 3, '0', STR_PAD_LEFT) }}</span>
-        </div>
-        <div class="ledger-row ledger-row--total">
-          <span class="ledger-label">Total</span>
-          <span class="ledger-value mono"
-            style="color: var(--rust-buoy-lt);">{{ str_pad((string) ($stats['total'] ?? 0), 5, '0', STR_PAD_LEFT) }}</span>
-        </div>
-      </div>
-    </div>
   </main>
 
 </body>

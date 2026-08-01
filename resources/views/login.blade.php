@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  @include('partials.favicon')
 
   <title>Login Admin &mdash; {{ $desa['nama'] }}</title>
 
@@ -82,14 +83,15 @@
   <div class="login-container">
     <h2 style="color: var(--rust-buoy-lt); margin-bottom: 1rem;">Admin Panel</h2>
     @if(session('error', $error))
-    <p style="color: #ff4c4c; font-size: 0.9rem;">{{ session('error', $error) }}</p>
+      <p style="color: #ff4c4c; font-size: 0.9rem;">{{ session('error', $error) }}</p>
     @endif
     <form method="POST" action="{{ route('admin_login_submit') }}">
       @csrf
       <input type="password" name="password" class="login-input" placeholder="Masukkan Password..." required>
       <button type="submit" class="btn btn-primary" style="width: 100%;">Masuk</button>
     </form>
-    <a href="{{ route('listing') }}" style="color: var(--muted-sage); display: block; margin-top: 1rem; font-size: 0.8rem;">&larr;
+    <a href="{{ route('listing') }}"
+      style="color: var(--muted-sage); display: block; margin-top: 1rem; font-size: 0.8rem;">&larr;
       Kembali ke Web Utama</a>
   </div>
 </body>

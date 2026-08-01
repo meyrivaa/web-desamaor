@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Listing &mdash; Peta {{ $desa['nama'] }}</title>
+  @include('partials.favicon')
+  <title>Beranda &mdash; {{ $desa['nama'] }}</title>
   <meta name="description"
     content="Peta geospasial dan titik lokasi (point of interest) {{ $desa['nama'] }}, {{ $desa['kecamatan'] }}, {{ $desa['kabupaten'] }}." />
 

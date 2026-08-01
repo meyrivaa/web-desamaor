@@ -4,14 +4,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Profil &mdash; {{ $desa['nama'] }}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=13">
+  @include('partials.favicon')
+  <<title>Visi &amp; Misi &mdash; {{ $desa['nama'] }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=13">
 
-  <script defer src="{{ asset('js/navigation.js') }}?v=3"></script>
+    <script defer src="{{ asset('js/navigation.js') }}?v=3"></script>
 </head>
 
 <body>

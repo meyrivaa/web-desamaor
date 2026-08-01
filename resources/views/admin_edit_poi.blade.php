@@ -40,13 +40,13 @@
             </p>
 
             @if($error)
-            <div class="admin-edit-error">
-                {{ $error }}
-            </div>
+                <div class="admin-edit-error">
+                    {{ $error }}
+                </div>
             @endif
 
             <form method="POST" class="admin-edit-form" action="{{ route('admin_update_poi', $item['id']) }}">
-      @csrf
+                @csrf
 
                 <div class="admin-edit-field">
                     <label for="nama">
@@ -62,31 +62,31 @@
                     </label>
 
                     <select id="kategori" name="kategori" required>
-                        <option value="Pemerintahan" @if($item['kategori']=='Pemerintahan')selected@endif>
+                        <option value="Pemerintahan" @selected(($item['kategori'] ?? '') === 'Pemerintahan')>
                             Pemerintahan
                         </option>
 
-                        <option value="Peribadatan" @if($item['kategori']=='Peribadatan')selected@endif>
+                        <option value="Peribadatan" @selected(($item['kategori'] ?? '') === 'Peribadatan')>
                             Peribadatan
                         </option>
 
-                        <option value="Pendidikan" @if($item['kategori']=='Pendidikan')selected@endif>
+                        <option value="Pendidikan" @selected(($item['kategori'] ?? '') === 'Pendidikan')>
                             Pendidikan
                         </option>
 
-                        <option value="Kesehatan" @if($item['kategori']=='Kesehatan')selected@endif>
+                        <option value="Kesehatan" @selected(($item['kategori'] ?? '') === 'Kesehatan')>
                             Kesehatan
                         </option>
 
-                        <option value="Pertanian" @if($item['kategori']=='Pertanian')selected@endif>
+                        <option value="Pertanian" @selected(($item['kategori'] ?? '') === 'Pertanian')>
                             Pertanian
                         </option>
 
-                        <option value="Pengairan" @if($item['kategori']=='Pengairan')selected@endif>
+                        <option value="Pengairan" @selected(($item['kategori'] ?? '') === 'Pengairan')>
                             Pengairan
                         </option>
 
-                        <option value="Usaha Warga" @if($item['kategori']=='Usaha Warga')selected@endif>
+                        <option value="Usaha Warga" @selected(($item['kategori'] ?? '') === 'Usaha Warga')>
                             Usaha Warga
                         </option>
                     </select>
@@ -121,7 +121,8 @@
                             Latitude (Otomatis)
                         </label>
 
-                        <input type="number" step="any" id="lat" name="lat" value="{{ $item['lat'] }}" required readonly>
+                        <input type="number" step="any" id="lat" name="lat" value="{{ $item['lat'] }}" required
+                            readonly>
                     </div>
 
                     <div class="admin-edit-field">
@@ -129,7 +130,8 @@
                             Longitude (Otomatis)
                         </label>
 
-                        <input type="number" step="any" id="lng" name="lng" value="{{ $item['lng'] }}" required readonly>
+                        <input type="number" step="any" id="lng" name="lng" value="{{ $item['lng'] }}" required
+                            readonly>
                     </div>
 
                 </div>

@@ -81,24 +81,38 @@
 
             <div class="footer-social">
 
-                <a href="{{ $desa['sosial']['instagram'] }}" target="_blank" rel="noopener" aria-label="Instagram">
-                    IG
+                <a href="{{ $desa['sosial']['instagram'] }}" target="_blank" rel="noopener noreferrer"
+                    aria-label="Instagram Desa Maor" title="Instagram">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true"
+                        style="fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;">
+                        <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <circle cx="17.5" cy="6.5" r="1" style="fill: currentColor; stroke: none;"></circle>
+                    </svg>
+
                 </a>
 
-                <a href="{{ $desa['sosial']['facebook'] }}" target="_blank" rel="noopener" aria-label="Facebook">
-                    FB
+                <a href="{{ $desa['sosial']['facebook'] }}" target="_blank" rel="noopener noreferrer"
+                    aria-label="Facebook Desa Maor" title="Facebook">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true" style="fill: currentColor; stroke: none;">
+                        <path d="M13.5 22v-8h2.8l.4-3.2h-3.2V8.7c0-.9.3-1.6 1.7-1.6H17V4.2
+                c-.3 0-1.4-.2-2.6-.2C11.8 4 10 5.6 10 8.5V11H7v3.2h3V22h3.5Z">
+                        </path>
+                    </svg>
+
                 </a>
 
-                <a href="{{ $desa['sosial']['twitter'] }}" target="_blank" rel="noopener" aria-label="Twitter">
-                    X
-                </a>
+                <a href="{{ $desa['sosial']['youtube'] }}" target="_blank" rel="noopener noreferrer"
+                    aria-label="YouTube Desa Maor" title="YouTube">
 
-                <a href="{{ $desa['sosial']['youtube'] }}" target="_blank" rel="noopener" aria-label="YouTube">
-                    YT
-                </a>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"
+                        style="fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;">
+                        <rect x="2.5" y="6" width="19" height="12" rx="4"></rect>
+                        <path d="m10 9 5 3-5 3Z" style="fill: currentColor; stroke: none;"></path>
+                    </svg>
 
-                <a href="{{ $desa['sosial']['tiktok'] }}" target="_blank" rel="noopener" aria-label="TikTok">
-                    TK
                 </a>
 
             </div>

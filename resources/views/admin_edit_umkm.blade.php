@@ -38,13 +38,14 @@
             </p>
 
             @if($error)
-            <div class="admin-edit-error">
-                {{ $error }}
-            </div>
+                <div class="admin-edit-error">
+                    {{ $error }}
+                </div>
             @endif
 
-            <form method="POST" enctype="multipart/form-data" class="admin-edit-form" action="{{ route('admin_update_umkm', $item['id']) }}">
-      @csrf
+            <form method="POST" enctype="multipart/form-data" class="admin-edit-form"
+                action="{{ route('admin_update_umkm', $item['id']) }}">
+                @csrf
 
                 <div class="admin-edit-field">
                     <label for="nama_produk">
@@ -68,27 +69,27 @@
                     </label>
 
                     <select id="kategori" name="kategori" required>
-                        <option value="Makanan" @if($item["kategori"]=="Makanan")selected@endif>
+                        <option value="Makanan" {{ ($item['kategori'] ?? '') === 'Makanan' ? 'selected' : '' }}>
                             Makanan
                         </option>
 
-                        <option value="Minuman" @if($item["kategori"]=="Minuman")selected@endif>
+                        <option value="Minuman" {{ ($item['kategori'] ?? '') === 'Minuman' ? 'selected' : '' }}>
                             Minuman
                         </option>
 
-                        <option value="Kerajinan" @if($item["kategori"]=="Kerajinan")selected@endif>
+                        <option value="Kerajinan" {{ ($item['kategori'] ?? '') === 'Kerajinan' ? 'selected' : '' }}>
                             Kerajinan
                         </option>
 
-                        <option value="Pertanian" @if($item["kategori"]=="Pertanian")selected@endif>
+                        <option value="Pertanian" {{ ($item['kategori'] ?? '') === 'Pertanian' ? 'selected' : '' }}>
                             Pertanian
                         </option>
 
-                        <option value="Jasa" @if($item["kategori"]=="Jasa")selected@endif>
+                        <option value="Jasa" {{ ($item['kategori'] ?? '') === 'Jasa' ? 'selected' : '' }}>
                             Jasa
                         </option>
 
-                        <option value="Lainnya" @if($item["kategori"]=="Lainnya")selected@endif>
+                        <option value="Lainnya" {{ ($item['kategori'] ?? '') === 'Lainnya' ? 'selected' : '' }}>
                             Lainnya
                         </option>
                     </select>
@@ -136,11 +137,11 @@
                     </label>
 
                     <select id="status" name="status" required>
-                        <option value="aktif" @if($item["status"]=="aktif")selected@endif>
+                        <option value="aktif" {{ ($item['status'] ?? '') === 'aktif' ? 'selected' : '' }}>
                             Aktif
                         </option>
 
-                        <option value="nonaktif" @if($item["status"]=="nonaktif")selected@endif>
+                        <option value="nonaktif" {{ ($item['status'] ?? '') === 'nonaktif' ? 'selected' : '' }}>
                             Nonaktif
                         </option>
                     </select>
@@ -153,12 +154,14 @@
 
                         <div class="admin-image-preview admin-image-preview--product">
 
-                            <img data-image-preview @if($item["gambar"] && $item["gambar"] !="default.jpg")
-                                src="{{ asset('uploads/' . $item['gambar']) }}"
-                                alt="{{ $item['nama_produk'] }}" @else hidden alt="Preview foto produk" @endif>
+                            <img data-image-preview @if($item["gambar"] && $item["gambar"] != "default.jpg")
+                            src="{{ asset('uploads/' . $item['gambar']) }}" alt="{{ $item['nama_produk'] }}" @else
+                                hidden alt="Preview foto produk" @endif>
 
-                            <div class="admin-image-placeholder" data-image-placeholder @if($item["gambar"] &&
-                                $item["gambar"] !="default.jpg") hidden @endif>
+                            <div class="admin-image-placeholder" data-image-placeholder @if(
+                                $item["gambar"] &&
+                                $item["gambar"] != "default.jpg"
+                            ) hidden @endif>
                                 <span>🛍️</span>
                                 <p>Produk belum memiliki foto</p>
                             </div>
@@ -170,8 +173,10 @@
 
                         <input type="hidden" name="hapus_gambar" value="0" data-image-delete>
 
-                        <button type="button" class="admin-remove-photo-button" data-image-remove @if(!
-                            $item["gambar"] || $item["gambar"]=="default.jpg") hidden @endif>
+                        <button type="button" class="admin-remove-photo-button" data-image-remove @if(
+                            !
+                            $item["gambar"] || $item["gambar"] == "default.jpg"
+                        ) hidden @endif>
                             Hapus Foto Produk
                         </button>
 

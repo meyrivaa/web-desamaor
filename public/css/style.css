@@ -11184,3 +11184,46 @@ main>section.home-hero {
 .statistics-metric-card:hover {
   border-color: var(--statistics-warm-border);
 }
+
+/* Ikon media sosial footer */
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.footer-social a {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #b8d3cc;
+  border-radius: 50%;
+
+  background: #eef6f3;
+  color: #2f6f67;
+
+  box-shadow: 0 3px 10px rgba(47, 111, 103, 0.1);
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.footer-social a svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.footer-social a:hover {
+  background: #dcece7;
+  color: #1f514b;
+  transform: translateY(-2px);
+}

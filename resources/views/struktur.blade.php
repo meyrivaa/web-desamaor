@@ -187,9 +187,7 @@
         <div class="footer-social">
           <a href="{{ $desa['sosial']['instagram'] }}" target="_blank" rel="noopener">IG</a>
           <a href="{{ $desa['sosial']['facebook'] }}" target="_blank" rel="noopener">FB</a>
-          <a href="{{ $desa['sosial']['twitter'] }}" target="_blank" rel="noopener">X</a>
           <a href="{{ $desa['sosial']['youtube'] }}" target="_blank" rel="noopener">YT</a>
-          <a href="{{ $desa['sosial']['tiktok'] }}" target="_blank" rel="noopener">TK</a>
         </div>
       </div>
 

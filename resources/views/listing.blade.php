@@ -15,7 +15,7 @@
     rel="stylesheet">
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=22" />
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=13">
 
   <script defer src="{{ asset('js/navigation.js') }}?v=2"></script>
 </head>
@@ -101,13 +101,17 @@
         <div class="home-hero-actions">
 
           <a href="#profil-desa" class="home-hero-button home-hero-button--primary">
-
             Jelajahi Desa
           </a>
 
           <a href="{{ route('peta') }}" class="home-hero-button home-hero-button--secondary">
-
             Lihat Peta Desa
+          </a>
+
+          <a href="https://youtu.be/CXqxP32zMqQ" class="home-hero-button home-hero-button--video" target="_blank"
+            rel="noopener noreferrer">
+
+            Profil Desa
           </a>
 
         </div>

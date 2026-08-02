@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\AdminAccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminPasswordResetController;
 use App\Http\Controllers\AuthController;
@@ -108,4 +109,26 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('/admin/umkm/{id}/edit', [AdminController::class, 'editUmkm'])->name('admin_edit_umkm');
     Route::post('/admin/umkm/{id}/edit', [AdminController::class, 'updateUmkm'])->name('admin_update_umkm');
     Route::post('/admin/umkm/{id}/hapus', [AdminController::class, 'destroyUmkm'])->name('admin_hapus_umkm');
+});
+
+Route::middleware('superadmin')->group(function () {
+    Route::get(
+        '/admin/akun',
+        [AdminAccountController::class, 'index']
+    )->name('admin_accounts');
+
+    Route::post(
+        '/admin/akun',
+        [AdminAccountController::class, 'store']
+    )->name('admin_accounts_store');
+
+    Route::post(
+        '/admin/akun/{admin}/status',
+        [AdminAccountController::class, 'toggleStatus']
+    )->name('admin_accounts_toggle');
+
+    Route::post(
+        '/admin/akun/{admin}/hapus',
+        [AdminAccountController::class, 'destroy']
+    )->name('admin_accounts_destroy');
 });
